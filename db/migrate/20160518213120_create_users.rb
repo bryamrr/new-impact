@@ -9,6 +9,7 @@ class CreateUsers < ActiveRecord::Migration
       t.string :salt
       t.string :address
       t.string :phone
+      t.string :dni
       t.references :role, index: true, foreign_key: true
       t.references :company, index: true, foreign_key: true
       t.references :district, index: true, foreign_key: true

@@ -3,7 +3,7 @@ class CreateCompanies < ActiveRecord::Migration
     create_table :companies do |t|
       t.string :name
       t.string :email
-      t.string :logo
+      t.string :logo_url
       t.string :ruc
 
       t.timestamps null: false
