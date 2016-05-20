@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160518222713) do
+ActiveRecord::Schema.define(version: 20160520160815) do
 
   create_table "activities", force: :cascade do |t|
     t.string   "name"
@@ -24,6 +24,16 @@ ActiveRecord::Schema.define(version: 20160518222713) do
 
   add_index "activities", ["activity_type_id"], name: "index_activities_on_activity_type_id"
   add_index "activities", ["company_id"], name: "index_activities_on_company_id"
+
+  create_table "activity_modes", force: :cascade do |t|
+    t.string   "name"
+    t.text     "info"
+    t.integer  "activity_type_id"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+  end
+
+  add_index "activity_modes", ["activity_type_id"], name: "index_activity_modes_on_activity_type_id"
 
   create_table "activity_types", force: :cascade do |t|
     t.string   "name"
@@ -44,6 +54,7 @@ ActiveRecord::Schema.define(version: 20160518222713) do
     t.integer  "point_detail_id"
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
+    t.string   "comment"
   end
 
   add_index "comments", ["comment_type_id"], name: "index_comments_on_comment_type_id"
@@ -113,10 +124,12 @@ ActiveRecord::Schema.define(version: 20160518222713) do
     t.integer  "people"
     t.string   "product"
     t.integer  "report_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+    t.integer  "activity_mode_id"
   end
 
+  add_index "point_details", ["activity_mode_id"], name: "index_point_details_on_activity_mode_id"
   add_index "point_details", ["report_id"], name: "index_point_details_on_report_id"
 
   create_table "provinces", force: :cascade do |t|
