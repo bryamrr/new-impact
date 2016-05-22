@@ -9,7 +9,7 @@ class User < ActiveRecord::Base
   validates :nick_name, presence: true
   validates :role, presence: true
   validates :password, presence: true
-  validates :email, email: true
+  validates :email, email: true, :allow_blank => true
   validates_length_of :password, :in => 6..10
 
   before_create :encrypt_password
