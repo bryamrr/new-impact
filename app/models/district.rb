@@ -4,4 +4,5 @@ class District < ActiveRecord::Base
   has_many :reports
 
   validates :name, presence: true
+  validates :province, presence: true
 end

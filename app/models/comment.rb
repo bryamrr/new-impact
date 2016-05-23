@@ -4,4 +4,6 @@ class Comment < ActiveRecord::Base
 
   validates :for, presence: true
   validates :comment, presence: true
+  validates :comment_type, presence: true
+  validates :point_detail, presence: true
 end

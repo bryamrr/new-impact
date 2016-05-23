@@ -9,4 +9,9 @@ class Report < ActiveRecord::Base
 
   validates :start_date, presence: true
   validates :end_date, presence: true
+  validates :company, presence: true
+  validates :user, presence: true
+  validates :activity, presence: true
+  validates :district, presence: true
+  validates :report_type, presence: true
 end

@@ -5,4 +5,7 @@ class Expense < ActiveRecord::Base
 
   validates :subtotal, presence: true
   validates :total, presence: true
+  validates :report, presence: true
+  validates :item, presence: true
+  validates :voucher, presence: true
 end

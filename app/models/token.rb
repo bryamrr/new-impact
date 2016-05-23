@@ -3,6 +3,8 @@ class Token < ActiveRecord::Base
   has_many :reports
   has_many :tokens
 
+  validates :user, presence: true
+
   before_create :generate_token
 
   def is_valid?

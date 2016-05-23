@@ -4,4 +4,6 @@ class Activity < ActiveRecord::Base
   has_many :reports
 
   validates :name, presence: true
+  validates :company, presence: true
+  validates :activity_type, presence: true
 end

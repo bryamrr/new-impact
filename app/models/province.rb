@@ -3,4 +3,5 @@ class Province < ActiveRecord::Base
   has_many :districts
 
   validates :name, presence: true
+  validates :department, presence: true
 end
