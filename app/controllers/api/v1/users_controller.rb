@@ -1,20 +1,24 @@
 class Api::V1::UsersController < Api::V1::BaseController
   # POST /api/v1/users
   def create
-    if User.exists?(nick_name: params[:data][:nick_name])
-      render :json => { :message => "El usuario ya existe" }
-    else
-      role = Role.find_by(name: params[:data][:role])
-      @user = User.new(
-        nick_name: params[:data][:nick_name],
-        password: params[:data][:password],
-        role: role
-        )
-      if @user.save
-        render :json => { :message => "Usuario creado correctamente" }, status: :created
+    if @current_user.role[:name] == "admin"
+      if User.exists?(nick_name: params[:data][:nick_name])
+        render :json => { :message => "El usuario ya existe" }
       else
-        render :json => { :error => @user.errors.full_messages }
+        role = Role.find_by(name: params[:data][:role])
+        @user = User.new(
+          nick_name: params[:data][:nick_name],
+          password: params[:data][:password],
+          role: role
+          )
+        if @user.save
+          render :json => { :message => "Usuario creado correctamente" }, status: :created
+        else
+          render :json => { :error => @user.errors.full_messages }
+        end
       end
+    else
+      render :json => { :error => "No tiene permisos para crear usuario" }, status: :unauthorized
     end
   end
 end
