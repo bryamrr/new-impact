@@ -16,7 +16,7 @@ class User < ActiveRecord::Base
   before_create :encrypt_password
 
   def self.authenticate(data)
-    user = User.where(nick_name: data[:nick_name]).first
+    user = User.find_by(nick_name: data[:nick_name])
     if (user)
       encrypted_password = BCrypt::Engine.hash_secret(data[:password], user[:salt])
       if user[:encrypted_password] == encrypted_password
