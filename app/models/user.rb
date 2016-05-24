@@ -5,6 +5,7 @@ class User < ActiveRecord::Base
   belongs_to :company
   belongs_to :district
   has_many :reports
+  has_many :tokens
 
   validates :nick_name, presence: true
   validates :role, presence: true
@@ -14,21 +15,18 @@ class User < ActiveRecord::Base
 
   before_create :encrypt_password
 
-  def self.authenticate(nick_name, password)
-    user = User.where(nick_name: nick_name)
+  def self.authenticate(data)
+    user = User.where(nick_name: data[:nick_name]).first
     if (user)
-      puts user.password
-      encrypted_password = BCrypt::Engine.hash_secret(password, user.salt)
-      if user.encrypted_password == encrypted_password
-        return true
+      encrypted_password = BCrypt::Engine.hash_secret(data[:password], user[:salt])
+      if user[:encrypted_password] == encrypted_password
+        return user
       else
         return false
       end
     else
       return false
     end
-
-
   end
 
   private

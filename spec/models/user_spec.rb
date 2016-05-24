@@ -11,21 +11,27 @@ RSpec.describe User, type: :model do
   it { should_not allow_value("12345678901").for(:password) }
 
   it "should give access to user if nickname and password are correct" do
-    FactoryGirl.create(:user)
-    reponse = User.authenticate("bryamrr", "123456")
-    expect(reponse).to eq(true)
+    user = FactoryGirl.create(:user)
+    reponse = User.authenticate({nick_name: user.nick_name, password: user.password})
+    expect(reponse).to eq(user)
 
   end
 
-  it "should not give access to user if nickname or password are incorrect" do
-    
+  it "should not give access to user if nickname are incorrect" do
+    user = FactoryGirl.create(:user)
+    response = User.authenticate({nick_name: user.nick_name, password: "1234567"})
+    expect(response).to eq(false)
   end
 
-  it "should create user if nickname not exists" do
-
+  it "should not give access to user if password are incorrect" do
+    user = FactoryGirl.create(:user)
+    response = User.authenticate({nick_name: "bryamrrr", password: user.password})
+    expect(response).to eq(false)
   end
 
-  it "should not create user if nickname exists" do
-
-  end  
+  it "should not give access to user if nickname are null" do
+    user = FactoryGirl.create(:user)
+    response = User.authenticate({nick_name: nil, password: user.password})
+    expect(response).to eq(false)
+  end
 end
