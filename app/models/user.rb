@@ -4,6 +4,7 @@ class User < ActiveRecord::Base
   belongs_to :role
   belongs_to :company
   belongs_to :district
+  belongs_to :province
   has_many :reports
   has_many :tokens
 
