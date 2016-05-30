@@ -87,30 +87,149 @@ RSpec.describe Api::V1::ReportsController, type: :controller do
         request.env["Authorization"] = "Bearer " + token.token
 
         FactoryGirl.create(:report, user: token.user)
-
-        @data = {
-          start_date: "2016-06-23",
-          end_date: "2016-06-25",
-          company_id: 1,
-          activity_id: 1,
-          province_id: 1,
-          report_type_id: 1
-        }
+        FactoryGirl.create(:report_type)
+        FactoryGirl.create(:report_type_expense)
+        FactoryGirl.create_list(:item, 2)
+        FactoryGirl.create_list(:voucher, 2)
+        FactoryGirl.create_list(:quantity_type, 2)
+        FactoryGirl.create_list(:comment_type, 2)
+        FactoryGirl.create(:activity_mode)
       end
 
-      it { expect(response).to have_http_status(200) }
+      context "expense" do
+        before :each do
+          @data_expense = {
+            company_id: 1,
+            activity_id: 1,
+            province_id: 1,
+            report_type_id: 2,
+            expenses: []
+          }
 
-      it "creates report with correct data" do
-        expect{
-          post :create, { data: @data }
-        }.to change(Report, :count).by(1)
+          hash1 = {
+            item_id: 1,
+            voucher_id: 1,
+            comment: "comentario de prueba 1",
+            subtotal: 13.50
+          }
+
+          hash2 = {
+            item_id: 2,
+            voucher_id: 2,
+            comment: "comentario de prueba 2",
+            subtotal: 16.50
+          }
+
+          @data_expense[:expenses].push(hash1)
+          @data_expense[:expenses].push(hash2)
+        end
+        it "creates report with correct data" do
+          expect{
+            post :create, { data: @data_expense }
+          }.to change(Report, :count).by(1)
+        end
+
+        it "sends the created report" do
+          post :create, { data: @data_expense }
+
+          json = JSON.parse(response.body)
+          expect(json["start_date"]).to eq(Date.today.strftime("%Y-%m-%d"))
+        end
+
+        it "creates expenses" do
+          expect{
+            post :create, { data: @data_expense }
+          }.to change(Expense, :count).by(2)
+        end
       end
 
-      it "sends the created report" do
-        post :create, { data: @data }
+      context "point" do
+        before :each do
+          @data_point = {
+            start_date: "2016-06-23",
+            end_date: "2016-06-25",
+            start_time: "2016-06-25 11:12:13",
+            end_time: "2016-06-25 11:12:13",
+            company_id: 1,
+            activity_id: 1,
+            province_id: 1,
+            report_type_id: 1,
+            activity_mode_id: 1,
+            point: "Grifo XX",
+            scope: 1000,
+            sales: 10000,
+            people: 100000,
+            product: "KR 1 litro",
+            quantities: [],
+            comments: [],
+            photos: ["test.com", "asr.com", "test"]
+          }
 
-        json = JSON.parse(response.body)
-        expect(json["start_date"]).to eq("2016-06-23")
+          comment1 = {
+            for: "Anfitriona",
+            comment: "comentario de prueba 1",
+            comment_type_id: 1
+          }
+          comment2 = {
+            for: "Público",
+            comment: "comentario de prueba 2",
+            comment_type_id: 2
+          }
+
+          quantity1 = {
+            quantity_type_id: 1,
+            used: 3,
+            remaining: 2
+          }
+          quantity2 = {
+            quantity_type_id: 2,
+            used: 6,
+            remaining: 3
+          }
+
+          @data_point[:comments].push(comment1)
+          @data_point[:comments].push(comment2)
+
+          @data_point[:quantities].push(quantity1)
+          @data_point[:quantities].push(quantity2)
+        end
+
+        it "creates report with correct data" do
+          expect{
+            post :create, { data: @data_point }
+          }.to change(Report, :count).by(1)
+        end
+
+        it "sends the created report" do
+          post :create, { data: @data_point }
+
+          json = JSON.parse(response.body)
+          expect(json["start_date"]).to eq("2016-06-23")
+        end
+
+        it "creates expenses" do
+          expect{
+            post :create, { data: @data_point }
+          }.to change(PointDetail, :count).by(1)
+        end
+
+        it "creates quantities" do
+          expect{
+            post :create, { data: @data_point }
+          }.to change(Quantity, :count).by(2)
+        end
+
+        it "creates comments" do
+          expect{
+            post :create, { data: @data_point }
+          }.to change(Comment, :count).by(2)
+        end
+
+        it "creates photos" do
+          expect{
+            post :create, { data: @data_point }
+          }.to change(Photo, :count).by(3)
+        end
       end
     end
 

@@ -40,7 +40,34 @@ class Api::V1::ReportsController < Api::V1::BaseController
     @report.province = Province.find(report_params["province_id"]) unless report_params["province_id"] == nil
     @report.report_type = ReportType.find(report_params["report_type_id"]) unless report_params["report_type_id"] == nil
 
+    # Check if is expense to add start and end date manually
+    if report_params["report_type_id"] == "2"
+      @report.start_date = Date.today
+      @report.end_date = Date.today
+    end
+
     if @report.save
+      if report_params["report_type_id"] == "2"
+        report_params[:expenses].each do |expense|
+          item = Item.find(expense[:item_id])
+          voucher = Voucher.find(expense[:voucher_id])
+          expensed = Expense.create(voucher: voucher, item: item, comment: expense[:comment], subtotal: expense[:subtotal], total: 0, report: @report)
+        end
+      elsif report_params["report_type_id"] == "1"
+        activity_mode = ActivityMode.find(report_params["activity_mode_id"])
+        point_detail = PointDetail.create(activity_mode: activity_mode, point: report_params["point"], scope: report_params["scope"], sales: report_params["sales"], people: report_params["people"], product: report_params["product"], report: @report, start_time: report_params["start_time"], end_time: report_params["end_time"])
+        report_params[:comments].each do |comment|
+          comment_type = CommentType.find(comment["comment_type_id"])
+          Comment.create(comment_type: comment_type, for: comment["for"], comment: comment[:comment], point_detail: point_detail)
+        end
+        report_params[:quantities].each do |quantity|
+          quantity_type = QuantityType.find(quantity["quantity_type_id"])
+          Quantity.create(quantity_type: quantity_type, used: quantity[:used], remaining: quantity[:remaining], point_detail: point_detail)
+        end
+        report_params[:photos].each do |photo|
+          Photo.create(url: photo, point_detail: point_detail)
+        end
+      end
       render :json => @report
     else
       render :json => { :errors => @report.errors.full_messages }, status: :unprocessable_entity
@@ -69,7 +96,25 @@ class Api::V1::ReportsController < Api::V1::BaseController
 
   private
   def report_params
-    params.require(:data).permit(:start_date, :end_date, :company_id, :activity_id, :province_id, :report_type_id)
+    params.require(:data).permit(
+      :start_date,
+      :end_date,
+      :start_time,
+      :end_time,
+      :company_id,
+      :activity_id,
+      :province_id,
+      :report_type_id,
+      :activity_mode_id,
+      :point,
+      :scope,
+      :sales,
+      :people,
+      :product,
+      quantities: [:quantity_type_id, :used, :remaining],
+      comments: [:for, :comment, :comment_type_id],
+      expenses: [:item_id, :voucher_id, :comment, :subtotal],
+      photos: [])
   end
 
 end
