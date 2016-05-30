@@ -5,8 +5,8 @@ class Report < ActiveRecord::Base
   belongs_to :district
   belongs_to :province
   belongs_to :report_type
-  has_many :expenses
-  has_many :point_details
+  has_many :expenses, :dependent => :destroy
+  has_many :point_details, :dependent => :destroy
 
   validates :start_date, presence: true
   validates :end_date, presence: true
