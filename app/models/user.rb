@@ -8,7 +8,7 @@ class User < ActiveRecord::Base
   has_many :reports
   has_many :tokens
 
-  validates :nick_name, presence: true
+  validates :nick_name, presence: true, uniqueness: true
   validates :role, presence: true
   validates :password, presence: true
   validates :email, email: true, :allow_blank => true

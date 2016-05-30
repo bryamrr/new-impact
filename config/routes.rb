@@ -6,6 +6,8 @@ Rails.application.routes.draw do
       post 'users/logout', to: 'users#logout'
 
       resources :reports, except: [:new, :edit]
+      resources :items, except: [:new, :edit]
+      resources :vouchers, except: [:new, :edit]
     end
   end
 end

@@ -16,11 +16,11 @@ class Api::V1::UsersController < Api::V1::BaseController
         if @user.save
           render :json => { :message => "Usuario creado correctamente" }, status: :created
         else
-          render :json => { :error => @user.errors.full_messages }
+          render :json => { :errors => @user.errors.full_messages }
         end
       end
     else
-      render :json => { :error => "No tiene permisos para crear usuario" }, status: :unauthorized
+      render :json => { :errors => "No tiene permisos para crear usuario" }, status: :unauthorized
     end
   end
 
@@ -33,7 +33,7 @@ class Api::V1::UsersController < Api::V1::BaseController
       token = user.tokens.create
       render :json => { :token => token.token, :nick_name => user.nick_name, :role => user.role[:name] }
     else
-      render :json => { :error => "No tiene permisos para crear usuario" }, status: :unauthorized
+      render :json => { :errors => "No tiene permisos para crear usuario" }, status: :unauthorized
     end
   end
 
@@ -45,7 +45,7 @@ class Api::V1::UsersController < Api::V1::BaseController
     if token.delete
       render :json => { :message => "El token ha expirado" }
     else
-      render :json => { :error => token.errors.full_messages }
+      render :json => { :errors => token.errors.full_messages }
     end
   end
 end
