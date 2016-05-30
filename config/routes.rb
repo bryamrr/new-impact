@@ -12,6 +12,9 @@ Rails.application.routes.draw do
 
       get 'data_reports/point', to: 'data_reports#point'
       get 'data_reports/expense', to: 'data_reports#expense'
+
+      get 'data_filters/data_summary', to: 'data_filters#data_summary'
+      post 'data_filters/summary', to: 'data_filters#summary'
     end
   end
 end

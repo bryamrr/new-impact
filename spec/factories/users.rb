@@ -13,5 +13,10 @@ FactoryGirl.define do
       password "123456"
       association :role, factory: :supervisor_role
     end
+    factory :customer_user do
+      sequence(:nick_name) { |n| "person#{n}" }
+      password "123456"
+      association :role, factory: :customer_role
+    end
   end
 end
