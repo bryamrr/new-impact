@@ -1,0 +1,55 @@
+<div class="wrapper-login">
+  <div class="helper"></div><!--
+  --><div id="login" class="display-inline-block">
+      <div class="login-box">
+        <div class="login-box-inner">
+          <div class="login-header">
+            <div class="display-inline-block">
+              <h1>
+                LOGIN
+              </h1>
+            </div>
+          </div>
+          <form novalidate ng-submit="login(formLogin, login.user, login.password, $event)" name="formLogin" ng-validate="validationOptions">
+              <div class="login-body align-left">
+                <div layout="row">
+                  <div flex layout-padding >
+                    <md-input-container>
+                      <label>Usuario</label>
+                        <input  type="text"
+                                name="user"
+                                ng-model="login.user"
+                            >
+                        <div class="border-bottom"></div>
+                    </md-input-container>
+                  </div>
+                </div>
+                <div layout="row">
+                  <div flex layout-padding>
+                    <md-input-container>
+                      <label>Contraseña</label>
+                        <input  type="password"
+                                name="password"
+                                ng-model="login.password"
+                            >
+                      <div class="border-bottom"></div>
+                    </md-input-container>
+                  </div>
+                </div>
+                <!-- <div class="form-group forgot-password">
+                  <a class="link" href="#/reset">¿Olvidaste tu contraseña?</a>
+                </div> -->
+              </div>
+              <div class="login-footer">
+                <div class="form-group">
+                  <md-button type="submit" disabled ng-disabled="formLogin.$invalid || formLogin.$pending || isLoading" class="btn form-button">
+                      INGRESAR
+                  <md-progress-circular ng-show="isLoading" md-mode="indeterminate" md-diameter="40"></md-progress-circular>
+                   </md-button>
+                </div>
+              </div>
+          </form>
+        </div>
+     </div>
+    </div>
+</div>
