@@ -1,8 +1,8 @@
 angular.module("myapp").controller("LoginController", LoginController);
 
-LoginController.$inject = ['$scope'];
+LoginController.$inject = ['$scope', '$state', 'HttpRequest', 'urls', 'CookieService'];
 
-function LoginController($scope) {
+function LoginController($scope, $state, HttpRequest, urls, CookieService) {
 
   /* ----------------------------------- */
   /* FORM VALIDATE */
@@ -48,7 +48,25 @@ function LoginController($scope) {
   }
 
   $scope.login = function(form, user, password, $event) {
-    console.log(user, password);
+    var url = urls.BASE_API + "/users/login";
+    var data = {
+      nick_name: user,
+      password: password
+    };
+    var promesa = HttpRequest.send("POST", url, data);
+
+    promesa.then(function (data) {
+      if (data.token) {
+        CookieService.put('token', data.token, 1);
+        CookieService.put('nickname', data.nick_name, 1);
+        CookieService.put('role', data.role, 1);
+
+        // $state.go('user.datos');
+        $state.reload();
+      }
+    }, function (error) {
+      console.log(error.errors);
+    });
   }
 
 }

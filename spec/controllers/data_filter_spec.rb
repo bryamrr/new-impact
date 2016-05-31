@@ -117,7 +117,6 @@ RSpec.describe Api::V1::DataFiltersController, type: :controller do
 
         post :summary, { data: data }
         @json = JSON.parse(response.body)
-        puts @json.to_json
         expect(@json.length).to eq(1)
       end
 

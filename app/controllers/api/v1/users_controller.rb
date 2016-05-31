@@ -33,7 +33,7 @@ class Api::V1::UsersController < Api::V1::BaseController
       token = user.tokens.create
       render :json => { :token => token.token, :nick_name => user.nick_name, :role => user.role[:name] }
     else
-      render :json => { :errors => "No tiene permisos para crear usuario" }, status: :unauthorized
+      render :json => { :errors => "Credenciales incorrectas" }, status: :unauthorized
     end
   end
 

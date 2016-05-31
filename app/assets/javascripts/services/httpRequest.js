@@ -11,8 +11,8 @@ function HttpRequest($http, $q) {
       method: method,
       url: url,
       timeout: 20000,
-      headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-      data: data
+      headers: {'Content-Type': 'application/json'},
+      data: {'data': data}
     })
     .success(function (response) {
       defer.resolve(response);
