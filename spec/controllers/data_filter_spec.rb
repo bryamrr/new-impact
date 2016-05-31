@@ -90,10 +90,49 @@ RSpec.describe Api::V1::DataFiltersController, type: :controller do
 
   describe "POST /api/v1/data_filter" do
     before :each do
-      point_report = FactoryGirl.create(:report)
-      expense_report = FactoryGirl.create(:dummy_report)
-      expense_report = FactoryGirl.create_list(:expense, 4)
-      expense_report = FactoryGirl.create_list(:point_detail, 8)
+      @point_report = FactoryGirl.create(:report)
+      @expense_report = FactoryGirl.create(:dummy_report, user: @point_report.user)
+      FactoryGirl.create_list(:expense, 4, report: @point_report)
+      FactoryGirl.create_list(:point_detail, 8, report: @expense_report)
+    end
+
+    context "admin" do
+      before :each do
+        token = FactoryGirl.create(:token, user: @point_report.user)
+        request.env["Authorization"] = "Bearer " + token.token
+      end
+
+      it {
+        post :summary, { data: {} }
+        expect(response).to have_http_status(200)
+      }
+
+      it "sends report list" do
+        data = {
+          company: 1,
+          activity: 1,
+          start_time: "2016-06-23",
+          end_time: "2016-06-23"
+        }
+
+        post :summary, { data: data }
+        @json = JSON.parse(response.body)
+        puts @json.to_json
+        expect(@json.length).to eq(1)
+      end
+
+      it "sends empty list" do
+        data = {
+          company: 1,
+          activity: 1,
+          start_time: "2016-06-24",
+          end_time: "2016-06-26"
+        }
+
+        post :summary, { data: data }
+        @json = JSON.parse(response.body)
+        expect(@json.length).to eq(0)
+      end
     end
   end
 end
