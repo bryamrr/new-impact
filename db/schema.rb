@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160520160815) do
+ActiveRecord::Schema.define(version: 20160526221401) do
 
   create_table "activities", force: :cascade do |t|
     t.string   "name"
@@ -177,11 +177,13 @@ ActiveRecord::Schema.define(version: 20160520160815) do
     t.integer  "report_type_id"
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
+    t.integer  "province_id"
   end
 
   add_index "reports", ["activity_id"], name: "index_reports_on_activity_id"
   add_index "reports", ["company_id"], name: "index_reports_on_company_id"
   add_index "reports", ["district_id"], name: "index_reports_on_district_id"
+  add_index "reports", ["province_id"], name: "index_reports_on_province_id"
   add_index "reports", ["report_type_id"], name: "index_reports_on_report_type_id"
   add_index "reports", ["user_id"], name: "index_reports_on_user_id"
 
@@ -216,10 +218,12 @@ ActiveRecord::Schema.define(version: 20160520160815) do
     t.integer  "district_id"
     t.datetime "created_at",         null: false
     t.datetime "updated_at",         null: false
+    t.integer  "province_id"
   end
 
   add_index "users", ["company_id"], name: "index_users_on_company_id"
   add_index "users", ["district_id"], name: "index_users_on_district_id"
+  add_index "users", ["province_id"], name: "index_users_on_province_id"
   add_index "users", ["role_id"], name: "index_users_on_role_id"
 
   create_table "vouchers", force: :cascade do |t|

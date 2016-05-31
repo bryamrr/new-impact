@@ -4,10 +4,11 @@ class User < ActiveRecord::Base
   belongs_to :role
   belongs_to :company
   belongs_to :district
+  belongs_to :province
   has_many :reports
   has_many :tokens
 
-  validates :nick_name, presence: true
+  validates :nick_name, presence: true, uniqueness: true
   validates :role, presence: true
   validates :password, presence: true
   validates :email, email: true, :allow_blank => true
