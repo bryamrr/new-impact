@@ -946,7 +946,8 @@ md-content.padding-15 {padding: 15px;}
 }
 
 .nav-header .nav-coverphoto {
-  background-image: url("../../assets/images/coverphoto.png");
+  background-image: url("/cover-photo.png");
+  background-size:100%;
   width: 100%;
   height: 69px;
   display: block;
@@ -2041,7 +2042,6 @@ h3.underline:after{content: ''; position: absolute; left: 40%; right: 40%; botto
   .dominio-header .icono {
     fill: white;
     display: block;
-    svg { margin-top: 4px; }
   }
   .busqueda { width: 100%; }
   .dominio-header .wrapper-button{width: 86px;}

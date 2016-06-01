@@ -15,5 +15,6 @@
 //= require turbolinks
 //= require angular-rails-templates
 //= require module
+//= require config
 //= require_tree ../templates
 //= require_tree .

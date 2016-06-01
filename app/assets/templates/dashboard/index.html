@@ -1,83 +1,161 @@
 <div id="wrapper" class="aside-fixed header-fixed"
       ng-controller="DashboardController"  >
   <aside id="aside" class="navbar vertical-top"  >
-      <nav nav-scroll>
-          <div class="nav-header">
-          <a class="nav-coverphoto" ui-sref="user.datos"></a>
-              <div class="profile-element text-align-left">
-                  <a ui-sref="user.datos" class="display-inline" >
-                      <span class="sub-title">
-                          {{ nickname }}
-                      </span>
-                  </a>
-              </div>
-          </div>
-          <ul class="nav" id="side-menu" nav-collapse>
-            <li
-              data-ng-class="{open: $state.includes('catalogo')}">
-              <a href="" toggle-submenu>
-                  <span class="inner">
-                      <ng-md-icon icon="dashboard" class="icono" size="16"></ng-md-icon>
-                      <span class="nav-label">Crear Reporte</span>
-                      <ng-md-icon icon="chevron_left" size="18" class="arrow"></ng-md-icon>
-                  </span>
-              </a>
-              <ul class="nav nav-second-level">
-                <li><a
-                ui-sref="catalogo.dominio"
-                ui-sref-active="active"
-                >Activación</a></li>
-                <li><a
-                ui-sref="catalogo.hosting"
-                ui-sref-active="active"
-                >Campaña</a></li>
-                <li><a
-                ui-sref="catalogo.correo"
-                ui-sref-active="active"
-                >Evento</a></li>
-              </ul>
+    <nav nav-scroll>
+      <div class="nav-header">
+        <a class="nav-coverphoto" ui-sref="user.datos"></a>
+        <div class="profile-element text-align-left">
+          <a ui-sref="user.datos" class="display-inline" >
+            <span class="sub-title">
+              {{ nickname }}
+            </span>
+          </a>
+        </div>
+      </div>
+      <ul class="nav" id="side-menu" nav-collapse>
+        <li
+          data-ng-class="{open: $state.includes('create')}" ng-if="role == 'Supervisor'">
+          <a href="" toggle-submenu>
+              <span class="inner">
+                <ng-md-icon class="fa fa-pencil icono"></ng-md-icon>
+                <span class="nav-label">Crear Reporte</span>
+                <ng-md-icon class="fa fa-chevron-right arrow"></ng-md-icon>
+              </span>
+          </a>
+          <ul class="nav nav-second-level">
+            <li><a
+            ui-sref="catalogo.dominio"
+            ui-sref-active="active"
+            >Activación</a></li>
+            <li><a
+            ui-sref="catalogo.hosting"
+            ui-sref-active="active"
+            >Campaña</a></li>
+            <li><a
+            ui-sref="catalogo.correo"
+            ui-sref-active="active"
+            >Evento</a></li>
+          </ul>
+        </li>
+        <li
+        data-ng-class="{open: $state.includes('reports')}"
+        >
+          <a href="" toggle-submenu>
+            <span class="inner">
+              <ng-md-icon class="fa fa-list icono"></ng-md-icon>
+              <span class="nav-label">Mis reportes</span>
+              <ng-md-icon class="fa fa-chevron-right arrow"></ng-md-icon>
+            </span>
+          </a>
+          <ul class="nav nav-second-level">
+            <li><a
+            ui-sref="servicios.dominios"
+            ui-sref-active="active"
+            >Actividades</a></li>
+            <li><a
+            ui-sref="servicios.dominios"
+            ui-sref-active="active"
+            >Gastos</a></li>
+          </ul>
+        </li>
+        <li
+        data-ng-class="{open: $state.includes('summary')}" ng-if="role == 'Admin' || role == 'Customer'">
+          <a href="" toggle-submenu>
+            <span class="inner">
+              <ng-md-icon class="fa fa-file-text icono"></ng-md-icon>
+              <span class="nav-label">Informes</span>
+              <ng-md-icon class="fa fa-chevron-right arrow"></ng-md-icon>
+            </span>
+          </a>
+          <ul class="nav nav-second-level ">
+            <li>
+              <a
+              ui-sref="user.datos"
+              ui-sref-active="active">
+              Actividades</a>
             </li>
-            <li
-            data-ng-class="{open: $state.includes('servicios')}"
-            >
-              <a href="" toggle-submenu>
-                <span class="inner">
-                  <ng-md-icon icon="star" class="icono" size="16"></ng-md-icon>
-                  <span class="nav-label">Mis reportes</span>
-                  <ng-md-icon icon="chevron_left" size="18" class="arrow"></ng-md-icon>
-                </span>
-              </a>
-              <ul class="nav nav-second-level">
-                <li><a
-                ui-sref="servicios.dominios"
-                ui-sref-active="active"
-                >Dominios</a></li>
-                <li><a
-                ui-sref="servicios.dominios"
-                ui-sref-active="active"
-                >Dominios</a></li>
-              </ul>
-            </li>
-            <li
-            data-ng-class="{open: $state.includes('user')}">
-              <a href="" toggle-submenu>
-                <span class="inner">
-                  <ng-md-icon icon="account_box" class="icono" size="16"></ng-md-icon>
-                  <span class="nav-label">Mis datos</span>
-                  <ng-md-icon icon="chevron_left" size="18" class="arrow"></ng-md-icon>
-                </span>
-              </a>
-              <ul class="nav nav-second-level ">
-                <li>
-                  <a
-                  ui-sref="user.datos"
-                  ui-sref-active="active">
-                  Datos personales</a>
-                </li>
-              </ul>
+            <li>
+              <a
+              ui-sref="user.datos"
+              ui-sref-active="active">
+              Gastos</a>
             </li>
           </ul>
-      </nav>
+        </li>
+        <li
+        data-ng-class="{open: $state.includes('stats')}" ng-if="role == 'Admin' || role == 'Customer'">
+          <a href="" toggle-submenu>
+            <span class="inner">
+              <ng-md-icon class="fa fa-bar-chart icono"></ng-md-icon>
+              <span class="nav-label">Métricas</span>
+              <ng-md-icon class="fa fa-chevron-right arrow"></ng-md-icon>
+            </span>
+          </a>
+          <ul class="nav nav-second-level ">
+            <li>
+              <a
+              ui-sref="user.datos"
+              ui-sref-active="active">
+              Actividades</a>
+            </li>
+            <li>
+              <a
+              ui-sref="user.datos"
+              ui-sref-active="active">
+              Gastos</a>
+            </li>
+          </ul>
+        </li>
+        <li
+        data-ng-class="{open: $state.includes('data')}" ng-if="role == 'Admin'">
+          <a href="" toggle-submenu>
+            <span class="inner">
+              <ng-md-icon class="fa fa-database icono"></ng-md-icon>
+              <span class="nav-label">Base de datos</span>
+              <ng-md-icon class="fa fa-chevron-right arrow"></ng-md-icon>
+            </span>
+          </a>
+          <ul class="nav nav-second-level ">
+            <li>
+              <a
+              ui-sref="user.datos"
+              ui-sref-active="active">
+              Usuarios</a>
+            </li>
+            <li>
+              <a
+              ui-sref="user.datos"
+              ui-sref-active="active">
+              Compañías</a>
+            </li>
+            <li>
+              <a
+              ui-sref="user.datos"
+              ui-sref-active="active">
+              Actividades</a>
+            </li>
+          </ul>
+        </li>
+        <li
+        data-ng-class="{open: $state.includes('user')}">
+          <a href="" toggle-submenu>
+            <span class="inner">
+              <ng-md-icon class="fa fa-user icono"></ng-md-icon>
+              <span class="nav-label">Mis datos</span>
+              <ng-md-icon class="fa fa-chevron-right arrow"></ng-md-icon>
+            </span>
+          </a>
+          <ul class="nav nav-second-level ">
+            <li>
+              <a
+              ui-sref="user.datos"
+              ui-sref-active="active">
+              Datos personales</a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
   </aside>
 
   <header class="header" id="header-admin">
