@@ -5,6 +5,7 @@ function navCollapse($timeout, $log){
   return {
   restrict: "A",
     link: function (scope, ele, attr) {
+      ele = $(ele);
       $timeout(function () {
 
         var a = ele.find("a"),

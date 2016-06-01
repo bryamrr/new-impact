@@ -16,23 +16,23 @@
         <li
           data-ng-class="{open: $state.includes('create')}" ng-if="role == 'Supervisor'">
           <a href="" toggle-submenu>
-              <span class="inner">
-                <ng-md-icon class="fa fa-pencil icono"></ng-md-icon>
-                <span class="nav-label">Crear Reporte</span>
-                <ng-md-icon class="fa fa-chevron-right arrow"></ng-md-icon>
-              </span>
+            <span class="inner">
+              <ng-md-icon class="fa fa-pencil icono"></ng-md-icon>
+              <span class="nav-label">Crear Reporte</span>
+              <ng-md-icon class="fa fa-chevron-right arrow"></ng-md-icon>
+            </span>
           </a>
           <ul class="nav nav-second-level">
             <li><a
-            ui-sref="catalogo.dominio"
+            ui-sref="create.activacion"
             ui-sref-active="active"
             >Activación</a></li>
             <li><a
-            ui-sref="catalogo.hosting"
+            ui-sref="create.campana"
             ui-sref-active="active"
             >Campaña</a></li>
             <li><a
-            ui-sref="catalogo.correo"
+            ui-sref="create.evento"
             ui-sref-active="active"
             >Evento</a></li>
           </ul>
@@ -40,7 +40,7 @@
         <li
         data-ng-class="{open: $state.includes('reports')}"
         >
-          <a href="" toggle-submenu>
+          <a href="">
             <span class="inner">
               <ng-md-icon class="fa fa-list icono"></ng-md-icon>
               <span class="nav-label">Mis reportes</span>
@@ -49,18 +49,18 @@
           </a>
           <ul class="nav nav-second-level">
             <li><a
-            ui-sref="servicios.dominios"
+            ui-sref="reports.activities"
             ui-sref-active="active"
             >Actividades</a></li>
             <li><a
-            ui-sref="servicios.dominios"
+            ui-sref="reports.expenses"
             ui-sref-active="active"
             >Gastos</a></li>
           </ul>
         </li>
         <li
         data-ng-class="{open: $state.includes('summary')}" ng-if="role == 'Admin' || role == 'Customer'">
-          <a href="" toggle-submenu>
+          <a href="">
             <span class="inner">
               <ng-md-icon class="fa fa-file-text icono"></ng-md-icon>
               <span class="nav-label">Informes</span>
@@ -70,13 +70,13 @@
           <ul class="nav nav-second-level ">
             <li>
               <a
-              ui-sref="user.datos"
+              ui-sref="summary.activities"
               ui-sref-active="active">
               Actividades</a>
             </li>
             <li>
               <a
-              ui-sref="user.datos"
+              ui-sref="summary.expenses"
               ui-sref-active="active">
               Gastos</a>
             </li>
@@ -84,7 +84,7 @@
         </li>
         <li
         data-ng-class="{open: $state.includes('stats')}" ng-if="role == 'Admin' || role == 'Customer'">
-          <a href="" toggle-submenu>
+          <a href="">
             <span class="inner">
               <ng-md-icon class="fa fa-bar-chart icono"></ng-md-icon>
               <span class="nav-label">Métricas</span>
@@ -94,13 +94,13 @@
           <ul class="nav nav-second-level ">
             <li>
               <a
-              ui-sref="user.datos"
+              ui-sref="stats.activities"
               ui-sref-active="active">
               Actividades</a>
             </li>
             <li>
               <a
-              ui-sref="user.datos"
+              ui-sref="stats.expenses"
               ui-sref-active="active">
               Gastos</a>
             </li>
@@ -108,7 +108,7 @@
         </li>
         <li
         data-ng-class="{open: $state.includes('data')}" ng-if="role == 'Admin'">
-          <a href="" toggle-submenu>
+          <a href="">
             <span class="inner">
               <ng-md-icon class="fa fa-database icono"></ng-md-icon>
               <span class="nav-label">Base de datos</span>
@@ -118,19 +118,25 @@
           <ul class="nav nav-second-level ">
             <li>
               <a
-              ui-sref="user.datos"
+              ui-sref="data.users"
               ui-sref-active="active">
-              Usuarios</a>
+              Lista de Usuarios</a>
             </li>
             <li>
               <a
-              ui-sref="user.datos"
+              ui-sref="data.create"
+              ui-sref-active="active">
+              Crear Usuario</a>
+            </li>
+            <li>
+              <a
+              ui-sref="data.companies"
               ui-sref-active="active">
               Compañías</a>
             </li>
             <li>
               <a
-              ui-sref="user.datos"
+              ui-sref="data.activities"
               ui-sref-active="active">
               Actividades</a>
             </li>
@@ -138,7 +144,7 @@
         </li>
         <li
         data-ng-class="{open: $state.includes('user')}">
-          <a href="" toggle-submenu>
+          <a href="">
             <span class="inner">
               <ng-md-icon class="fa fa-user icono"></ng-md-icon>
               <span class="nav-label">Mis datos</span>
