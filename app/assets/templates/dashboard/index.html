@@ -1,250 +1,85 @@
-<div
-  ng-show="hasNotification"
-  class="notification-top align_center"
-  ng-controller="NotificationTopController">
-  <div class="helper"></div><!--
-  --><a ui-sref="user.pendientes_renovacion" class="button display-inline" title="Hay servicios que están pendientes de renovación">
-         <span ng-bind="mensaje_notification"></span>
-  </a>
-  <md-button class="md-icon-button md-warn hide-notification" aria-label="Ocultar notificación" ng-click="hideNotification();">
-    <span class="helper"></span><!--
-    --><i class="material-icons display-inline">close</i>
-  </md-button>
-</div>
 <div id="wrapper" class="aside-fixed header-fixed"
       ng-controller="DashboardController"  >
-    <aside id="aside" class="navbar vertical-top"  >
-        <nav nav-scroll>
-            <div class="nav-header">
-            <a class="nav-coverphoto" ui-sref="user.datos"></a>
-                <div class="profile-element text-align-left">
-                    <a ui-sref="user.datos" class="display-inline" >
-                        <div class="wrapper-gravatar">
-                            <span gravatar name="{{ username }}" width="56" email="{{ email }}"></span>
-                        </div>
-                        <span class="sub-title">
-                            {{ username }}
-                        </span>
-                    </a>
-                </div>
-            </div>
-            <ul class="nav" id="side-menu" nav-collapse>
-              <li
-                data-ng-class="{open: $state.includes('catalogo')}">
-                <a href="" toggle-submenu>
-                    <span class="inner">
-                        <ng-md-icon icon="dashboard" class="icono" size="16"></ng-md-icon>
-                        <span class="nav-label">Catálogo</span>
-                        <ng-md-icon icon="chevron_left" size="18" class="arrow"></ng-md-icon>
-                    </span>
-                </a>
-                <ul class="nav nav-second-level">
-                  <li><a
-                  ui-sref="catalogo.dominio"
-                  ui-sref-active="active"
-                  >Dominios</a></li>
-                  <li><a
-                  ui-sref="catalogo.hosting"
-                  ui-sref-active="active"
-                  >Hosting</a></li>
-                  <li><a
-                  ui-sref="catalogo.correo"
-                  ui-sref-active="active"
-                  >Correos</a></li>
-                </ul>
-              </li>
-              <li
-              data-ng-class="{open: $state.includes('servicios')}"
-              >
-                <a href="" toggle-submenu>
-                  <span class="inner">
-                    <ng-md-icon icon="star" class="icono" size="16"></ng-md-icon>
-                    <span class="nav-label">Mis servicios</span>
-                    <ng-md-icon icon="chevron_left" size="18" class="arrow"></ng-md-icon>
-                  </span>
-                </a>
-                <ul class="nav nav-second-level">
-                  <li><a
-                  ui-sref="servicios.dominios"
-                  ui-sref-active="active"
-                  >Dominios</a></li>
-                  <li><a
-                  ui-sref="servicios.hosting"
-                  ui-sref-active="active"
-                  >Hosting</a></li>
-                  <li><a
-                  ui-sref="servicios.correo"
-                  ui-sref-active="active"
-                  >Correos</a></li>
-                </ul>
-              </li>
-              <li
-              data-ng-class="{open: $state.includes('user')}">
-                <a href="" toggle-submenu>
-                  <span class="inner">
-                    <ng-md-icon icon="account_box" class="icono" size="16"></ng-md-icon>
-                    <span class="nav-label">Mis datos</span>
-                    <ng-md-icon icon="chevron_left" size="18" class="arrow"></ng-md-icon>
-                  </span>
-                </a>
-                <ul class="nav nav-second-level ">
-                  <li>
-                    <a
-                    ui-sref="user.datos"
-                    ui-sref-active="active">
-                    Datos personales</a>
-                  </li>
-                  <li>
-                    <a
-                    ui-sref="user.contrasenia"
-                    ui-sref-active="active"
-                    >Cambiar contraseña</a>
-                  </li>
-                  <li>
-                    <a
-                    ui-sref="user.pagos"
-                    ui-sref-active="active"
-                    >Mis pagos</a>
-                  </li>
-                  <li>
-                    <a
-                    ui-sref="user.pendientes_renovacion"
-                    ui-sref-active="active"
-                    >Pendientes de renovación</a>
-                  </li>
-                </ul>
-              </li>
-              <!-- <li class="special-link">
-                  <a href="#/user/notificaciones">
-                      <span class="inner">
-                        <ng-md-icon icon="notifications_on" class="icono" size="16"></ng-md-icon>
-                        <span class="nav-label">Notificaciones</span>
-                        <span class="label label-info">6</span>
+  <aside id="aside" class="navbar vertical-top"  >
+      <nav nav-scroll>
+          <div class="nav-header">
+          <a class="nav-coverphoto" ui-sref="user.datos"></a>
+              <div class="profile-element text-align-left">
+                  <a ui-sref="user.datos" class="display-inline" >
+                      <span class="sub-title">
+                          {{ nickname }}
                       </span>
                   </a>
-              </li> -->
-            </ul>
-        </nav>
-    </aside>
-
-    <!-- <pre>{{ carrito | json }}</pre> -->
-
-    <aside id="carrito" class="carrito-fixed" data-ng-class="{ 'toggled': sidebarToggle.right === true }">
-      
-          <div class="listview-action">
-            <div class="display-table">
-              <div class="display-table-cell txt">
-                <strong>Carrito de compras</strong>
               </div>
-              <div class="display-table-cell ico align_right">
-                <md-button class="md-icon-button" aria-label="Cerrar"
-                data-toggle-sidebar
-                data-target="carrito"
-                model-right="sidebarToggle.right"
-                data-ng-class="{ 'active': sidebarToggle.right === true }">
-                  <ng-md-icon icon="arrow_forward" class="icono display-inline" size="24"></ng-md-icon>
-                </md-button>
-              </div>
-            </div>
           </div>
-        
-          <div class="wrapper-listview">
-            <div class="listview listview-actions">
-              <div class="header" ng-if="carrito.length == 0">
-                <p >El carrito está vacío.</p>
-              </div>
-              <div ng-if="carrito" class="lv-item" ng-repeat="item in carrito track by $index">
-                <div class="display-table">
-                  <div class="ico display-table-cell">
-                    <div class="module-hexagon orange">
-                      <img src="assets/icons/hexagon_orange.png" class="display-inline" width="100" alt="" />
-                      <div class="ico text-align-center"><!--
-                      --><div class="helper"></div><!--
-                        --><ng-md-icon
-                          ng-if="item.producto == 'dominio'"
-                          icon="language"
-                          class="icono display-inline" size="48">
-                        </ng-md-icon><!--
-                        --><ng-md-icon
-                          ng-if="item.producto == 'hosting'"
-                          icon="dns"
-                          class="icono display-inline" size="48">
-                        </ng-md-icon><!--
-                        --><ng-md-icon
-                          ng-if="item.producto == 'correo'"
-                          icon="email"
-                          class="icono display-inline" size="48">
-                        </ng-md-icon><!--
-                        --><ng-md-icon
-                          ng-if="item.producto == 'cloud'"
-                          icon="cloud_done"
-                          class="icono display-inline" size="48">
-                        </ng-md-icon><!--
-                        --><ng-md-icon
-                          ng-if="item.producto == 'pbx'"
-                          icon="phone"
-                          class="icono display-inline" size="48">
-                        </ng-md-icon><!--
-                      --></div>
-                    </div>
-                  </div>
-                  <div class="txt display-table-cell">
-                    <div class="display-table">
-                      <div class="display-table-cell">
-                        <h4 ng-bind="item.paquete | uppercase" title="{{ item.paquete | uppercase }}"></h4>
-                        <p ng-if="item.producto != 'dominio'">
-                          <span ng-bind="item.periodo" ></span>
-                        </p>
-                        <md-select
-                        md-on-open="copyItem($event, item)"
-                        ng-change="updateItem($event, item)"
-                        aria-label="Período"
-                        ng-if="item.producto == 'dominio'"
-                        name="periodo"
-                        ng-model="item.precio"
-                        >
-                          <md-option ng-repeat="periodo in item.prices"
-                          ng-value="periodo.precio"
-                          ng-bind="periodo.periodo">
-                          </md-option>
-                        </md-select>
-                      </div>
-                      <div class="display-table-cell cell-price align_right" title="{{ item.moneda }} {{ item.precio }}">
-                        <span ng-bind="item.moneda"></span>
-                        <strong class="big" ng-bind="item.precio"></strong>
-                      </div>
-                    </div>
-                    <md-button class="md-icon-button md-warn delete" aria-label="Quitar del carrito" ng-click="deleteItemCar(item, $index);">
-                      <span class="helper"></span><!--
-                      --><i class="material-icons display-inline">close</i>
-                    </md-button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+          <ul class="nav" id="side-menu" nav-collapse>
+            <li
+              data-ng-class="{open: $state.includes('catalogo')}">
+              <a href="" toggle-submenu>
+                  <span class="inner">
+                      <ng-md-icon icon="dashboard" class="icono" size="16"></ng-md-icon>
+                      <span class="nav-label">Crear Reporte</span>
+                      <ng-md-icon icon="chevron_left" size="18" class="arrow"></ng-md-icon>
+                  </span>
+              </a>
+              <ul class="nav nav-second-level">
+                <li><a
+                ui-sref="catalogo.dominio"
+                ui-sref-active="active"
+                >Activación</a></li>
+                <li><a
+                ui-sref="catalogo.hosting"
+                ui-sref-active="active"
+                >Campaña</a></li>
+                <li><a
+                ui-sref="catalogo.correo"
+                ui-sref-active="active"
+                >Evento</a></li>
+              </ul>
+            </li>
+            <li
+            data-ng-class="{open: $state.includes('servicios')}"
+            >
+              <a href="" toggle-submenu>
+                <span class="inner">
+                  <ng-md-icon icon="star" class="icono" size="16"></ng-md-icon>
+                  <span class="nav-label">Mis reportes</span>
+                  <ng-md-icon icon="chevron_left" size="18" class="arrow"></ng-md-icon>
+                </span>
+              </a>
+              <ul class="nav nav-second-level">
+                <li><a
+                ui-sref="servicios.dominios"
+                ui-sref-active="active"
+                >Dominios</a></li>
+                <li><a
+                ui-sref="servicios.dominios"
+                ui-sref-active="active"
+                >Dominios</a></li>
+              </ul>
+            </li>
+            <li
+            data-ng-class="{open: $state.includes('user')}">
+              <a href="" toggle-submenu>
+                <span class="inner">
+                  <ng-md-icon icon="account_box" class="icono" size="16"></ng-md-icon>
+                  <span class="nav-label">Mis datos</span>
+                  <ng-md-icon icon="chevron_left" size="18" class="arrow"></ng-md-icon>
+                </span>
+              </a>
+              <ul class="nav nav-second-level ">
+                <li>
+                  <a
+                  ui-sref="user.datos"
+                  ui-sref-active="active">
+                  Datos personales</a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+      </nav>
+  </aside>
 
-          <div class="total-footer">
-            <div class="total">
-              <div class="display-table">
-                <div class="display-table-cell vertical-bottom">
-                  TOTAL:
-                </div>
-                <div class="display-table-cell text-align-right white-space-nowrap total-precio">
-                  <span class="medium" ng-bind="carrito[0].moneda"></span>
-                  <span class="big">{{ carrito | totalSum:'precio' }}</span>
-                </div>
-              </div>
-            </div>
-            <div class="footer">
-              <md-button ng-click="pagar()" class="md-button form-button medium" ng-disabled="isProccesing">
-                Pagar
-                <md-progress-circular ng-show="isProccesing" md-mode="indeterminate" md-diameter="40"></md-progress-circular>
-              </md-button>
-            </div>
-          </div>
-
-    </aside>
   <header class="header" id="header-admin">
     <div class="display-table">
       <div class="display-table-cell height_100 text-align-left">
@@ -263,18 +98,13 @@
         --><div class="display-inline wrapper-logo">
           <h1 class="display-inline">
             <a ui-sref="user.datos" title="Yachay" class="logo">
-              <img src="assets/icons/logo.png" width="140" alt="Yachay" />
+              <img src="/logo.png" width="140" alt="Yachay" />
             </a>
           </h1>
         </div>
-        <!--<div class="logo-description display-inline">BACK OFFICE</div>-->
       </div>
       <div class="display-table-cell height_100 text-align-right">
-        <md-button class="md-icon-button button-count display-inline" aria-label="Carrito de compras" data-toggle-sidebar data-target="carrito" model-right="sidebarToggle.right" data-ng-class="{ 'active': sidebarToggle.right === true }">
-          <ng-md-icon icon="shopping_cart" class="icono display-inline" size="24"></ng-md-icon>
-          <i class="counts" ng-bind="carrito.length"></i>
-        </md-button><!--
-        --><div class="display-inline">
+        <div class="display-inline">
             <menu-drop-down></menu-drop-down>
         </div>
       </div>

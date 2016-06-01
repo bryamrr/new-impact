@@ -32,6 +32,7 @@ function CookieService($window){
 
   this.remove = function (key){
     if(self.read(key)){
+      console.log("si entro a remove", key);
       self.put(key,'',-1);
     }
   }

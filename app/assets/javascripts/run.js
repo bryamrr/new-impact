@@ -14,4 +14,6 @@ function runBlock($rootScope, $state, AuthService) {
       $state.go('user.datos');
     }
   });
+
+  $rootScope.$state = $state;
 }
