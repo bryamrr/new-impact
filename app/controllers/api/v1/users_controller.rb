@@ -39,13 +39,20 @@ class Api::V1::UsersController < Api::V1::BaseController
 
   # POST /api/v1/users/logout
   def logout
-    token_str = params[:data][:token]
-
-    token = Token.find_by(token: token_str)
+    token = Token.find_by(token: bearer_token)
     if token.delete
       render :json => { :message => "El token ha expirado" }
     else
       render :json => { :errors => token.errors.full_messages }
+    end
+  end
+
+  def show
+    user = User.find_by(nick_name: params[:id])
+    if @current_user == user
+      render :json => user
+    else
+      render :json => { :message => "Usuario no encontrado" }
     end
   end
 end

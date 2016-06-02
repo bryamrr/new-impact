@@ -392,7 +392,7 @@ SCROLL BAR
 /* PERFIL */
 /* ********************************* */
 .material-background {
-  background: url("../../assets/images/perfil_background.jpg") 50% 50% no-repeat;
+  background: url("/cover-photo.png") 50% 50% no-repeat;
   background-size: cover;
   padding: 100px 30px 20px;
 }

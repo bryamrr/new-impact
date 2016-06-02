@@ -1,8 +1,18 @@
 
 angular.module("myapp").controller("UserDataController", UserDataController);
 
-UserDataController.$inject = ['$scope', '$state', 'HttpRequest', 'urls'];
+UserDataController.$inject = ['$scope', '$state', 'HttpRequest', 'urls', 'CookieService'];
 
-function UserDataController($scope, $state, HttpRequest, urls) {
+function UserDataController($scope, $state, HttpRequest, urls, CookieService) {
 
+  var url= urls.BASE_API + '/users/' + CookieService.read("nickname");
+  var promise = HttpRequest.send("GET", url);
+
+  promise.then(function (response){
+    $scope.user = response;
+    var $contenido = $('#contenido');
+    $contenido.addClass("loaded");
+  }, function(error){
+    console.log(error);
+  });
 }

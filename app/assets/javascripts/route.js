@@ -4,7 +4,7 @@ routes.$inject = ['$stateProvider', '$urlRouterProvider', '$locationProvider'];
 function routes($stateProvider, $urlRouterProvider, $locationProvider) {
   $stateProvider
     .state('auth',{
-      url: '/',
+      url: '/dashboard/',
       abstract: true,
       data: {
         'needAuth': false,
@@ -31,7 +31,7 @@ function routes($stateProvider, $urlRouterProvider, $locationProvider) {
 
     // User
     .state('user',{
-      url: '/user',
+      url: '/dashboard/user',
       abstract: true,
       data: {
         'needAuth': true,
@@ -59,7 +59,7 @@ function routes($stateProvider, $urlRouterProvider, $locationProvider) {
 
     // Create
     .state('create',{
-      url: '/crear',
+      url: '/dashboard/crear',
       abstract: true,
       data: {
         'needAuth': true,
@@ -111,7 +111,7 @@ function routes($stateProvider, $urlRouterProvider, $locationProvider) {
 
     // Reports
     .state('reports',{
-      url: '/reportes',
+      url: '/dashboard/reportes',
       abstract: true,
       data: {
         'needAuth': true,
@@ -151,7 +151,7 @@ function routes($stateProvider, $urlRouterProvider, $locationProvider) {
 
     // Summary
     .state('summary',{
-      url: '/informes',
+      url: '/dashboard/informes',
       abstract: true,
       data: {
         'needAuth': true,
@@ -191,7 +191,7 @@ function routes($stateProvider, $urlRouterProvider, $locationProvider) {
 
     // Stats
     .state('stats',{
-      url: '/métricas',
+      url: '/dashboard/métricas',
       abstract: true,
       data: {
         'needAuth': true,
@@ -231,7 +231,7 @@ function routes($stateProvider, $urlRouterProvider, $locationProvider) {
 
     // Data
     .state('data',{
-      url: '/datos',
+      url: '/dashboard/datos',
       abstract: true,
       data: {
         'needAuth': true,
@@ -293,7 +293,7 @@ function routes($stateProvider, $urlRouterProvider, $locationProvider) {
     });
 
   // default fall back route
-  $urlRouterProvider.otherwise('/login');
+  $urlRouterProvider.otherwise('/dashboard/login');
 
   // enable HTML5 Mode for SEO
   $locationProvider.html5Mode(true);

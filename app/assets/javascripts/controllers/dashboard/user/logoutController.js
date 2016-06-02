@@ -10,7 +10,6 @@ function LogoutController($scope, $state, CookieService, HttpRequest, urls){
       CookieService.remove('token');
       CookieService.remove('nickname');
       CookieService.remove('role');
-      console.log("test");
       $state.go('auth.login');
     }, function(error){
       CookieService.remove('token');

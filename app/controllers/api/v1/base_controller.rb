@@ -4,8 +4,8 @@ class Api::V1::BaseController < ApplicationController
   before_action :authenticate
 
   def authenticate
-    token_str = bearer_token
-    token = Token.find_by(token: token_str)
+    @token_str = bearer_token
+    token = Token.find_by(token: @token_str)
 
     if token.nil? || !token.is_valid?
       render :json => { :error => "Token inválido" }, status: :unauthorized
@@ -16,7 +16,7 @@ class Api::V1::BaseController < ApplicationController
 
   def bearer_token
     pattern = /^Bearer /
-    header  = request.env["Authorization"]
+    header  = request.headers["Authorization"]
     header.gsub(pattern, '') if header && header.match(pattern)
   end
 end
