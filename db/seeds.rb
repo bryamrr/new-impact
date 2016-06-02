@@ -40,7 +40,7 @@ QuantityType.create(name: "Premio")
 CommentType.create(name: "Anfitriona")
 CommentType.create(name: "Cliente/Representante/Punto")
 CommentType.create(name: "Público")
-CommentType.create(name: "Activación")
+CommentType.create(name: "Actividad")
 CommentType.create(name: "Generales")
 
 ReportType.create(name: "Expense")
