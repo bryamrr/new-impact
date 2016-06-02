@@ -1,6 +1,6 @@
 class Api::V1::DataFiltersController < Api::V1::BaseController
   def data_summary
-    if (@current_user.role[:name] == "admin")
+    if (@current_user.role[:name] == "Admin")
       @companies = Company.all
       @types = ActivityType.all
       @modes = ActivityMode.all
@@ -16,7 +16,7 @@ class Api::V1::DataFiltersController < Api::V1::BaseController
         :departments => @departments,
         :provinces => @provinces
       }
-    elsif (@current_user.role[:name] == "customer")
+    elsif (@current_user.role[:name] == "Customer")
       @types = ActivityType.all
       @modes = ActivityMode.all
       @activities = Activity.where(company: @current_user.company)
@@ -36,7 +36,7 @@ class Api::V1::DataFiltersController < Api::V1::BaseController
   end
 
   def summary
-    if (@current_user.role[:name] == "admin")
+    if (@current_user.role[:name] == "Admin")
       @company = Company.find(params[:data][:company]) unless params[:data][:company] == nil
       @activity = Activity.find(params[:data][:activity]) unless params[:data][:company] == nil
       @reports = Report.where(company: @company, activity: @activity, :start_date => params[:data][:start_time]..params[:data][:end_time])
@@ -45,7 +45,7 @@ class Api::V1::DataFiltersController < Api::V1::BaseController
         :expenses => {},
         :point_details => {}
         })
-    elsif (@current_user.role[:name] == "customer")
+    elsif (@current_user.role[:name] == "Customer")
       @activity = Activity.find(params[:data][:activity]) unless params[:data][:company] == nil
       @reports = Report.where(company: @current_user, activity: @activity, :start_date => params[:data][:start_time]..params[:data][:end_time])
 

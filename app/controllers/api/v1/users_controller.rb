@@ -3,7 +3,7 @@ class Api::V1::UsersController < Api::V1::BaseController
 
   # POST /api/v1/users
   def create
-    if @current_user.role[:name] == "admin"
+    if @current_user.role[:name] == "Admin"
       if User.exists?(nick_name: params[:data][:nick_name])
         render :json => { :message => "El usuario ya existe" }
       else

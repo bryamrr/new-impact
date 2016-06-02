@@ -3,7 +3,7 @@ angular.module("myapp").controller("CreateReportController", CreateReportControl
 CreateReportController.$inject = ['$scope', '$timeout', 'HttpRequest', 'urls', 'CookieService'];
 
 function CreateReportController($scope, $timeout, HttpRequest, urls, CookieService) {
-  var url= urls.BASE_API + '/data_reports/point';
+  var url = urls.BASE_API + '/data_reports/point';
   var promise = HttpRequest.send("GET", url);
 
   $scope.report = {
@@ -24,7 +24,7 @@ function CreateReportController($scope, $timeout, HttpRequest, urls, CookieServi
 
   promise.then(function (response){
     $scope.data = response;
-    console.log(response)
+    console.log(response);
     var $contenido = $('#contenido');
     $contenido.addClass("loaded");
   }, function(error){

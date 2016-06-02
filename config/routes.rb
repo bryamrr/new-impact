@@ -12,6 +12,7 @@ Rails.application.routes.draw do
       resources :items, except: [:new, :edit]
       resources :vouchers, except: [:new, :edit]
       resources :companies, except: [:new, :edit]
+      resources :activities, except: [:new, :edit]
 
       get 'data_reports/point', to: 'data_reports#point'
       get 'data_reports/expense', to: 'data_reports#expense'

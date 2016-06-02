@@ -1,10 +1,38 @@
-<div class="align-center">
-  <br>
-  <br>
-  <br>
-  <i class="fa fa-bullhorn fa-3x"></i>
-  <br>
-  <br>
-  <h1>En construcción</h1>
-  <p>Base de datos / Compañías</p>
+<header-bread-crumb>
+</header-bread-crumb>
+<div class="loading-content loading-content-js">
+  <img src="/loading-content.svg" alt="" />
+</div>
+<div class="wrapper-content padding-15 administrar">
+  <md-content class="padding-15">
+    <md-content class="agregar-registro text-align-center">
+      <form novalidate ng-submit="add(form)" name="form">
+        <div class="vertical-middle layout-padding">
+          <md-input-container>
+            <input ng-model="newCompany.name" name="name" placeholder="Nombre">
+            <div class="border-bottom"></div>
+          </md-input-container>
+        </div>
+        <div class="vertical-middle layout-padding">
+          <md-input-container>
+            <input ng-model="newCompany.email" name="email" placeholder="Email">
+            <div class="border-bottom"></div>
+          </md-input-container>
+        </div>
+        <div class="vertical-middle layout-padding">
+          <md-input-container>
+            <input ng-model="newCompany.ruc" name="ruc" placeholder="RUC">
+            <div class="border-bottom"></div>
+          </md-input-container>
+        </div>
+
+        <div class="vertical-middle icono add right" ng-class="{ agregando : isLoadingAgregar }">
+          <md-button type="submit" ng-disabled="isLoadingAgregar" class="md-icon-button" aria-label="Home">
+            <i class="material-icons display-inline">add_circle</i>
+            <md-progress-circular ng-show="isLoadingAgregar" md-mode="indeterminate" md-diameter="40"></md-progress-circular>
+          </md-button>
+        </div>
+      </form>
+    </md-content>
+  </md-content>
 </div>

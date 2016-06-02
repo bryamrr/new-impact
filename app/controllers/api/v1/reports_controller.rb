@@ -1,7 +1,7 @@
 class Api::V1::ReportsController < Api::V1::BaseController
 
   def index
-    if @current_user.role[:name] == "admin"
+    if @current_user.role[:name] == "Admin"
       @reports = Report.all
     else
       @reports = Report.where(user: @current_user)
@@ -17,7 +17,7 @@ class Api::V1::ReportsController < Api::V1::BaseController
   end
 
   def show
-    if @current_user.role[:name] == "admin" || Report.find(params[:id]).user == @current_user
+    if @current_user.role[:name] == "Admin" || Report.find(params[:id]).user == @current_user
       @report = Report.find(params[:id])
 
       render :json => @report.to_json(:include => {

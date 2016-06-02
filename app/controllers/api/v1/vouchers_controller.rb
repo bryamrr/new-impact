@@ -21,7 +21,7 @@ class Api::V1::VouchersController < Api::V1::BaseController
 
   def update
     @voucher = Voucher.find(params[:id])
-    if @current_user.role[:name] = "admin"
+    if @current_user.role[:name] = "Admin"
       @voucher.update(name: params[:data][:name])
       render :json => @voucher
     else
@@ -31,7 +31,7 @@ class Api::V1::VouchersController < Api::V1::BaseController
 
   def destroy
     @voucher = Voucher.find(params[:id])
-    if @current_user.role[:name] = "admin"
+    if @current_user.role[:name] = "Admin"
       @voucher.destroy
       render :json => { :message => "voucher eliminado" }
     else

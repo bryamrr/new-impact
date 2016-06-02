@@ -5,7 +5,7 @@ RSpec.describe Api::V1::UsersController, type: :controller do
     it "should create user if nickname not exists" do
       token = FactoryGirl.create(:token)
       request.headers["Authorization"] = "Bearer " + token.token
-      data = { nick_name: "bryamrrr", password: "123456", role: "admin"}
+      data = { nick_name: "bryamrrr", password: "123456", role: "Admin"}
 
       expect{
         post :create, { data: data }
@@ -15,7 +15,7 @@ RSpec.describe Api::V1::UsersController, type: :controller do
     it "should not create user if nickname exists" do
       token = FactoryGirl.create(:token)
       request.headers["Authorization"] = "Bearer " + token.token
-      data = { nick_name: "bryamrr", password: "123456", role: "admin"}
+      data = { nick_name: "bryamrr", password: "123456", role: "Admin"}
 
       expect{
         post :create, { data: data }
@@ -28,7 +28,7 @@ RSpec.describe Api::V1::UsersController, type: :controller do
       token = FactoryGirl.create(:token, user: user)
 
       request.headers["Authorization"] = "Bearer " + token.token
-      data = { nick_name: "bryamrrr", password: "123456", role: "admin", token: token.token}
+      data = { nick_name: "bryamrrr", password: "123456", role: "Admin", token: token.token}
 
       expect{
         post :create, { data: data }
@@ -38,7 +38,7 @@ RSpec.describe Api::V1::UsersController, type: :controller do
     it "responds with a message when user was created" do
       token = FactoryGirl.create(:token)
       request.headers["Authorization"] = "Bearer " + token.token
-      data = { nick_name: "bryamrrr", password: "123456", role: "admin"}
+      data = { nick_name: "bryamrrr", password: "123456", role: "Admin"}
 
       post :create, { data: data }
       expect(response).to have_http_status(:created)
@@ -94,7 +94,7 @@ RSpec.describe Api::V1::UsersController, type: :controller do
       post :login, { data: data }
       json = JSON.parse(response.body)
 
-      expect(json["role"]).to eq("admin")
+      expect(json["role"]).to eq("Admin")
     end
   end
 

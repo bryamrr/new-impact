@@ -17,7 +17,7 @@ RSpec.describe Api::V1::CompaniesController, type: :controller do
     end
   end
 
-  describe "GET /api/v1/company/:id" do
+  describe "GET /api/v1/companies/:id" do
     before :each do
       FactoryGirl.create_list(:sequence_company, 2)
       token = FactoryGirl.create(:token)

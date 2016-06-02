@@ -3,12 +3,12 @@ require 'rails_helper'
 RSpec.describe Api::V1::ReportsController, type: :controller do
   describe "GET /api/v1/reports" do
     before :each do
-      role = FactoryGirl.create(:role, name: "supervisor")
+      role = FactoryGirl.create(:role, name: "Supervisor")
       user = FactoryGirl.create(:user, role: role)
 
       FactoryGirl.create_list(:report, 10, user: user)
 
-      other_role = FactoryGirl.create(:role, name: "admin")
+      other_role = FactoryGirl.create(:role, name: "Admin")
       other_user = FactoryGirl.create(:user, role: other_role, nick_name: "kdelacruz")
       FactoryGirl.create_list(:report, 3, user: other_user)
     end
