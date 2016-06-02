@@ -62,7 +62,7 @@ class Api::V1::ReportsController < Api::V1::BaseController
         end
         report_params[:quantities].each do |quantity|
           quantity_type = QuantityType.find(quantity["quantity_type_id"])
-          Quantity.create(quantity_type: quantity_type, used: quantity[:used], remaining: quantity[:remaining], point_detail: point_detail)
+          Quantity.create(quantity_type: quantity_type, used: quantity[:used], remaining: quantity[:remaining], name: quantity[:name], point_detail: point_detail)
         end
         report_params[:photos].each do |photo|
           Photo.create(url: photo, point_detail: point_detail)
@@ -111,7 +111,7 @@ class Api::V1::ReportsController < Api::V1::BaseController
       :sales,
       :people,
       :product,
-      quantities: [:quantity_type_id, :used, :remaining],
+      quantities: [:quantity_type_id, :used, :remaining, :name],
       comments: [:for, :comment, :comment_type_id],
       expenses: [:item_id, :voucher_id, :comment, :subtotal],
       photos: [])

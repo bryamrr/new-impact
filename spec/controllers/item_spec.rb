@@ -5,7 +5,7 @@ RSpec.describe Api::V1::ItemsController, type: :controller do
     before :each do
       FactoryGirl.create_list(:sequence_item, 2)
       token = FactoryGirl.create(:token)
-      request.env["Authorization"] = "Bearer " + token.token
+      request.headers["Authorization"] = "Bearer " + token.token
       get :index
     end
 
@@ -21,7 +21,7 @@ RSpec.describe Api::V1::ItemsController, type: :controller do
     before :each do
       FactoryGirl.create_list(:sequence_item, 2)
       token = FactoryGirl.create(:token)
-      request.env["Authorization"] = "Bearer " + token.token
+      request.headers["Authorization"] = "Bearer " + token.token
       get :show, id: "2"
     end
 
@@ -37,7 +37,7 @@ RSpec.describe Api::V1::ItemsController, type: :controller do
     before :each do
       FactoryGirl.create_list(:sequence_item, 2)
       token = FactoryGirl.create(:token)
-      request.env["Authorization"] = "Bearer " + token.token
+      request.headers["Authorization"] = "Bearer " + token.token
 
       data = {
         name: "Item nuevo"
@@ -58,7 +58,7 @@ RSpec.describe Api::V1::ItemsController, type: :controller do
     before :each do
       FactoryGirl.create_list(:sequence_item, 2)
       token = FactoryGirl.create(:token)
-      request.env["Authorization"] = "Bearer " + token.token
+      request.headers["Authorization"] = "Bearer " + token.token
 
       @data = {
         name: "Item nuevo"
@@ -75,7 +75,7 @@ RSpec.describe Api::V1::ItemsController, type: :controller do
   describe "DELETE /api/v1/reports/:id" do
     before :each do
       token = FactoryGirl.create(:token)
-      request.env["Authorization"] = "Bearer " + token.token
+      request.headers["Authorization"] = "Bearer " + token.token
 
       FactoryGirl.create(:item)
     end

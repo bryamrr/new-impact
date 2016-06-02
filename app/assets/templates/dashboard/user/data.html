@@ -13,11 +13,6 @@
       <p>Mis datos</p>
     </div>
   </div>
-  <div ng-if="isEmailVerified === false" id="notification" class="notification" >
-    <p>E-mail no verificado.
-      <a href="" ng-click="sendEmail()">Enviar correo de verificación.</a>
-    </p>
-  </div>
   <md-content layout-padding>
     <form novalidate name="form" ng-submit="update(form, user)" ng-validate="validationOptions">
       <div layout="row" layout-xs="column">

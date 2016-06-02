@@ -15,7 +15,7 @@ RSpec.describe Api::V1::DataReportsController, type: :controller do
     context "point" do
       before :each do
         token = FactoryGirl.create(:token)
-        request.env["Authorization"] = "Bearer " + token.token
+        request.headers["Authorization"] = "Bearer " + token.token
 
         get :point
         @json = JSON.parse(response.body)
@@ -51,7 +51,7 @@ RSpec.describe Api::V1::DataReportsController, type: :controller do
     context "expense" do
       before :each do
         token = FactoryGirl.create(:token)
-        request.env["Authorization"] = "Bearer " + token.token
+        request.headers["Authorization"] = "Bearer " + token.token
 
         get :expense
         @json = JSON.parse(response.body)

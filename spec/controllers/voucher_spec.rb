@@ -5,7 +5,7 @@ RSpec.describe Api::V1::VouchersController, type: :controller do
     before :each do
       FactoryGirl.create_list(:sequence_voucher, 2)
       token = FactoryGirl.create(:token)
-      request.env["Authorization"] = "Bearer " + token.token
+      request.headers["Authorization"] = "Bearer " + token.token
       get :index
     end
 
@@ -21,7 +21,7 @@ RSpec.describe Api::V1::VouchersController, type: :controller do
     before :each do
       FactoryGirl.create_list(:sequence_voucher, 2)
       token = FactoryGirl.create(:token)
-      request.env["Authorization"] = "Bearer " + token.token
+      request.headers["Authorization"] = "Bearer " + token.token
       get :show, id: "2"
     end
 
@@ -37,7 +37,7 @@ RSpec.describe Api::V1::VouchersController, type: :controller do
     before :each do
       FactoryGirl.create_list(:sequence_voucher, 2)
       token = FactoryGirl.create(:token)
-      request.env["Authorization"] = "Bearer " + token.token
+      request.headers["Authorization"] = "Bearer " + token.token
 
       data = {
         name: "Voucher nuevo"
@@ -58,7 +58,7 @@ RSpec.describe Api::V1::VouchersController, type: :controller do
     before :each do
       FactoryGirl.create_list(:sequence_voucher, 2)
       token = FactoryGirl.create(:token)
-      request.env["Authorization"] = "Bearer " + token.token
+      request.headers["Authorization"] = "Bearer " + token.token
 
       @data = {
         name: "Voucher nuevo"
@@ -75,7 +75,7 @@ RSpec.describe Api::V1::VouchersController, type: :controller do
   describe "DELETE /api/v1/vouchers/:id" do
     before :each do
       token = FactoryGirl.create(:token)
-      request.env["Authorization"] = "Bearer " + token.token
+      request.headers["Authorization"] = "Bearer " + token.token
 
       FactoryGirl.create(:voucher)
     end

@@ -17,7 +17,7 @@ RSpec.describe Api::V1::DataFiltersController, type: :controller do
         before :each do
           @user = FactoryGirl.create(:customer_user)
           token = FactoryGirl.create(:token, user: @user)
-          request.env["Authorization"] = "Bearer " + token.token
+          request.headers["Authorization"] = "Bearer " + token.token
 
           get :data_summary
           @json = JSON.parse(response.body)
@@ -53,7 +53,7 @@ RSpec.describe Api::V1::DataFiltersController, type: :controller do
       context "admin" do
         before :each do
           token = FactoryGirl.create(:token)
-          request.env["Authorization"] = "Bearer " + token.token
+          request.headers["Authorization"] = "Bearer " + token.token
 
           get :data_summary
           @json = JSON.parse(response.body)
@@ -99,7 +99,7 @@ RSpec.describe Api::V1::DataFiltersController, type: :controller do
     context "admin" do
       before :each do
         token = FactoryGirl.create(:token, user: @point_report.user)
-        request.env["Authorization"] = "Bearer " + token.token
+        request.headers["Authorization"] = "Bearer " + token.token
       end
 
       it {

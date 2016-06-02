@@ -9,7 +9,7 @@
                     ngValidate: '='
                 },
                 link: function (scope, element, attrs, form) {
-                    console.log(element);
+                    element = $(element);
                     var validator = element.validate(scope.ngValidate);
 
                     form.validate = function (options) {

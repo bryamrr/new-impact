@@ -17,7 +17,7 @@ RSpec.describe Api::V1::ReportsController, type: :controller do
       other_user = User.last
       other_token = FactoryGirl.create(:token, user: other_user)
 
-      request.env["Authorization"] = "Bearer " + other_token.token
+      request.headers["Authorization"] = "Bearer " + other_token.token
       get :index
 
       json = JSON.parse(response.body)
@@ -27,7 +27,7 @@ RSpec.describe Api::V1::ReportsController, type: :controller do
     it "sends report list created by the user if isn't admin" do
       user = User.first
       token = FactoryGirl.create(:token, user: user)
-      request.env["Authorization"] = "Bearer " + token.token
+      request.headers["Authorization"] = "Bearer " + token.token
       get :index
 
       json = JSON.parse(response.body)
@@ -51,7 +51,7 @@ RSpec.describe Api::V1::ReportsController, type: :controller do
       other_user = User.last
       other_token = FactoryGirl.create(:token, user: other_user)
 
-      request.env["Authorization"] = "Bearer " + other_token.token
+      request.headers["Authorization"] = "Bearer " + other_token.token
       get :show, id: "12"
 
       json = JSON.parse(response.body)
@@ -62,7 +62,7 @@ RSpec.describe Api::V1::ReportsController, type: :controller do
     it "should not send report if user isn't admin and report don't belong to him" do
       user = User.first
       token = FactoryGirl.create(:token, user: user)
-      request.env["Authorization"] = "Bearer " + token.token
+      request.headers["Authorization"] = "Bearer " + token.token
       get :show, id: "12"
 
       expect(response).to have_http_status(:not_found)
@@ -71,7 +71,7 @@ RSpec.describe Api::V1::ReportsController, type: :controller do
     it "should send report if user isn't adnmin but report belong to him" do
       user = User.first
       token = FactoryGirl.create(:token, user: user)
-      request.env["Authorization"] = "Bearer " + token.token
+      request.headers["Authorization"] = "Bearer " + token.token
       get :show, id: "1"
 
       json = JSON.parse(response.body)
@@ -84,7 +84,7 @@ RSpec.describe Api::V1::ReportsController, type: :controller do
     context "with valid token" do
       before :each do
         token = FactoryGirl.create(:token)
-        request.env["Authorization"] = "Bearer " + token.token
+        request.headers["Authorization"] = "Bearer " + token.token
 
         FactoryGirl.create(:report, user: token.user)
         FactoryGirl.create(:report_type)
@@ -178,11 +178,13 @@ RSpec.describe Api::V1::ReportsController, type: :controller do
 
           quantity1 = {
             quantity_type_id: 1,
+            name: "producto X",
             used: 3,
             remaining: 2
           }
           quantity2 = {
             quantity_type_id: 2,
+            name: "Anfitriona",
             used: 6,
             remaining: 3
           }
@@ -244,7 +246,7 @@ RSpec.describe Api::V1::ReportsController, type: :controller do
     context "invalid params" do
       before :each do
         token = FactoryGirl.create(:token)
-        request.env["Authorization"] = "Bearer " + token.token
+        request.headers["Authorization"] = "Bearer " + token.token
 
         FactoryGirl.create(:report, user: token.user)
 
@@ -272,7 +274,7 @@ RSpec.describe Api::V1::ReportsController, type: :controller do
     context "with valid token" do
       before :each do
         token = FactoryGirl.create(:token)
-        request.env["Authorization"] = "Bearer " + token.token
+        request.headers["Authorization"] = "Bearer " + token.token
 
         FactoryGirl.create(:report, user: token.user)
 
@@ -294,7 +296,7 @@ RSpec.describe Api::V1::ReportsController, type: :controller do
     context "with invalid token" do
       before :each do
         token = FactoryGirl.create(:token)
-        request.env["Authorization"] = "Bearer " + token.token
+        request.headers["Authorization"] = "Bearer " + token.token
 
         FactoryGirl.create(:report, user: FactoryGirl.create(:dummy_user))
       end
@@ -307,7 +309,7 @@ RSpec.describe Api::V1::ReportsController, type: :controller do
     context "with valid token" do
       before :each do
         token = FactoryGirl.create(:token)
-        request.env["Authorization"] = "Bearer " + token.token
+        request.headers["Authorization"] = "Bearer " + token.token
 
         FactoryGirl.create(:report, user: token.user)
       end
@@ -327,7 +329,7 @@ RSpec.describe Api::V1::ReportsController, type: :controller do
     context "with invalid token" do
       before :each do
         token = FactoryGirl.create(:token)
-        request.env["Authorization"] = "Bearer " + token.token
+        request.headers["Authorization"] = "Bearer " + token.token
 
         FactoryGirl.create(:report, user: FactoryGirl.create(:dummy_user))
       end

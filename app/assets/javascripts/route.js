@@ -107,6 +107,18 @@ function routes($stateProvider, $urlRouterProvider, $locationProvider) {
         }
       }
     })
+    .state('create.expense',{
+      url: '/gasto',
+      data: {
+        title: 'Gasto'
+      },
+      views: {
+        'content@create': {
+          templateUrl: 'dashboard/create/expense.html',
+          controller: 'CreateExpenseController'
+        }
+      }
+    })
 
 
     // Reports
@@ -222,7 +234,7 @@ function routes($stateProvider, $urlRouterProvider, $locationProvider) {
       },
       views: {
         'content@stats': {
-          templateUrl: 'dashboard/stats/gastos.html',
+          templateUrl: 'dashboard/stats/expenses.html',
           controller: 'ExpenseStatsController'
         }
       }
