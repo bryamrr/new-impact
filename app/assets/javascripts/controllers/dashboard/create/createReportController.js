@@ -72,7 +72,6 @@ function CreateReportController($scope, $timeout, HttpRequest, urls, CookieServi
 
   $scope.upload = function(file) {
     // Configure The S3 Object
-    console.log(file);
     AWS.config.update({ accessKeyId: $scope.creds.access_key, secretAccessKey: $scope.creds.secret_key });
     AWS.config.region = 'us-west-2';
     var bucket = new AWS.S3({ params: { Bucket: $scope.creds.bucket } });

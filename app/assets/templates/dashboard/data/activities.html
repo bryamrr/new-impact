@@ -1,10 +1,65 @@
-<div class="align-center">
-  <br>
-  <br>
-  <br>
-  <i class="fa fa-bullhorn fa-3x"></i>
-  <br>
-  <br>
-  <h1>En construcción</h1>
-  <p>Base de datos / Actividades</p>
+<header-bread-crumb>
+</header-bread-crumb>
+<div class="loading-content loading-content-js">
+  <img src="/loading-content.svg" alt="" />
+</div>
+<div class="wrapper-content padding-15">
+  <md-content class="padding-15">
+    <md-content class="agregar-registro text-align-center">
+      <form novalidate ng-submit="add(form)" name="form">
+        <div class="vertical-middle layout-padding">
+          <md-input-container>
+            <input ng-model="newActivity.name" name="name" placeholder="Nombre">
+            <div class="border-bottom"></div>
+          </md-input-container>
+        </div>
+        <div class="vertical-middle layout-padding">
+          <md-input-container>
+            <label>Tipo de Actividad</label>
+            <md-select aria-label="Tipo de actividad" ng-model="newActivity.activity_type_id">
+              <md-option ng-value="1">Activación</md-option>
+              <md-option ng-value="2">Campaña</md-option>
+              <md-option ng-value="3">Evento</md-option>
+            </md-select>
+          </md-input-container>
+        </div>
+        <div class="vertical-middle layout-padding">
+          <md-input-container>
+            <label>Compañía</label>
+            <md-select aria-label="Compañía" ng-model="newActivity.company_id">
+              <md-option ng-value="{{company.id}}" ng-repeat="company in companies">{{company.name}}</md-option>
+            </md-select>
+          </md-input-container>
+        </div>
+        <md-button ng-click="add()">
+          <md-icon class="fa fa-plus"></md-icon>
+        </md-button>
+      </form>
+    </md-content>
+
+    <md-table-container>
+      <table md-table class="big">
+        <thead md-head>
+          <tr md-row>
+            <th md-column>Nombre</th>
+            <th md-column>Tipo de actividad</th>
+            <th md-column>Compañía</th>
+            <th md-column></th>
+          </tr>
+        </thead>
+        <tbody md-body>
+          <tr md-row ng-repeat="activity in activities" ng-class="{eliminando : activity.isLoading}">
+            <td md-cell>{{activity.name}}</td>
+            <td md-cell>{{activity.activity_type.name}}</td>
+            <td md-cell>{{activity.company.name}}</td>
+            <td md-cell>
+              <md-button ng-click="removeItem(activity, $index)">
+                <md-icon class="fa fa-minus"></md-icon>
+              </md-button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </md-table-container>
+  </md-content>
 </div>

@@ -3,15 +3,112 @@ angular.module("myapp").controller("CompaniesController", CompaniesController);
 CompaniesController.$inject = ['$scope', 'HttpRequest', 'urls'];
 
 function CompaniesController($scope, HttpRequest, urls) {
+
+  $scope.newCompany = {
+    name: "",
+    email: "",
+    ruc: "",
+    logo_url: ""
+  };
+
+  $scope.companies = [];
+
   var url = urls.BASE_API + '/companies';
   var promise = HttpRequest.send("GET", url);
 
   promise.then(function (response){
-    $scope.data = response;
+    $scope.companies = response;
     console.log(response);
     var $contenido = $('#contenido');
+    $scope.isLoading = false;
     $contenido.addClass("loaded");
   }, function(error){
     console.log(error);
+    $scope.isLoading = false;
+  });
+
+  $scope.addLogo = function () {
+    $('#photoInput').trigger('click');
+  }
+
+  $scope.creds = {
+    bucket: 'impactbtl',
+    access_key: 'AKIAJI7ULYPNQI4K4UKA',
+    secret_key: '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'
+  }
+
+  // First, send logo to AmazonS3
+  $scope.add = function () {
+    $scope.isLoading = true;
+    $scope.upload($scope.logo);
+  };
+
+  $scope.upload = function(file) {
+    // Configure The S3 Object
+    AWS.config.update({ accessKeyId: $scope.creds.access_key, secretAccessKey: $scope.creds.secret_key });
+    AWS.config.region = 'us-west-2';
+    var bucket = new AWS.S3({ params: { Bucket: $scope.creds.bucket } });
+
+    var params = {Key: file.name, ContentType: file.type, Body: file, forceIframeTransport : true};
+    bucket.upload(params, function (err, data) {
+      console.log("paso", data, err);
+      $scope.newCompany.logo_url = data.Location;
+      $scope.postCompany();
+    });
+  };
+
+  $scope.removeItem = function (item, index) {
+    item.isLoading = true;
+
+    var url = urls.BASE_API + '/companies/' + item.id;
+    var promise = HttpRequest.send("DELETE", url);
+
+    promise.then(function (response){
+      $scope.companies.splice(index, 1);
+      item.isLoading = false;
+      console.log(response);
+    }, function(error){
+      console.log(error);
+      item.isLoading = false;
+    });
+  }
+
+  // Then, post company using Rails API
+  $scope.postCompany = function () {
+    var url = urls.BASE_API + '/companies';
+
+    var promise = HttpRequest.send("POST", url, $scope.newCompany);
+
+    promise.then(function (response){
+      $scope.companies.push(response);
+
+      $scope.newCompany = {
+        name: "",
+        email: "",
+        ruc: "",
+        logo: ""
+      };
+
+      $scope.isLoading = false;
+    }, function(error){
+      $scope.isLoading = false;
+      console.log(error);
+    });
+  }
+
+  function readURL(input) {
+    var reader = new FileReader();
+
+    reader.onload = function (e) {
+      $scope.logo = input.files[0];
+    }
+
+    reader.readAsDataURL(input.files[0]);
+  }
+
+  $(document).ready(function() {
+    $("#photoInput").change(function() {
+      readURL(this);
+    });
   });
 }

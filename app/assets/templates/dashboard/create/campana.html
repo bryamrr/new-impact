@@ -1,10 +1,324 @@
-<div class="align-center">
-  <br>
-  <br>
-  <br>
-  <i class="fa fa-bullhorn fa-3x"></i>
-  <br>
-  <br>
-  <h1>En construcción</h1>
-  <p>Crear Reporte / Campaña</p>
+<header-bread-crumb>
+</header-bread-crumb>
+<div class="loading-content loading-content-js">
+  <img src="/loading-content.svg" alt="" />
+</div>
+<div class="wrapper-content padding-30">
+  <md-content  layout-padding>
+    <div layout="row" layout-xs="column">
+      <div flex layout-padding>
+        <md-input-container>
+          <label>Cliente</label>
+          <md-select aria-label="Cliente" ng-model="report.customer">
+            <md-option ng-value="{{customer.id}}" ng-repeat="customer in customers">{{customer.name}}</md-option>
+          </md-select>
+        </md-input-container>
+      </div>
+      <div flex layout-padding >
+        <md-input-container>
+          <label>Activación</label>
+          <md-select aria-label="Activación" ng-model="report.activity">
+            <md-option ng-value="{{activity.id}}" ng-repeat="activity in activities | filter: { activity_type_id: 2, company_id: report.customer }">{{activity.name}}</md-option>
+          </md-select>
+        </md-input-container>
+      </div>
+    </div>
+    <div layout="row" layout-xs="column">
+      <div flex layout-padding>
+        <md-input-container>
+          <label>Departamento</label>
+          <md-select aria-label="Departamento" ng-model="report.department">
+            <md-option ng-repeat="department in data.departments" ng-value="{{department.id}}">{{department.name}}</md-option>
+          </md-select>
+        </md-input-container>
+      </div>
+      <div flex layout-padding >
+        <md-input-container>
+          <label>Provincia</label>
+          <md-select aria-label="Provincia" ng-model="report.province">
+            <md-option ng-repeat="province in data.provinces | filter: { department_id: report.department }" ng-value="{{province.id}}">{{province.name}}</md-option>
+          </md-select>
+        </md-input-container>
+      </div>
+    </div>
+    <div layout="row" layout-xs="column">
+      <div flex layout-padding>
+        <md-datepicker ng-model="report.start_date" md-placeholder="Desde"></md-datepicker>
+      </div>
+      <div flex layout-padding >
+        <md-datepicker ng-model="report.end_date" md-placeholder="Hasta"
+        md-min-date="report.start_date"></md-datepicker>
+      </div>
+    </div>
+    <div layout="row">
+      <div flex layout-padding>
+        <md-radio-group ng-model="report.mode">
+          <md-radio-button ng-repeat="mode in data.modes | filter: { activity_type_id: 2 }" value="{{mode.id}}">{{mode.name}}</md-radio-button>
+        </md-radio-group>
+      </div>
+    </div>
+    <div layout="row">
+      <div flex layout-padding>
+        <md-input-container >
+          <label>Punto</label>
+          <input type="text"
+            name="point"
+            ng-model="report.point"
+          >
+          <div class="border-bottom"></div>
+        </md-input-container>
+      </div>
+    </div>
+    <div layout="row" layout-xs="column">
+      <div flex layout-padding>
+        <md-input-container >
+          <label>Alcance</label>
+          <input type="text"
+            name="scope"
+            ng-model="report.scope"
+          >
+          <div class="border-bottom"></div>
+        </md-input-container>
+      </div>
+      <div flex layout-padding>
+        <md-input-container >
+          <label>Ventas</label>
+          <input type="text"
+            name="sales"
+            ng-model="report.sales"
+          >
+          <div class="border-bottom"></div>
+        </md-input-container>
+      </div>
+      <div flex layout-padding>
+        <md-input-container >
+          <label>Nº de personas</label>
+          <input type="text"
+            name="people"
+            ng-model="report.people"
+          >
+          <div class="border-bottom"></div>
+        </md-input-container>
+      </div>
+    </div>
+    <h3>Producto</h3>
+    <div layout="row">
+      <div flex layout-padding>
+        <md-input-container >
+          <label>Presentación</label>
+          <input type="text"
+            name="product"
+            ng-model="report.product.name"
+          >
+          <div class="border-bottom"></div>
+        </md-input-container>
+      </div>
+    </div>
+    <div layout="row" layout-xs="column">
+      <div flex layout-padding>
+        <md-input-container >
+          <label>Cantidad usada</label>
+          <input type="text"
+            name="product-used"
+            ng-model="report.product.used"
+          >
+          <div class="border-bottom"></div>
+        </md-input-container>
+      </div>
+      <div flex layout-padding>
+        <md-input-container >
+          <label>Cantidad restante</label>
+          <input type="text"
+            name="product remaining"
+            ng-model="eport.product.remaining"
+          >
+          <div class="border-bottom"></div>
+        </md-input-container>
+      </div>
+    </div>
+    <h3>Merchandising</h3>
+    <div layout="row" layout-xs="column" ng-repeat="merchandising in report.merchandising">
+      <div flex layout-padding>
+        <md-input-container >
+          <label>Tipo usado</label>
+          <input type="text"
+            name="product-used"
+            ng-model="merchandising.name"
+          >
+          <div class="border-bottom"></div>
+        </md-input-container>
+      </div>
+      <div flex layout-padding>
+        <md-input-container >
+          <label>Cantidad usada</label>
+          <input type="text"
+            name="product remaining"
+            ng-model="merchandising.used"
+          >
+          <div class="border-bottom"></div>
+        </md-input-container>
+      </div>
+      <md-button ng-click="removeItem('merchandising', $index)">
+        <md-icon class="fa fa-minus"></md-icon>
+      </md-button>
+    </div>
+    <div layout="row" layout-xs="column">
+      <div flex layout-padding>
+        <md-input-container >
+          <label>Tipo usado</label>
+          <input type="text"
+            name="product-used"
+            ng-model="newMercha.name"
+          >
+          <div class="border-bottom"></div>
+        </md-input-container>
+      </div>
+      <div flex layout-padding>
+        <md-input-container >
+          <label>Cantidad usada</label>
+          <input type="text"
+            name="product remaining"
+            ng-model="newMercha.used"
+          >
+          <div class="border-bottom"></div>
+        </md-input-container>
+      </div>
+      <md-button ng-click="addItem('merchandising')">
+        <md-icon class="fa fa-plus"></md-icon>
+      </md-button>
+    </div>
+    <h3>Personal</h3>
+    <div layout="row" layout-xs="column" ng-repeat="personal in report.personal">
+      <div flex layout-padding>
+        <md-input-container >
+          <label>Tipo</label>
+          <input type="text"
+            name="personal-name"
+            ng-model="personal.name"
+          >
+          <div class="border-bottom"></div>
+        </md-input-container>
+      </div>
+      <div flex layout-padding>
+        <md-input-container >
+          <label>Cantidad</label>
+          <input type="text"
+            name="personal-used"
+            ng-model="personal.used"
+          >
+          <div class="border-bottom"></div>
+        </md-input-container>
+      </div>
+      <md-button ng-click="removeItem('personal', $index)">
+        <md-icon class="fa fa-minus"></md-icon>
+      </md-button>
+    </div>
+    <div layout="row" layout-xs="column">
+      <div flex layout-padding>
+        <md-input-container >
+          <label>Tipo</label>
+          <input type="text"
+            name="personal-used"
+            ng-model="newPersonal.name"
+          >
+          <div class="border-bottom"></div>
+        </md-input-container>
+      </div>
+      <div flex layout-padding>
+        <md-input-container >
+          <label>Cantidad</label>
+          <input type="text"
+            name="personal-remaining"
+            ng-model="newPersonal.used"
+          >
+          <div class="border-bottom"></div>
+        </md-input-container>
+      </div>
+      <md-button ng-click="addItem('personal')">
+        <md-icon class="fa fa-plus"></md-icon>
+      </md-button>
+    </div>
+    <h3>Premios</h3>
+    <div layout="row" layout-xs="column" ng-repeat="prize in report.prize">
+      <div flex layout-padding>
+        <md-input-container >
+          <label>Tipo usado</label>
+          <input type="text"
+            name="prize-name"
+            ng-model="prize.name"
+          >
+          <div class="border-bottom"></div>
+        </md-input-container>
+      </div>
+      <div flex layout-padding>
+        <md-input-container >
+          <label>Cantidad usada</label>
+          <input type="text"
+            name="prize-used"
+            ng-model="prize.used"
+          >
+          <div class="border-bottom"></div>
+        </md-input-container>
+      </div>
+      <md-button ng-click="removeItem('prize', $index)">
+        <md-icon class="fa fa-minus"></md-icon>
+      </md-button>
+    </div>
+    <div layout="row" layout-xs="column">
+      <div flex layout-padding>
+        <md-input-container >
+          <label>Tipo</label>
+          <input type="text"
+            name="personal-used"
+            ng-model="newPrize.name"
+          >
+          <div class="border-bottom"></div>
+        </md-input-container>
+      </div>
+      <div flex layout-padding>
+        <md-input-container >
+          <label>Cantidad</label>
+          <input type="text"
+            name="personal-remaining"
+            ng-model="newPrize.used"
+          >
+          <div class="border-bottom"></div>
+        </md-input-container>
+      </div>
+      <md-button ng-click="addItem('prize')">
+        <md-icon class="fa fa-plus"></md-icon>
+      </md-button>
+    </div>
+    <h3>Comentarios</h3>
+    <md-input-container class="md-block">
+      <label>De la anfitirona</label>
+      <textarea ng-model="report.comment[0]" md-maxlength="150" rows="2" md-select-on-focus></textarea>
+    </md-input-container>
+    <md-input-container class="md-block">
+      <label>Del cliente/representantes/punto</label>
+      <textarea ng-model="report.comment[1]" md-maxlength="150" rows="2" md-select-on-focus></textarea>
+    </md-input-container>
+    <md-input-container class="md-block">
+      <label>Del público</label>
+      <textarea ng-model="report.comment[2]" md-maxlength="150" rows="2" md-select-on-focus></textarea>
+    </md-input-container>
+    <md-input-container class="md-block">
+      <label>De la activación</label>
+      <textarea ng-model="report.comment[3]" md-maxlength="150" rows="2" md-select-on-focus></textarea>
+    </md-input-container>
+    <md-input-container class="md-block">
+      <label>Generales</label>
+      <textarea ng-model="report.comment[4]" md-maxlength="150" rows="2" md-select-on-focus></textarea>
+    </md-input-container>
+    <h3>Fotos</h3>
+    <div id="photos"></div>
+    <input id="photoInput" name="photo-input" type="file" class="ng-hide">
+    <md-button ng-click="addPhoto()">
+      <md-icon class="fa fa-plus"></md-icon>
+    </md-button>
+    <md-button type="submit" ng-disabled="isLoading" class="md-raised md-primary" ng-click="sendReport()">
+      Enviar reporte
+      <md-progress-circular ng-show="isLoading" md-mode="indeterminate" md-diameter="40"></md-progress-circular>
+    </md-button>
+  </md-content>
 </div>

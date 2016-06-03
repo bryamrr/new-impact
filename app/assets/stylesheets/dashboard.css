@@ -2360,7 +2360,7 @@ h3.underline:after{content: ''; position: absolute; left: 40%; right: 40%; botto
   padding-bottom: 5px;
 }
 
-.agregar-registro div:nth-child(3) { width: 80px; }
+.agregar-registro div:nth-child(3) { width: 140px; }
 
 .agregar-registro form > div:nth-child(5),
 .agregar-registro div:nth-child(6) { width: 50px; }

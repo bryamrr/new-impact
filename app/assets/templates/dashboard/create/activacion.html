@@ -10,9 +10,7 @@
         <md-input-container>
           <label>Cliente</label>
           <md-select aria-label="Cliente" ng-model="report.customer">
-            <md-option ng-value="1">X</md-option>
-            <md-option ng-value="2">Y</md-option>
-            <md-option ng-value="3">Z</md-option>
+            <md-option ng-value="{{customer.id}}" ng-repeat="customer in customers">{{customer.name}}</md-option>
           </md-select>
         </md-input-container>
       </div>
@@ -20,9 +18,7 @@
         <md-input-container>
           <label>Activación</label>
           <md-select aria-label="Activación" ng-model="report.activity">
-            <md-option ng-value="1">X</md-option>
-            <md-option ng-value="2">Y</md-option>
-            <md-option ng-value="3">Z</md-option>
+            <md-option ng-value="{{activity.id}}" ng-repeat="activity in activities | filter: { activity_type_id: 1, company_id: report.customer }">{{activity.name}}</md-option>
           </md-select>
         </md-input-container>
       </div>

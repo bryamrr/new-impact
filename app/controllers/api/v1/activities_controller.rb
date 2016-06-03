@@ -2,7 +2,10 @@ class Api::V1::ActivitiesController < Api::V1::BaseController
   def index
     if @current_user.role[:name] == "Admin"
       @activities = Activity.all
-      render :json => @activities
+      render :json => @activities.to_json(:include => {
+        :activity_type => { },
+        :company => { :only => [:name, :logo_url] }
+      })
     else
       render :json => { :message => "No tienes acceso"}, status: :unauthorized
     end
@@ -10,8 +13,11 @@ class Api::V1::ActivitiesController < Api::V1::BaseController
 
   def show
     if @current_user.role[:name] == "Admin"
-      @actividy = Activity.find(params[:id])
-      render :json => @actividy
+      @activity = Activity.find(params[:id])
+      render :json => @activity.to_json(:include => {
+        :activity_type => { },
+        :company => { :only => [:name, :logo_url] }
+      })
     else
       render :json => { :message => "No se encontró la actividad"}, status: :not_found
     end
@@ -24,7 +30,10 @@ class Api::V1::ActivitiesController < Api::V1::BaseController
       @activity = Activity.new(name: params[:data][:name], company: company, activity_type: activity_type)
 
       if @activity.save
-        render :json => @activity
+        render :json => @activity.to_json(:include => {
+          :activity_type => { },
+          :company => { :only => [:name, :logo_url] }
+        })
       else
         render :json => { :errors => @activity.errors.full_messages }, status: :unprocessable_entity
       end
