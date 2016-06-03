@@ -59,4 +59,30 @@ class Api::V1::UsersController < Api::V1::BaseController
       render :json => { :message => "Usuario no encontrado" }
     end
   end
+
+  def index
+    if @current_user.role[:name] == "Admin"
+      render :json => User.all.to_json(:include => {
+        :company => { },
+        :province => { },
+        :role => { }
+      })
+    else
+      render :json => { :errors => "No tiene permisos suficientes" }, status: :unauthorized
+    end
+  end
+
+  def destroy
+    if @current_user.role[:name] == "Admin"
+      @user = User.find(params[:id])
+      if @user
+        @user.destroy
+        render :json => { :message => "Usuario eliminado" }
+      else
+        render :json => { :errors => "No se encontró el usuario" }, status: :not_found
+      end
+    else
+      render :json => { :message => "No tienes acceso"}, status: :unauthorized
+    end
+  end
 end
