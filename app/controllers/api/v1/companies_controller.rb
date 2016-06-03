@@ -19,7 +19,7 @@ class Api::V1::CompaniesController < Api::V1::BaseController
 
   def create
     if @current_user.role[:name] == "Admin"
-      @company = Company.new(name: params[:data][:name], logo_url: params[:data][:logo_url], ruc: params[:data][:name], email: params[:data][:email])
+      @company = Company.new(name: params[:data][:name], logo_url: params[:data][:logo_url], ruc: params[:data][:ruc], email: params[:data][:email])
 
       if @company.save
         render :json => @company

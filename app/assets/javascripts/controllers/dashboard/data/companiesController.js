@@ -18,7 +18,6 @@ function CompaniesController($scope, HttpRequest, urls) {
 
   promise.then(function (response){
     $scope.companies = response;
-    console.log(response);
     var $contenido = $('#contenido');
     $scope.isLoading = false;
     $contenido.addClass("loaded");
@@ -40,7 +39,11 @@ function CompaniesController($scope, HttpRequest, urls) {
   // First, send logo to AmazonS3
   $scope.add = function () {
     $scope.isLoading = true;
-    $scope.upload($scope.logo);
+    if ($scope.logo) {
+      $scope.upload($scope.logo);
+    } else {
+      $scope.postCompany();
+    }
   };
 
   $scope.upload = function(file) {
@@ -51,7 +54,6 @@ function CompaniesController($scope, HttpRequest, urls) {
 
     var params = {Key: file.name, ContentType: file.type, Body: file, forceIframeTransport : true};
     bucket.upload(params, function (err, data) {
-      console.log("paso", data, err);
       $scope.newCompany.logo_url = data.Location;
       $scope.postCompany();
     });
@@ -66,7 +68,6 @@ function CompaniesController($scope, HttpRequest, urls) {
     promise.then(function (response){
       $scope.companies.splice(index, 1);
       item.isLoading = false;
-      console.log(response);
     }, function(error){
       console.log(error);
       item.isLoading = false;

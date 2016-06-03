@@ -7,16 +7,20 @@ class Api::V1::UsersController < Api::V1::BaseController
       if User.exists?(nick_name: params[:data][:nick_name])
         render :json => { :message => "El usuario ya existe" }
       else
-        role = Role.find_by(name: params[:data][:role])
         @user = User.new(
           nick_name: params[:data][:nick_name],
           password: params[:data][:password],
-          role: role
+          email: params[:data][:email],
+          address: params[:data][:address],
+          phone: params[:data][:phone],
+          role: Role.find(params[:data][:role_id])
           )
+        @user.province = Province.find(params[:data][:province_id]) unless params[:data][:province_id] == nil
+        @user.company = Company.find(params[:data][:company_id]) unless params[:data][:company_id] == nil
         if @user.save
           render :json => { :message => "Usuario creado correctamente" }, status: :created
         else
-          render :json => { :errors => @user.errors.full_messages }
+          render :json => { :errors => @user.errors.full_messages }, status: :unprocessable_entity
         end
       end
     else

@@ -58,7 +58,6 @@ function ActivitiesDataController($scope, $q, HttpRequest, urls) {
     promise.then(function (response){
       $scope.activities.splice(index, 1);
       item.isLoading = false;
-      console.log(response);
     }, function(error){
       console.log(error);
       item.isLoading = false;
