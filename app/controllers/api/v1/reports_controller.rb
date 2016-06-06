@@ -56,8 +56,9 @@ class Api::V1::ReportsController < Api::V1::BaseController
           expensed = Expense.create(voucher: voucher, item: item, comment: expense[:comment], subtotal: expense[:subtotal], total: 0, report: @report)
         end
       elsif report_params["report_type_id"] == 2
-        activity_mode = ActivityMode.find(report_params["activity_mode_id"])
-        point_detail = PointDetail.new(activity_mode: activity_mode, point: report_params["point"], scope: report_params["scope"], sales: report_params["sales"], people: report_params["people"], product: report_params["product"], report: @report, start_time: report_params["start_time"], end_time: report_params["end_time"], report: @report)
+        point_detail = PointDetail.new(point: report_params["point"], scope: report_params["scope"], sales: report_params["sales"], people: report_params["people"], product: report_params["product"], report: @report, start_time: report_params["start_time"], end_time: report_params["end_time"], report: @report)
+
+        point_detail.activity_mode = ActivityMode.find(report_params["activity_mode_id"]) unless report_params["activity_mode_id"] == nil
 
         if point_detail.save
 

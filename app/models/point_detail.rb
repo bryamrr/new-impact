@@ -9,5 +9,4 @@ class PointDetail < ActiveRecord::Base
   validates :start_time, presence: true
   validates :end_time, presence: true
   validates :report, presence: true
-  validates :activity_mode, presence: true
 end
