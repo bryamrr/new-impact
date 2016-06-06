@@ -8,7 +8,7 @@ function runBlock($rootScope, $state, AuthService) {
     if(!AuthService.isAuthenticated() && toState.data.needAuth) {
       event.preventDefault();
       $state.go('auth.login');
-    };
+    }
     if(AuthService.isAuthenticated() && !toState.data.needAuth) {
       event.preventDefault();
       $state.go('user.datos');

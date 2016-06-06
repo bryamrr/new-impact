@@ -3,24 +3,24 @@ angular.module("myapp").controller("CreateReportController", CreateReportControl
 CreateReportController.$inject = ['$scope', '$timeout', 'HttpRequest', 'urls', 'CookieService'];
 
 function CreateReportController($scope, $timeout, HttpRequest, urls, CookieService) {
-  var url = urls.BASE_API + '/data_reports/point';
-  var promise = HttpRequest.send("GET", url);
-
   $scope.report = {
     department: -1,
-    product: {},
+    product: {
+      id: 1
+    },
     merchandising: [],
     personal: [],
     prize: [],
     comment: []
   }
 
-  $scope.newMercha = {};
-  $scope.newPersonal = {};
   $scope.photos = [];
   $scope.photosUrl = [];
 
   var photoSent = 0;
+
+  var url = urls.BASE_API + '/data_reports/point';
+  var promise = HttpRequest.send("GET", url);
 
   promise.then(function (response){
     $scope.data = response;
@@ -31,12 +31,24 @@ function CreateReportController($scope, $timeout, HttpRequest, urls, CookieServi
     console.log(error);
   });
 
-  $scope.addItem = function (item) {
-    $scope.report[item].push({});
+  $scope.addItem = function (itemList, newItem) {
+    console.log(newItem);
+    if (itemList == 'merchandising') {
+      newItem.id = 2;
+    } else if (itemList == 'personal') {
+      newItem.id = 3;
+    } else if (itemList == 'prize') {
+      newItem.id = 4;
+    }
+    $scope.report[itemList].push(angular.copy(newItem));
+    console.log($scope.report);
+    newItem.name = "";
+    newItem.used = undefined;
+    newItem.remaining = undefined;
   }
 
-  $scope.removeItem = function (item, index) {
-    $scope.report[item].splice(index, 1);
+  $scope.removeItem = function (itemList, index) {
+    $scope.report[itemList].splice(index, 1);
   }
 
   $scope.addPhoto = function () {
@@ -52,9 +64,14 @@ function CreateReportController($scope, $timeout, HttpRequest, urls, CookieServi
   // First, send photos to AmazonS3
   $scope.sendReport = function () {
     $scope.isLoading = true;
-    if ($scope.photos[0] != undefined) {
-      $scope.upload($scope.photos[0]);
-    }
+    // if ($scope.photos[0] != undefined) {
+    //   $scope.upload($scope.photos[0]);
+    // } else {
+    //   $scope.postReport();
+    // }
+
+    console.log($scope.report);
+    // $scope.postReport();
   };
 
   // Then, post report using Rails API
