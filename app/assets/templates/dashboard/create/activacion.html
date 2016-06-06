@@ -52,7 +52,7 @@
     </div>
     <div layout="row">
       <div flex layout-padding>
-        <md-radio-group ng-model="report.mode_id">
+        <md-radio-group ng-model="report.activity_mode_id">
           <md-radio-button ng-repeat="mode in data.modes | filter: { activity_type_id: 1 }" value="{{mode.id}}">{{mode.name}}</md-radio-button>
         </md-radio-group>
       </div>
@@ -101,6 +101,28 @@
         </md-input-container>
       </div>
     </div>
+    <div layout="row" layout-xs="column">
+      <div flex layout-padding>
+        <md-input-container >
+          <label>Hora de inicio</label>
+          <input type="time"
+            name="scope"
+            ng-model="report.start_time"
+          >
+          <div class="border-bottom"></div>
+        </md-input-container>
+      </div>
+      <div flex layout-padding>
+        <md-input-container >
+          <label>Hora de cierre</label>
+          <input type="time"
+            name="scope"
+            ng-model="report.end_time"
+          >
+          <div class="border-bottom"></div>
+        </md-input-container>
+      </div>
+    </div>
     <h3>Producto</h3>
     <div layout="row">
       <div flex layout-padding>
@@ -108,7 +130,7 @@
           <label>Presentación</label>
           <input type="text"
             name="product"
-            ng-model="report.product.name"
+            ng-model="report.presentation.name"
           >
           <div class="border-bottom"></div>
         </md-input-container>
@@ -120,7 +142,7 @@
           <label>Cantidad usada</label>
           <input type="text"
             name="product-used"
-            ng-model="report.product.used"
+            ng-model="report.presentation.used"
           >
           <div class="border-bottom"></div>
         </md-input-container>
@@ -130,7 +152,7 @@
           <label>Cantidad restante</label>
           <input type="text"
             name="product remaining"
-            ng-model="report.product.remaining"
+            ng-model="report.presentation.remaining"
           >
           <div class="border-bottom"></div>
         </md-input-container>
@@ -158,7 +180,7 @@
           <div class="border-bottom"></div>
         </md-input-container>
       </div>
-      <md-button ng-click="removeItem('merchandising', $index)">
+      <md-button ng-click="removeItem('merchandising', $index)" aria-label="Remover merchandising item">
         <md-icon class="fa fa-minus"></md-icon>
       </md-button>
     </div>
@@ -184,7 +206,7 @@
           <div class="border-bottom"></div>
         </md-input-container>
       </div>
-      <md-button ng-click="addItem('merchandising', newMercha)">
+      <md-button ng-click="addItem('merchandising', newMercha)" aria-label="Agregar merchandising item">
         <md-icon class="fa fa-plus"></md-icon>
       </md-button>
     </div>
@@ -210,7 +232,7 @@
           <div class="border-bottom"></div>
         </md-input-container>
       </div>
-      <md-button ng-click="removeItem('personal', $index)">
+      <md-button ng-click="removeItem('personal', $index)" aria-label="Remover personal item">
         <md-icon class="fa fa-minus"></md-icon>
       </md-button>
     </div>
@@ -236,7 +258,7 @@
           <div class="border-bottom"></div>
         </md-input-container>
       </div>
-      <md-button ng-click="addItem('personal', newPersonal)">
+      <md-button ng-click="addItem('personal', newPersonal)" aria-label="Agregar personal item">
         <md-icon class="fa fa-plus"></md-icon>
       </md-button>
     </div>
@@ -262,7 +284,7 @@
           <div class="border-bottom"></div>
         </md-input-container>
       </div>
-      <md-button ng-click="removeItem('prize', $index)">
+      <md-button ng-click="removeItem('prize', $index)" aria-label="Remover premio item">
         <md-icon class="fa fa-minus"></md-icon>
       </md-button>
     </div>
@@ -288,7 +310,7 @@
           <div class="border-bottom"></div>
         </md-input-container>
       </div>
-      <md-button ng-click="addItem('prize', newPrize)">
+      <md-button ng-click="addItem('prize', newPrize)" aria-label="Agregar premio item">
         <md-icon class="fa fa-plus"></md-icon>
       </md-button>
     </div>
@@ -316,7 +338,7 @@
     <h3>Fotos</h3>
     <div id="photos"></div>
     <input id="photoInput" name="photo-input" type="file" class="ng-hide">
-    <md-button ng-click="addPhoto()">
+    <md-button ng-click="addPhoto()" aria-label="Agregar foto">
       <md-icon class="fa fa-plus"></md-icon>
     </md-button>
     <md-button type="submit" ng-disabled="isLoading" class="md-raised md-primary" ng-click="sendReport()">

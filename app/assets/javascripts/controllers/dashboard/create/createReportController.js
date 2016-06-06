@@ -4,14 +4,17 @@ CreateReportController.$inject = ['$scope', '$timeout', 'HttpRequest', 'urls', '
 
 function CreateReportController($scope, $timeout, HttpRequest, urls, CookieService) {
   $scope.report = {
-    department: -1,
-    product: {
-      id: 1
+    report_type_id: 2,
+    presentation: {
+      quantity_type_id: 1
     },
     merchandising: [],
     personal: [],
     prize: [],
-    comment: []
+    comment: [],
+    quantities: [],
+    comments: [],
+    photos: []
   }
 
   $scope.photos = [];
@@ -32,16 +35,14 @@ function CreateReportController($scope, $timeout, HttpRequest, urls, CookieServi
   });
 
   $scope.addItem = function (itemList, newItem) {
-    console.log(newItem);
     if (itemList == 'merchandising') {
-      newItem.id = 2;
+      newItem.quantity_type_id = 2;
     } else if (itemList == 'personal') {
-      newItem.id = 3;
+      newItem.quantity_type_id = 3;
     } else if (itemList == 'prize') {
-      newItem.id = 4;
+      newItem.quantity_type_id = 4;
     }
     $scope.report[itemList].push(angular.copy(newItem));
-    console.log($scope.report);
     newItem.name = "";
     newItem.used = undefined;
     newItem.remaining = undefined;
@@ -70,21 +71,23 @@ function CreateReportController($scope, $timeout, HttpRequest, urls, CookieServi
     //   $scope.postReport();
     // }
 
-    console.log($scope.report);
-    // $scope.postReport();
+    $scope.postReport();
   };
 
   // Then, post report using Rails API
   $scope.postReport = function () {
-    var url= urls.BASE_API + '/data_reports/point';
-    var promise = HttpRequest.send("GET", url);
+    setQuantities();
+    setComments();
+    setPhotos();
 
-    promise.then(function (response){
-      $scope.isLoading = false;
-      console.log($scope.photosUrl);
-    }, function(error){
-      $scope.isLoading = false;
-    });
+    // var url = urls.BASE_API + '/reports';
+    // var promise = HttpRequest.send("POST", url, $scope.report);
+
+    // promise.then(function (response) {
+    //   $scope.isLoading = false;
+    // }, function(error){
+    //   $scope.isLoading = false;
+    // });
   }
 
   $scope.upload = function(file) {
@@ -119,6 +122,58 @@ function CreateReportController($scope, $timeout, HttpRequest, urls, CookieServi
     }
 
     reader.readAsDataURL(input.files[0]);
+  }
+
+  function setQuantities() {
+    var lonMercha = $scope.report.merchandising.length;
+    var lonPersonal = $scope.report.personal.length;
+    var lonPrices = $scope.report.prize.length;
+
+    $scope.report.product = angular.copy($scope.report.presentation.name);
+
+    $scope.report.quantities.push(angular.copy($scope.report.presentation));
+
+    if (lonMercha != 0) {
+      for (var i = 0; i < lonMercha; i++) {
+        $scope.report.quantities.push(angular.copy($scope.report.merchandising[i]));
+      }
+    }
+
+    if (lonPersonal != 0) {
+      for (var j = 0; j < lonPersonal; j++) {
+        $scope.report.quantities.push(angular.copy($scope.report.personal[j]));
+      }
+    }
+
+    if (lonPrices != 0) {
+      for (var k = 0; k < lonPrices; k++) {
+        $scope.report.quantities.push(angular.copy($scope.report.prize[k]));
+      }
+    }
+  }
+
+  function setComments() {
+    var lonComments = 5;
+
+    for (var i = 0; i < lonComments; i++) {
+      if ($scope.report.comment[i].trim != "") {
+        $scope.report.comments.push({
+          comment_type_id: i + 1,
+          comment: angular.copy($scope.report.comment[i])
+        });
+      }
+    }
+  }
+
+  function setPhotos() {
+    if ($scope.photosUrl) {
+      var lonPhotos = $scope.photosUrl.length;
+      for (var i = 0; i < lonPhotos; i++) {
+        $scope.report.photos.push({
+          url: angular.copy($scope.photosUrl[i])
+        })
+      }
+    }
   }
 
   $(document).ready(function() {
