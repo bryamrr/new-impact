@@ -12,7 +12,7 @@
             <th md-column>Fecha de creación</th>
             <th md-column>Usuario</th>
             <th md-column>Provincia</th>
-            <th md-column></th>
+            <th md-column ng-if="role == 'Admin'"></th>
           </tr>
         </thead>
         <tbody md-body>
@@ -20,7 +20,7 @@
             <td md-cell>{{report.created_at | date:'d MMM, yyyy'}}</td>
             <td md-cell>{{report.user.nick_name}}</td>
             <td md-cell>{{report.province.name}}</td>
-            <td md-cell>
+            <td md-cell ng-if="role == 'Admin'">
               <md-button ng-click="removeItem(report, $index)">
                 <md-icon class="fa fa-minus"></md-icon>
               </md-button>
