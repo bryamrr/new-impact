@@ -66,10 +66,20 @@
       <div layout="row" layout-xs="column">
         <div flex layout-padding>
           <md-input-container >
-            <label>Alcance</label>
+            <label>Alcance Directo</label>
             <input type="text"
               name="scope"
               ng-model="report.scope"
+            >
+            <div class="border-bottom"></div>
+          </md-input-container>
+        </div>
+        <div flex layout-padding>
+          <md-input-container >
+            <label>Alcance Indirecto</label>
+            <input type="text"
+              name="people"
+              ng-model="report.people"
             >
             <div class="border-bottom"></div>
           </md-input-container>
@@ -80,16 +90,6 @@
             <input type="text"
               name="sales"
               ng-model="report.sales"
-            >
-            <div class="border-bottom"></div>
-          </md-input-container>
-        </div>
-        <div flex layout-padding>
-          <md-input-container >
-            <label>Nº de personas</label>
-            <input type="text"
-              name="people"
-              ng-model="report.people"
             >
             <div class="border-bottom"></div>
           </md-input-container>
