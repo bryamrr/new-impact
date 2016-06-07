@@ -15,5 +15,11 @@ function runBlock($rootScope, $state, AuthService) {
     }
   });
 
+  $rootScope.$on('$stateChangeSuccess', function (event, toState) {
+    if(toState.data && toState.data.title){
+      $rootScope.title = toState.data.title;
+    }
+  });
+
   $rootScope.$state = $state;
 }

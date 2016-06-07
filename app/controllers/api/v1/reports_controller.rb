@@ -3,6 +3,8 @@ class Api::V1::ReportsController < Api::V1::BaseController
   def index
     if @current_user.role[:name] == "Admin"
       @reports = Report.all
+    elsif @current_user.role[:name] == "Customer"
+      @reports = Report.where(company: @current_user.company)
     else
       @reports = Report.where(user: @current_user)
     end
