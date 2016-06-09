@@ -203,7 +203,7 @@ function routes($stateProvider, $urlRouterProvider, $locationProvider) {
 
     // Stats
     .state('stats',{
-      url: '/dashboard/métricas',
+      url: '/dashboard/metricas',
       abstract: true,
       data: {
         'needAuth': true,

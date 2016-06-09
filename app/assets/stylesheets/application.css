@@ -11,6 +11,7 @@
  * file per style scope.
  *
  *= require angular-material
+ *= require angular-chart
  *= require font-awesome
  *= require_tree .
  *= require_self

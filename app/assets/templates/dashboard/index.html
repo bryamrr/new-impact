@@ -78,7 +78,7 @@
               ui-sref-active="active">
               Actividades</a>
             </li>
-            <li>
+            <li ng-if="role == 'Admin'">
               <a
               ui-sref="summary.expenses"
               ui-sref-active="active">
@@ -102,7 +102,7 @@
               ui-sref-active="active">
               Actividades</a>
             </li>
-            <li>
+            <li ng-if="role == 'Admin'">
               <a
               ui-sref="stats.expenses"
               ui-sref-active="active">

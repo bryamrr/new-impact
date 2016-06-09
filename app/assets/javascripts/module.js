@@ -3,4 +3,5 @@ angular.module("myapp", [
   'ui.router',
   'ngMaterial',
   'ngValidate',
-  'md.data.table'])
+  'md.data.table',
+  'chart.js'])

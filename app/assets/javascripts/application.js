@@ -13,6 +13,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require turbolinks
+//= require vendor/Chart.min
 //= require vendor/angular
 //= require vendor/angular-ui-router
 //= require vendor/angular-animate

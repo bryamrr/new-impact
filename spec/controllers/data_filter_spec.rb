@@ -111,8 +111,8 @@ RSpec.describe Api::V1::DataFiltersController, type: :controller do
         data = {
           company: 1,
           activity: 1,
-          start_time: "2016-06-23",
-          end_time: "2016-06-23"
+          start_date: "2016-06-23",
+          end_date: "2016-06-23"
         }
 
         post :summary, { data: data }
@@ -124,8 +124,8 @@ RSpec.describe Api::V1::DataFiltersController, type: :controller do
         data = {
           company: 1,
           activity: 1,
-          start_time: "2016-06-24",
-          end_time: "2016-06-26"
+          start_date: "2016-06-24",
+          end_date: "2016-06-26"
         }
 
         post :summary, { data: data }

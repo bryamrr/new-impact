@@ -1,3 +1,17 @@
 ng-md-icon {
   margin-top: 4px;
 }
+
+
+.canvas-container,
+.stat-options {
+  display: inline-block;
+  vertical-align: top;
+}
+
+.canvas-container {
+  width: 75%;
+}
+.stat-options {
+  width: 25%;
+}
