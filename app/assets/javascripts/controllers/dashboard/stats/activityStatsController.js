@@ -75,9 +75,9 @@ function ActivityStatsController($scope, HttpRequest, urls) {
   }
 
   $scope.reloadStat = function (bool) {
-    if (bool = true) {
+    if (bool == true) {
       sumChecks++;
-    } else {
+    } else if (bool == false) {
       sumChecks--;
     }
 
@@ -89,8 +89,10 @@ function ActivityStatsController($scope, HttpRequest, urls) {
     if (sumChecks == 0) {
       console.log("Tiene que escoger un elemento de los checks");
     } else if (!$scope.showAllProvinces && sumChecks == 1) {
-      $scope.chartType = 'linea';
-      console.log("Falta pintar gráfico de líneas")
+      if ($scope.filter.province_id) {
+        $scope.chartType = 'line';
+        generateLine();
+      }
     } else {
       $scope.chartType = 'bar';
       for (var i = 0; i < dataPerPlace.length; i++) {
@@ -155,21 +157,21 @@ function ActivityStatsController($scope, HttpRequest, urls) {
   }
 
   function addToPlace(currentData, index) {
-    dataPerPlace[index].direct += currentData.point_details[0].direct;
-    dataPerPlace[index].indirect += currentData.point_details[0].indirect;
+    dataPerPlace[index].direct += currentData.point_details[0].scope;
+    dataPerPlace[index].indirect += currentData.point_details[0].people;
     dataPerPlace[index].sales += parseFloat(currentData.point_details[0].sales);
 
     for (var i = 0; i < dataPerPlace[index].dates.length; i++) {
       if (dataPerPlace[index].dates[i].date == currentData.start_date) {
-        dataPerPlace[index].dates[i].direct != currentData.point_details[0].direct;
-        dataPerPlace[index].dates[i].sales != currentData.point_details[0].sales;
-        dataPerPlace[index].dates[i].indirect != currentData.point_details[0].indirect;
+        dataPerPlace[index].dates[i].direct += currentData.point_details[0].scope;
+        dataPerPlace[index].dates[i].sales += parseFloat(currentData.point_details[0].sales);
+        dataPerPlace[index].dates[i].indirect += currentData.point_details[0].people;
       } else if (i == dataPerPlace[index].dates.length - 1) {
         dataPerPlace[index].dates.push({
           date: currentData.start_date,
-          sales: currentData.point_details[0].sales,
-          direct: currentData.point_details[0].direct,
-          indirect: currentData.point_details[0].indirect
+          sales: parseFloat(currentData.point_details[0].sales),
+          direct: currentData.point_details[0].scope,
+          indirect: currentData.point_details[0].people
         });
       }
     }
@@ -193,6 +195,40 @@ function ActivityStatsController($scope, HttpRequest, urls) {
 
       $scope.chart.data[i].push(place[chartValue]);
     }
+  }
+
+  function generateLine() {
+    var indexProvince;
+    var dataProvince;
+    var chartValue = "";
+
+    for (var i = 0; i < dataPerPlace.length; i++) {
+      console.log(dataPerPlace[i].province_id);
+      if (dataPerPlace[i].province_id == $scope.filter.province_id) {
+        indexProvince = i;
+      }
+    }
+
+    var dataProvince = angular.copy(dataPerPlace[indexProvince]);
+
+    if ($scope.chart.values[0] == 0) {
+      chartValue = "sales";
+    } else if ($scope.chart.values[0] == 1) {
+      chartValue = "direct";
+    } else if ($scope.chart.values[0] == 2) {
+      chartValue = "indirect";
+    }
+
+    for (var j = 0; j < dataProvince.dates.length; j++) {
+      if ($scope.chart.data[0] == undefined) {
+        $scope.chart.data[0] = [];
+      }
+
+      $scope.chart.labels.push(dataProvince.dates[j].date);
+      $scope.chart.data[0].push(dataProvince.dates[j][chartValue]);
+    }
+
+    console.log($scope.chart);
   }
 
 }

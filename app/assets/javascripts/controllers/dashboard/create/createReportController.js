@@ -65,13 +65,12 @@ function CreateReportController($scope, $timeout, HttpRequest, urls, CookieServi
   // First, send photos to AmazonS3
   $scope.sendReport = function () {
     $scope.isLoading = true;
-    // if ($scope.photos[0] != undefined) {
-    //   $scope.upload($scope.photos[0]);
-    // } else {
-    //   $scope.postReport();
-    // }
+    if ($scope.photos[0] != undefined) {
+      $scope.upload($scope.photos[0]);
+    } else {
+      $scope.postReport();
+    }
 
-    $scope.postReport();
   };
 
   // Then, post report using Rails API
@@ -80,14 +79,14 @@ function CreateReportController($scope, $timeout, HttpRequest, urls, CookieServi
     setComments();
     setPhotos();
 
-    // var url = urls.BASE_API + '/reports';
-    // var promise = HttpRequest.send("POST", url, $scope.report);
+    var url = urls.BASE_API + '/reports';
+    var promise = HttpRequest.send("POST", url, $scope.report);
 
-    // promise.then(function (response) {
-    //   $scope.isLoading = false;
-    // }, function(error){
-    //   $scope.isLoading = false;
-    // });
+    promise.then(function (response) {
+      $scope.isLoading = false;
+    }, function(error){
+      $scope.isLoading = false;
+    });
   }
 
   $scope.upload = function(file) {

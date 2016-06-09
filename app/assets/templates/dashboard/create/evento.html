@@ -17,8 +17,8 @@
         </div>
         <div flex layout-padding >
           <md-input-container>
-            <label>Activación</label>
-            <md-select aria-label="Activación" ng-model="report.activity_id">
+            <label>Evento</label>
+            <md-select aria-label="Evento" ng-model="report.activity_id">
               <md-option ng-value="{{activity.id}}" ng-repeat="activity in data.activities | filter: { activity_type_id: 3, company_id: report.company_id }">{{activity.name}}</md-option>
             </md-select>
           </md-input-container>
