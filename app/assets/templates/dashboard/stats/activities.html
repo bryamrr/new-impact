@@ -42,7 +42,7 @@
     <section>
       <div class="canvas-container">
         <canvas id="bar" class="chart chart-bar"
-          chart-data="chart.data" chart-labels="chart.labels" chart-series="chart.series" chart-options="chartOptions" ng-if="chartType == 'bar'">
+          chart-data="chart.data" chart-labels="chart.labels" chart-series="chart.series" chart-options="chart.options" ng-if="chartType == 'bar'">
         </canvas>
         <canvas id="line" class="chart chart-line" chart-data="chart.data"
           chart-labels="chart.labels" chart-series="chart.series"
@@ -54,7 +54,7 @@
       </div><!--
       --><aside class="stat-options">
         <div layout="row" layout-xs="column">
-          <md-checkbox ng-model="showAllProvinces" aria-label="Mostrar todas las provincias">
+          <md-checkbox ng-model="showAllProvinces" aria-label="Mostrar todas las provincias" ng-change="reloadStat()">
             Mostrar todas las plazas
           </md-checkbox>
         </div>
@@ -70,24 +70,24 @@
           <div flex layout-padding >
             <md-input-container>
               <label>Provincia</label>
-              <md-select aria-label="Provincia" ng-model="filter.province_id">
+              <md-select aria-label="Provincia" ng-model="filter.province_id" ng-change="reloadStat()">
                 <md-option ng-repeat="province in data.provinces | filter: { department_id: filter.department_id }" ng-value="{{province.id}}">{{province.name}}</md-option>
               </md-select>
             </md-input-container>
           </div>
         </div>
         <div layout="row" layout-xs="column">
-          <md-checkbox ng-model="serieSelected[0].bool" aria-label="Ventas">
+          <md-checkbox ng-model="serieSelected[0].bool" aria-label="Ventas" ng-change="reloadStat(serieSelected[0].bool)">
             Ventas
           </md-checkbox>
         </div>
         <div layout="row" layout-xs="column">
-          <md-checkbox ng-model="serieSelected[1].bool" aria-label="Alcance directo">
+          <md-checkbox ng-model="serieSelected[1].bool" aria-label="Alcance directo" ng-change="reloadStat(serieSelected[1].bool)">
             Alcance directo
           </md-checkbox>
         </div>
         <div layout="row" layout-xs="column">
-          <md-checkbox ng-model="serieSelected[2].bool" aria-label="Alcance indirecto">
+          <md-checkbox ng-model="serieSelected[2].bool" aria-label="Alcance indirecto" ng-change="reloadStat(serieSelected[2].bool)">
             Alcance indirecto
           </md-checkbox>
         </div>

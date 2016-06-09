@@ -74,23 +74,35 @@ function ActivityStatsController($scope, HttpRequest, urls) {
     $scope.reloadStat();
   }
 
-  $scope.reloadStat = function () {
+  $scope.reloadStat = function (bool) {
+    if (bool = true) {
+      sumChecks++;
+    } else {
+      sumChecks--;
+    }
+
     var provinceId = angular.copy($scope.filter.province_id);
 
     $scope.resetChartData();
     $scope.addSeries();
 
-    if (!$scope.showAllProvinces && sumChecks == 1) {
+    if (sumChecks == 0) {
+      console.log("Tiene que escoger un elemento de los checks");
+    } else if (!$scope.showAllProvinces && sumChecks == 1) {
       $scope.chartType = 'linea';
+      console.log("Falta pintar gráfico de líneas")
     } else {
       $scope.chartType = 'bar';
       for (var i = 0; i < dataPerPlace.length; i++) {
         if (!$scope.showAllProvinces) {
           if (provinceId == dataPerPlace[i].province_id) {
-            // Mostrar data de la única plaza
+            addPlaceToBar(dataPerPlace[i]);
+          } else if (i == dataPerPlace.length - 1) {
+            console.log("No hay datos para la provincia seleccionada");
           }
         } else {
           // Mostrar data de todas las plazas en el informe
+          addPlaceToBar(dataPerPlace[i]);
         }
       }
     }
@@ -160,6 +172,26 @@ function ActivityStatsController($scope, HttpRequest, urls) {
           indirect: currentData.point_details[0].indirect
         });
       }
+    }
+  }
+
+  function addPlaceToBar(place) {
+    $scope.chart.labels.push(place.province);
+    var chartValue = "";
+    for (var i = 0; i < $scope.chart.series.length; i++) {
+      if ($scope.chart.data[i] == undefined) {
+        $scope.chart.data[i] = [];
+      }
+
+      if ($scope.chart.values[i] == 0) {
+        chartValue = "sales";
+      } else if ($scope.chart.values[i] == 1) {
+        chartValue = "direct";
+      } else if ($scope.chart.values[i] == 2) {
+        chartValue = "indirect";
+      }
+
+      $scope.chart.data[i].push(place[chartValue]);
     }
   }
 
