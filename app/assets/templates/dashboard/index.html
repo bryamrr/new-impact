@@ -56,7 +56,7 @@
             ui-sref="reports.activities"
             ui-sref-active="active"
             >Actividades</a></li>
-            <li><a
+            <li ng-if="role == 'Admin'"><a
             ui-sref="reports.expenses"
             ui-sref-active="active"
             >Gastos</a></li>
@@ -185,7 +185,7 @@
         </ul><!--
         --><div class="display-inline wrapper-logo">
           <h1 class="display-inline">
-            <a ui-sref="user.datos" title="Yachay" class="logo">
+            <a ui-sref="user.datos" title="ImpactBTL" class="logo">
               <img src="/logo.png" width="140" alt="Yachay" />
             </a>
           </h1>

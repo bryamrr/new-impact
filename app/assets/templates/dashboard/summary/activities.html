@@ -1,10 +1,101 @@
-<div class="align-center">
-  <br>
-  <br>
-  <br>
-  <i class="fa fa-bullhorn fa-3x"></i>
-  <br>
-  <br>
-  <h1>En construcción</h1>
-  <p>Informes / Actividades</p>
+<header-bread-crumb>
+</header-bread-crumb>
+<div class="loading-content loading-content-js">
+  <img src="/loading-content.svg" alt="" />
+</div>
+<div class="wrapper-content padding-30">
+  <md-content  layout-padding>
+    <form novalidate ng-submit="filterReports(form)" name="form">
+      <div layout="row" layout-xs="column" ng-if="role == 'Admin'">
+        <div flex layout-padding>
+          <md-input-container>
+            <label>Cliente</label>
+            <md-select aria-label="Cliente" ng-model="filter.company_id">
+              <md-option ng-value="{{company.id}}" ng-repeat="company in data.companies">{{company.name}}</md-option>
+            </md-select>
+          </md-input-container>
+        </div>
+      </div>
+      <div layout="row" layout-xs="column">
+        <div flex layout-padding >
+          <md-input-container>
+            <label>Actividad</label>
+            <md-select aria-label="Activación" ng-model="filter.activity_id">
+              <md-option ng-value="{{activity.id}}" ng-repeat="activity in data.activities | filter: { company_id: filter.company_id }">{{activity.name}}</md-option>
+            </md-select>
+          </md-input-container>
+        </div>
+        <div flex layout-padding>
+          <md-datepicker ng-model="filter.start_date" md-placeholder="Desde"></md-datepicker>
+        </div>
+        <div flex layout-padding >
+          <md-datepicker ng-model="filter.end_date" md-placeholder="Hasta"
+          md-min-date="filter.start_date"></md-datepicker>
+        </div>
+      </div>
+      <md-button type="submit" ng-disabled="isLoading" class="md-raised md-primary">
+        Generar informe
+        <md-progress-circular ng-show="isLoading" md-mode="indeterminate" md-diameter="40"></md-progress-circular>
+      </md-button>
+    </form>
+
+    <section>
+      <div ng-if="dataPerPlace.length != 0">
+        <h2>{{ summary.activity }}</h2>
+
+        <h5>Plazas</h5>
+        <h6>{{ summary.places.join(' - ') }}</h6>
+
+        <img src="/logo.png" width="140" alt="ImpactBTL" class="big-logo" />
+
+        <h5>Cliente</h5>
+        <h6 ng-if="!summary.company_logo">{{summary.company_name}}</h6>
+        <img ng-if="summary.company_logo" ng-src="{{summary.company_logo}}" width="140" alt="ImpactBTL" class="big-logo" />
+
+        <div ng-repeat="place in dataPerPlace">
+          <h3>{{ summary.activity + ' - ' + place.name}}</h3>
+
+          <h4>Esquema principal</h4>
+          <md-table-container>
+            <table md-table class="big">
+              <thead md-head>
+                <tr md-row>
+                  <th md-column>Fecha</th>
+                  <th md-column>Ubicación</th>
+                  <th md-column>Producto</th>
+                  <th md-column>Ventas</th>
+                  <th md-column>AD</th>
+                  <th md-column>AI</th>
+                </tr>
+              </thead>
+              <tbody md-body>
+                <tr md-row ng-repeat="report in place.reports">
+                  <td md-cell>{{report.date}}</td>
+                  <td md-cell>{{report.point}}</td>
+                  <td md-cell>{{report.product}}</td>
+                  <td md-cell>{{report.sales}}</td>
+                  <td md-cell>{{report.scope}}</td>
+                  <td md-cell>{{report.people}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </md-table-container>
+
+          <div ng-if="place.comments.length != 0">
+            <h4>Comentarios</h4>
+            <ul>
+              <li ng-repeat="comment in place.comments">{{comment}}</li>
+            </ul>
+          </div>
+
+          <div ng-if="place.photos.length != 0">
+            <h4>Fotos</h4>
+            <article ng-repeat="photo in place.photos">
+              <img ng-src="{{photo}}" alt="" />
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+  </md-content>
 </div>

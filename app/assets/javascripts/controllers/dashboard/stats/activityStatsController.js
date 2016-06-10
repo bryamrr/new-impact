@@ -37,6 +37,7 @@ function ActivityStatsController($scope, HttpRequest, urls) {
     promise.then(function (response){
       $scope.queryDone = true;
       $scope.isLoading = false;
+      dataPerPlace = [];
 
       $scope.dataFiltered = response;
 

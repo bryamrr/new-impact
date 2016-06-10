@@ -52,7 +52,10 @@ class Api::V1::DataFiltersController < Api::V1::BaseController
         },
         :point_details => {
           :include => {
-            :activity_mode => { :except => [:created_at, :updated_at] }
+            :activity_mode => { :except => [:created_at, :updated_at] },
+            :comments => { :except => [:created_at, :updated_at] },
+            :photos => { :except => [:created_at, :updated_at] },
+            :quantities => { :except => [:created_at, :updated_at] }
           }
         },
         :user => {
@@ -84,7 +87,10 @@ class Api::V1::DataFiltersController < Api::V1::BaseController
         },
         :point_details => {
           :include => {
-            :activity_mode => { :except => [:created_at, :updated_at] }
+            :activity_mode => { :except => [:created_at, :updated_at] },
+            :comments => { :except => [:created_at, :updated_at] },
+            :photos => { :except => [:created_at, :updated_at] },
+            :quantities => { :except => [:created_at, :updated_at] }
           }
         },
         :user => {
