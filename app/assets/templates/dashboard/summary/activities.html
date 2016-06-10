@@ -49,8 +49,8 @@
         <img src="/logo.png" width="140" alt="ImpactBTL" class="big-logo" />
 
         <h5>Cliente</h5>
-        <h6 ng-if="!summary.company_logo">{{summary.company_name}}</h6>
-        <img ng-if="summary.company_logo" ng-src="{{summary.company_logo}}" width="140" alt="ImpactBTL" class="big-logo" />
+        <h6 ng-if="summary.company_logo == ''">{{summary.company_name}}</h6>
+        <img ng-if="summary.company_logo != ''" ng-src="{{summary.company_logo}}" width="140" alt="{{summary.company_name}}" class="big-logo" />
 
         <div ng-repeat="place in dataPerPlace">
           <h3>{{ summary.activity + ' - ' + place.name}}</h3>

@@ -6,7 +6,13 @@ function ActivitySummaryController($scope, HttpRequest, urls) {
 
   $scope.queryDone = false;
   $scope.filter = {};
-
+  $scope.summary = {
+    places: [],
+    company_name: "",
+    company_logo: "",
+    activity: ""
+  };
+  $scope.dataPerPlace = [];
   var dataPerPlace = [];
 
   var url = urls.BASE_API + '/data_filters/data_summary';
@@ -35,6 +41,7 @@ function ActivitySummaryController($scope, HttpRequest, urls) {
 
       $scope.prepareData();
       console.log(JSON.stringify(response));
+      console.log($scope.summary);
     }, function(error){
       $scope.isLoading = false;
       console.log(error);
@@ -45,12 +52,23 @@ function ActivitySummaryController($scope, HttpRequest, urls) {
     var lonDataFiltered = $scope.dataFiltered.length;
     var currentData = {};
 
+    for (var j = 0; j < $scope.data.activities.length; j++) {
+      if ($scope.filter.activity_id == $scope.data.activities[j].id) {
+        $scope.summary.activity = $scope.data.activities[j].name;
+      }
+    }
+
+    if ($scope.dataFiltered.length != 0) {
+      $scope.summary.company_name = lonDataFiltered[0].company.name;
+      $scope.summary.company_name = lonDataFiltered[0].company.logo_url;
+    }
+
     for (var i = 0; i < lonDataFiltered; i++) {
       currentData = angular.copy($scope.dataFiltered[i]);
       if (currentData.point_details.length != 0) {
         if (dataPerPlace != 0) {
           for (var j = 0; j < dataPerPlace.length; j++) {
-            if (currentData.province.name == dataPerPlace[j].province) {
+            if (currentData.province.name == dataPerPlace[j].name) {
               addToPlace(currentData, j);
             } else if (j == dataPerPlace.length - 1) {
               addNewPlace(currentData);
@@ -64,20 +82,26 @@ function ActivitySummaryController($scope, HttpRequest, urls) {
     }
 
     console.log(dataPerPlace);
+    $scope.dataPerPlace = angular.copy(dataPerPlace);
   }
 
   function addNewPlace(currentData) {
+    $scope.summary.places.push(currentData.province.name);
+
     dataPerPlace.push({
-      province: currentData.province.name,
-      province_id: currentData.province.id,
-      direct: currentData.point_details[0].scope,
-      indirect: currentData.point_details[0].people,
+      name: currentData.province.name,
+      scope: currentData.point_details[0].scope,
+      people: currentData.point_details[0].people,
       sales: parseFloat(currentData.point_details[0].sales),
-      dates: [
+      company_name: currentData.company.name,
+      company_logo: currentData.company.logo_url,
+      reports: [
         {
           date: currentData.start_date,
-          direct: currentData.point_details[0].scope,
-          indirect: currentData.point_details[0].people,
+          scope: currentData.point_details[0].scope,
+          point: currentData.point_details[0].point,
+          people: currentData.point_details[0].people,
+          product: currentData.point_details[0].product,
           sales: parseFloat(currentData.point_details[0].sales)
         }
       ]
@@ -85,24 +109,18 @@ function ActivitySummaryController($scope, HttpRequest, urls) {
   }
 
   function addToPlace(currentData, index) {
-    dataPerPlace[index].direct += currentData.point_details[0].scope;
-    dataPerPlace[index].indirect += currentData.point_details[0].people;
+    dataPerPlace[index].scope += currentData.point_details[0].scope;
+    dataPerPlace[index].people += currentData.point_details[0].people;
     dataPerPlace[index].sales += parseFloat(currentData.point_details[0].sales);
 
-    for (var i = 0; i < dataPerPlace[index].dates.length; i++) {
-      if (dataPerPlace[index].dates[i].date == currentData.start_date) {
-        dataPerPlace[index].dates[i].direct += currentData.point_details[0].scope;
-        dataPerPlace[index].dates[i].sales += parseFloat(currentData.point_details[0].sales);
-        dataPerPlace[index].dates[i].indirect += currentData.point_details[0].people;
-      } else if (i == dataPerPlace[index].dates.length - 1) {
-        dataPerPlace[index].dates.push({
-          date: currentData.start_date,
-          sales: parseFloat(currentData.point_details[0].sales),
-          direct: currentData.point_details[0].scope,
-          indirect: currentData.point_details[0].people
-        });
-      }
-    }
+    dataPerPlace[index].reports.push({
+      date: currentData.start_date,
+      sales: parseFloat(currentData.point_details[0].sales),
+      scope: currentData.point_details[0].scope,
+      people: currentData.point_details[0].people,
+      product: currentData.point_details[0].product,
+      point: currentData.point_details[0].point
+    });
   }
 
 }
