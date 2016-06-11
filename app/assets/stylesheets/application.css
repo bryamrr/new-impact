@@ -13,6 +13,7 @@
  *= require angular-material
  *= require angular-chart
  *= require font-awesome
+ *= require login
  *= require_tree .
  *= require_self
  */

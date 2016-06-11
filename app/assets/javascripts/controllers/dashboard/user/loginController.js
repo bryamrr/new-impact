@@ -65,7 +65,14 @@ function LoginController($scope, $state, HttpRequest, urls, CookieService) {
         $state.reload();
       }
     }, function (error) {
-      console.log(error.errors);
+      var server_message = {};
+      server_message['typeClass'] = 'error';
+      if (error.errors) {
+        server_message['content'] = error.errors;
+      } else {
+        server_message['content'] = "Hubo un problema";
+      }
+      MessagesService.display(server_message);
     });
   }
 
