@@ -109,8 +109,8 @@ RSpec.describe Api::V1::DataFiltersController, type: :controller do
 
       it "sends report list" do
         data = {
-          company: 1,
-          activity: 1,
+          company_id: 1,
+          activity_id: 1,
           start_date: "2016-06-23",
           end_date: "2016-06-23"
         }
@@ -122,8 +122,8 @@ RSpec.describe Api::V1::DataFiltersController, type: :controller do
 
       it "sends empty list" do
         data = {
-          company: 1,
-          activity: 1,
+          company_id: 1,
+          activity_id: 1,
           start_date: "2016-06-24",
           end_date: "2016-06-26"
         }

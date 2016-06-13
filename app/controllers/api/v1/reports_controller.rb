@@ -24,10 +24,18 @@ class Api::V1::ReportsController < Api::V1::BaseController
 
       render :json => @report.to_json(:include => {
         :user => { :except => [:encrypted_password, :salt] },
-        :company => {},
-        :activity => {},
-        :province => {},
-        :report_type => {}
+        :company => { :except => [:created_at, :updated_at] },
+        :activity => { :except => [:created_at, :updated_at] },
+        :province => { :except => [:created_at, :updated_at] },
+        :report_type => { :except => [:created_at, :updated_at] },
+        :point_details => {
+          :include => {
+            :activity_mode => { :except => [:created_at, :updated_at] },
+            :comments => { :except => [:created_at, :updated_at] },
+            :photos => { :except => [:created_at, :updated_at] },
+            :quantities => { :except => [:created_at, :updated_at] }
+          }
+        }
         })
     else
       render :json => { :errors => "No se encontró el reporte" }, status: :not_found

@@ -56,7 +56,7 @@
             ui-sref="reports.activities"
             ui-sref-active="active"
             >Actividades</a></li>
-            <li ng-if="role == 'Admin'"><a
+            <li ng-hide="role == 'Customer'"><a
             ui-sref="reports.expenses"
             ui-sref-active="active"
             >Gastos</a></li>

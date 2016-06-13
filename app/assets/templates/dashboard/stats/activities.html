@@ -11,7 +11,7 @@
           <md-input-container>
             <label>Cliente</label>
             <md-select aria-label="Cliente" ng-model="filter.company_id">
-              <md-option ng-value="{{company.id}}" ng-repeat="company in data.companies">{{company.name}}</md-option>
+              <md-option value="{{company.id}}" ng-repeat="company in data.companies">{{company.name}}</md-option>
             </md-select>
           </md-input-container>
         </div>
@@ -21,7 +21,7 @@
           <md-input-container>
             <label>Actividad</label>
             <md-select aria-label="Activación" ng-model="filter.activity_id">
-              <md-option ng-value="{{activity.id}}" ng-repeat="activity in data.activities | filter: { company_id: filter.company_id }">{{activity.name}}</md-option>
+              <md-option value="{{activity.id}}" ng-repeat="activity in data.activities | filter: { company_id: filter.company_id }">{{activity.name}}</md-option>
             </md-select>
           </md-input-container>
         </div>
@@ -63,7 +63,7 @@
             <md-input-container>
               <label>Departamento</label>
               <md-select aria-label="Departamento" ng-model="filter.department_id">
-                <md-option ng-repeat="department in data.departments" ng-value="{{department.id}}">{{department.name}}</md-option>
+                <md-option ng-repeat="department in data.departments" value="{{department.id}}">{{department.name}}</md-option>
               </md-select>
             </md-input-container>
           </div>
@@ -71,7 +71,7 @@
             <md-input-container>
               <label>Provincia</label>
               <md-select aria-label="Provincia" ng-model="filter.province_id" ng-change="reloadStat()">
-                <md-option ng-repeat="province in data.provinces | filter: { department_id: filter.department_id }" ng-value="{{province.id}}">{{province.name}}</md-option>
+                <md-option ng-repeat="province in data.provinces | filter: { department_id: filter.department_id }" value="{{province.id}}">{{province.name}}</md-option>
               </md-select>
             </md-input-container>
           </div>

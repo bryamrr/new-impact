@@ -159,6 +159,18 @@ function routes($stateProvider, $urlRouterProvider, $locationProvider) {
         }
       }
     })
+    .state('reports.activities.edit',{
+      url: '/:id',
+      data: {
+        title: 'Editar'
+      },
+      views: {
+        'content@reports': {
+          templateUrl: 'dashboard/reports/edit-activity.html',
+          controller: 'EditActivityController'
+        }
+      }
+    })
 
 
     // Summary
