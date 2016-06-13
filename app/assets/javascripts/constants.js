@@ -5,8 +5,8 @@
   angular
     .module('myapp')
     .constant('urls', {
-      BASE: 'http://localhost:3000',
-      BASE_API: 'http://impactbtl-staging.herokuapp.com/api/v1'
+      BASE: 'http://localhost:3000 http://impactbtl-staging.herokuapp.com',
+      BASE_API: 'http://localhost:3000/api/v1'
     })
     .constant('toast',{
       DELAY: 5500

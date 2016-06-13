@@ -40,7 +40,6 @@ function ActivitySummaryController($scope, HttpRequest, urls) {
       $scope.dataFiltered = response;
 
       $scope.prepareData();
-      console.log(JSON.stringify(response));
       console.log($scope.summary);
     }, function(error){
       $scope.isLoading = false;
@@ -58,9 +57,9 @@ function ActivitySummaryController($scope, HttpRequest, urls) {
       }
     }
 
-    if ($scope.dataFiltered.length != 0) {
-      $scope.summary.company_name = lonDataFiltered[0].company.name;
-      $scope.summary.company_name = lonDataFiltered[0].company.logo_url;
+    if (lonDataFiltered != 0) {
+      $scope.summary.company_name = $scope.dataFiltered[0].company.name;
+      $scope.summary.company_url = $scope.dataFiltered[0].company.logo_url;
     }
 
     for (var i = 0; i < lonDataFiltered; i++) {
@@ -72,6 +71,7 @@ function ActivitySummaryController($scope, HttpRequest, urls) {
               addToPlace(currentData, j);
             } else if (j == dataPerPlace.length - 1) {
               addNewPlace(currentData);
+              j++;
             }
           }
         } else {

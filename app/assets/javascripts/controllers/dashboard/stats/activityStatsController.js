@@ -62,6 +62,7 @@ function ActivityStatsController($scope, HttpRequest, urls) {
               addToPlace(currentData, j);
             } else if (j == dataPerPlace.length - 1) {
               addNewPlace(currentData);
+              j++;
             }
           }
         } else {
