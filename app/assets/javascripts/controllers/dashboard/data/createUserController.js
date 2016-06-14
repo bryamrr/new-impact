@@ -22,6 +22,7 @@ function CreateUserController($scope, HttpRequest, urls) {
     var $contenido = $('#contenido');
     $contenido.addClass("loaded");
   }, function(error){
+    MessagesService.display(error.errors, "error");
     console.log(error);
   });
 
@@ -42,7 +43,7 @@ function CreateUserController($scope, HttpRequest, urls) {
     var promise = HttpRequest.send("POST", url, $scope.newUser);
 
     promise.then(function (response){
-      alert("Usuario creado");
+      MessagesService.display("Usuario creado exitosamente", "success");
       $scope.newUser = {
         nick_name: "",
         password: "",
@@ -54,6 +55,7 @@ function CreateUserController($scope, HttpRequest, urls) {
       $scope.isLoading = false;
       console.log(response);
     }, function(error){
+      MessagesService.display(error.errors, "error");
       $scope.isLoading = false;
       console.log(error);
     });

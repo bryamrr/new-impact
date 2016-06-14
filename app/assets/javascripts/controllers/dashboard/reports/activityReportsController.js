@@ -15,6 +15,7 @@ function ActivityReportsController($scope, HttpRequest, urls) {
   }, function(error){
     var $contenido = $('#contenido');
     $contenido.addClass("loaded");
+    MessagesService.display(error.errors, "error");
     console.log(error);
   });
 
@@ -25,10 +26,12 @@ function ActivityReportsController($scope, HttpRequest, urls) {
     var promise = HttpRequest.send("DELETE", url);
 
     promise.then(function (response){
+      MessagesService.display("Actividad eliminada exitosamente", "success", 1000);
       $scope.reports.splice(index, 1);
       item.isLoading = false;
     }, function(error){
       console.log(error);
+      MessagesService.display(error.errors, "error");
       item.isLoading = false;
     });
   }

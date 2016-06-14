@@ -1,8 +1,8 @@
 angular.module("myapp").controller("CreateReportController", CreateReportController);
 
-CreateReportController.$inject = ['$scope', '$timeout', 'HttpRequest', 'urls', 'CookieService'];
+CreateReportController.$inject = ['$scope', '$timeout', '$state', 'HttpRequest', 'urls', 'CookieService'];
 
-function CreateReportController($scope, $timeout, HttpRequest, urls, CookieService) {
+function CreateReportController($scope, $timeout, $state, HttpRequest, urls, CookieService) {
   $scope.report = {
     report_type_id: 2,
     presentation: {
@@ -31,6 +31,7 @@ function CreateReportController($scope, $timeout, HttpRequest, urls, CookieServi
     var $contenido = $('#contenido');
     $contenido.addClass("loaded");
   }, function(error){
+    MessagesService.display(error.errors, "error");
     console.log(error);
   });
 
@@ -83,8 +84,11 @@ function CreateReportController($scope, $timeout, HttpRequest, urls, CookieServi
     var promise = HttpRequest.send("POST", url, $scope.report);
 
     promise.then(function (response) {
+      MessagesService.display("Reporte creado de forma exitosa", "success");
       $scope.isLoading = false;
+      $state.go("reports.activities");
     }, function(error){
+      MessagesService.display(error.errors, "error");
       $scope.isLoading = false;
     });
   }

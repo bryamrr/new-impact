@@ -1,8 +1,8 @@
 angular.module("myapp").controller("EditActivityController", EditActivityController);
 
-EditActivityController.$inject = ['$scope', '$q', '$stateParams', 'HttpRequest', 'urls'];
+EditActivityController.$inject = ['$scope', '$q', '$stateParams', '$state', 'HttpRequest', 'urls'];
 
-function EditActivityController($scope, $q, $stateParams, HttpRequest, urls) {
+function EditActivityController($scope, $q, $stateParams, $state, HttpRequest, urls) {
   var urlReport = urls.BASE_API + '/reports/' + $stateParams.id;
   var reportPromise = HttpRequest.send("GET", urlReport);
 
@@ -24,6 +24,7 @@ function EditActivityController($scope, $q, $stateParams, HttpRequest, urls) {
   }, function(error){
     var $contenido = $('#contenido');
     $contenido.addClass("loaded");
+    MessagesService.display(error.errors, "error");
     console.log(error);
   });
 
@@ -31,16 +32,16 @@ function EditActivityController($scope, $q, $stateParams, HttpRequest, urls) {
     setQuantities();
     setComments();
 
-    console.log($scope.report);
-
     var url = urls.BASE_API + '/reports/' + $stateParams.id;
     var promise = HttpRequest.send("PATCH", url, $scope.report);
 
     promise.then(function (response) {
-      alert("Reporte actualizado");
+      MessagesService.display("Reporte actualizado exitosamente", "success");
       $scope.isLoading = false;
+      $state.go("reports.activities");
     }, function(error){
       $scope.isLoading = false;
+      MessagesService.display(error.errors, "error");
     });
   }
 
@@ -49,10 +50,11 @@ function EditActivityController($scope, $q, $stateParams, HttpRequest, urls) {
     var promise = HttpRequest.send("POST", url, $scope.report);
 
     promise.then(function (response) {
-      alert("Reporte aprobado");
+      MessagesService.display("Reporte aprobado", "success");
       $scope.isLoading = false;
     }, function(error){
       $scope.isLoading = false;
+      MessagesService.display(error.errors, "error");
     });
   };
 

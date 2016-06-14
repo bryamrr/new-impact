@@ -25,6 +25,7 @@ function ActivityStatsController($scope, HttpRequest, urls) {
     var $contenido = $('#contenido');
     $contenido.addClass("loaded");
   }, function(error){
+    MessagesService.display(error.errors, "error");
     console.log(error);
   });
 
@@ -44,6 +45,7 @@ function ActivityStatsController($scope, HttpRequest, urls) {
       $scope.resetChartData();
       $scope.prepareData();
     }, function(error){
+      MessagesService.display(error.errors, "error");
       $scope.isLoading = false;
       console.log(error);
     });

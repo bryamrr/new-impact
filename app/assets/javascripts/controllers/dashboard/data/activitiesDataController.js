@@ -25,6 +25,7 @@ function ActivitiesDataController($scope, $q, HttpRequest, urls) {
   }, function(error){
     var $contenido = $('#contenido');
     $contenido.addClass("loaded");
+    MessagesService.display(error.errors, "error");
     console.log(error);
   });
 

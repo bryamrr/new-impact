@@ -23,6 +23,7 @@ function ActivitySummaryController($scope, HttpRequest, urls) {
     var $contenido = $('#contenido');
     $contenido.addClass("loaded");
   }, function(error){
+    MessagesService.display(error.errors, "error");
     console.log(error);
   });
 
@@ -43,6 +44,7 @@ function ActivitySummaryController($scope, HttpRequest, urls) {
       console.log($scope.summary);
     }, function(error){
       $scope.isLoading = false;
+      MessagesService.display(error.errors, "error");
       console.log(error);
     });
   }

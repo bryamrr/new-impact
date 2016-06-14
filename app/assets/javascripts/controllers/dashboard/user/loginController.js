@@ -1,8 +1,8 @@
 angular.module("myapp").controller("LoginController", LoginController);
 
-LoginController.$inject = ['$scope', '$state', 'HttpRequest', 'urls', 'CookieService'];
+LoginController.$inject = ['$scope', '$state', 'HttpRequest', 'urls', 'CookieService', 'MessagesService'];
 
-function LoginController($scope, $state, HttpRequest, urls, CookieService) {
+function LoginController($scope, $state, HttpRequest, urls, CookieService, MessagesService) {
 
   /* ----------------------------------- */
   /* FORM VALIDATE */
@@ -61,18 +61,12 @@ function LoginController($scope, $state, HttpRequest, urls, CookieService) {
         CookieService.put('nickname', data.nick_name, 1);
         CookieService.put('role', data.role, 1);
 
-        // $state.go('user.datos');
+        MessagesService.display("Bienvenido", "success", 1000);
+
         $state.reload();
       }
     }, function (error) {
-      var server_message = {};
-      server_message['typeClass'] = 'error';
-      if (error.errors) {
-        server_message['content'] = error.errors;
-      } else {
-        server_message['content'] = "Hubo un problema";
-      }
-      MessagesService.display(server_message);
+      MessagesService.display(error.errors, "error");
     });
   }
 

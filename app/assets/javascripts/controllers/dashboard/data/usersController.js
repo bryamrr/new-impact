@@ -14,6 +14,7 @@ function UsersController($scope, HttpRequest, urls) {
   }, function(error){
     var $contenido = $('#contenido');
     $contenido.addClass("loaded");
+    MessagesService.display(error.errors, "error");
     console.log(error);
   });
 
@@ -26,7 +27,9 @@ function UsersController($scope, HttpRequest, urls) {
     promise.then(function (response){
       $scope.users.splice(index, 1);
       item.isLoading = false;
+      MessagesService.display("Usuario eliminado exitosamente", "success", 1000);
     }, function(error){
+      MessagesService.display(error.errors, "error");
       console.log(error);
       item.isLoading = false;
     });

@@ -22,6 +22,7 @@ function CompaniesController($scope, HttpRequest, urls) {
     $scope.isLoading = false;
     $contenido.addClass("loaded");
   }, function(error){
+    MessagesService.display(error.errors, "error");
     console.log(error);
     $scope.isLoading = false;
   });

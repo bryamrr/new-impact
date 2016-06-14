@@ -13,6 +13,7 @@ function UserDataController($scope, HttpRequest, urls, CookieService) {
     var $contenido = $('#contenido');
     $contenido.addClass("loaded");
   }, function(error){
+    MessagesService.display(error.errors, "error");
     console.log(error);
   });
 }
