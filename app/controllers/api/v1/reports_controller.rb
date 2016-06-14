@@ -105,8 +105,53 @@ class Api::V1::ReportsController < Api::V1::BaseController
 
   def update
     @report = Report.find(params[:id])
-    if @report.user = @current_user
-      @report.update(report_params)
+    if (@report.user == @current_user) || (@current_user.role[:name] == "Admin")
+
+      company = Company.find(report_params["company_id"]) unless report_params["company_id"] == nil
+      activity = Activity.find(report_params["activity_id"]) unless report_params["activity_id"] == nil
+      province = Province.find(report_params["province_id"]) unless report_params["province_id"] == nil
+
+      @report.update(
+        company: company,
+        activity: activity,
+        province: province,
+        start_date: report_params["start_dat"],
+        end_date: report_params["end_date"]
+      )
+
+      point_detail = PointDetail.find(report_params["point_detail_id"]) unless report_params["point_detail_id"] == nil
+      activity_mode = ActivityMode.find(report_params["activity_mode_id"]) unless report_params["activity_mode_id"] == nil
+
+      point_detail.update(
+        point: report_params["point"],
+        start_time: report_params["start_time"],
+        end_time: report_params["end_time"],
+        scope: report_params["scope"],
+        sales: report_params["sales"],
+        people: report_params["people"],
+        product: report_params["product"],
+        activity_mode: activity_mode
+      )
+
+      Quantity.where(point_detail: point_detail).destroy_all
+      Comment.where(point_detail: point_detail).destroy_all
+
+      if report_params[:comments]
+        report_params[:comments].each do |comment|
+          comment_type = CommentType.find(comment["comment_type_id"])
+          Comment.create(comment_type: comment_type, for: comment["for"], comment: comment[:comment], point_detail: point_detail)
+        end
+      end
+
+      if report_params[:quantities]
+        puts "HEEEEEEREASFA SFDF"
+        puts report_params.to_json
+        report_params[:quantities].each do |quantity|
+          quantity_type = QuantityType.find(quantity["quantity_type_id"])
+          Quantity.create(quantity_type: quantity_type, used: quantity[:used], remaining: quantity[:remaining], name: quantity[:name], point_detail: point_detail)
+        end
+      end
+
       render :json => @report
     else
       render :json => { :error => "No se encontró el reporte" }, status: :not_found
@@ -135,6 +180,7 @@ class Api::V1::ReportsController < Api::V1::BaseController
       :province_id,
       :report_type_id,
       :activity_mode_id,
+      :point_detail_id,
       :point,
       :scope,
       :sales,

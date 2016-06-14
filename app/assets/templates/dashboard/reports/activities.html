@@ -12,6 +12,8 @@
             <th md-column>Fecha de creación</th>
             <th md-column>Usuario</th>
             <th md-column>Provincia</th>
+            <th md-column>Compañía</th>
+            <th md-column>Actividad</th>
             <th md-column ng-hide="role == 'Customer'"></th>
             <th md-column ng-if="role == 'Admin'"></th>
           </tr>
@@ -21,6 +23,8 @@
             <td md-cell>{{report.created_at | date:'d MMM, yyyy'}}</td>
             <td md-cell>{{report.user.nick_name}}</td>
             <td md-cell>{{report.province.name}}</td>
+            <td md-cell>{{report.company.name}}</td>
+            <td md-cell>{{report.activity.name}}</td>
             <th md-column ng-hide="role == 'Customer'">
               <md-button ui-sref="reports.activities.edit({id: report.id})">
                 <md-icon class="fa fa-pencil-square-o"></md-icon>
