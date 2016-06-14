@@ -353,6 +353,10 @@
             Actualizar reporte
             <md-progress-circular ng-show="isLoading" md-mode="indeterminate" md-diameter="40"></md-progress-circular>
           </md-button>
+          <md-button ng-if="role == 'Admin'" ng-click="approveReport()" ng-disabled="isLoading" class="md-raised md-primary">
+            Aprobar reporte
+            <md-progress-circular ng-show="isLoading" md-mode="indeterminate" md-diameter="40"></md-progress-circular>
+          </md-button>
         </form>
       </md-content>
     </div>

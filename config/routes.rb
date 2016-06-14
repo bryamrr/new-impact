@@ -9,6 +9,8 @@ Rails.application.routes.draw do
       post 'users/logout', to: 'users#logout'
 
       resources :reports, except: [:new, :edit]
+      post 'approve/:id', to: 'reports#approve'
+
       resources :items, except: [:new, :edit]
       resources :vouchers, except: [:new, :edit]
       resources :companies, except: [:new, :edit]

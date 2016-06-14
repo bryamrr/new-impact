@@ -44,6 +44,18 @@ function EditActivityController($scope, $q, $stateParams, HttpRequest, urls) {
     });
   }
 
+  $scope.approveReport = function () {
+    var url = urls.BASE_API + '/approve/' + $stateParams.id;
+    var promise = HttpRequest.send("POST", url, $scope.report);
+
+    promise.then(function (response) {
+      alert("Reporte aprobado");
+      $scope.isLoading = false;
+    }, function(error){
+      $scope.isLoading = false;
+    });
+  };
+
   function prepareData() {
     $scope.report.presentation = { quantity_type_id: 1 };
 

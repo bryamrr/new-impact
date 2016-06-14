@@ -4,7 +4,7 @@ class Api::V1::ReportsController < Api::V1::BaseController
     if @current_user.role[:name] == "Admin"
       @reports = Report.all
     elsif @current_user.role[:name] == "Customer"
-      @reports = Report.where(company: @current_user.company)
+      @reports = Report.where(company: @current_user.company, approved: true)
     else
       @reports = Report.where(user: @current_user)
     end
@@ -144,8 +144,6 @@ class Api::V1::ReportsController < Api::V1::BaseController
       end
 
       if report_params[:quantities]
-        puts "HEEEEEEREASFA SFDF"
-        puts report_params.to_json
         report_params[:quantities].each do |quantity|
           quantity_type = QuantityType.find(quantity["quantity_type_id"])
           Quantity.create(quantity_type: quantity_type, used: quantity[:used], remaining: quantity[:remaining], name: quantity[:name], point_detail: point_detail)
@@ -158,9 +156,19 @@ class Api::V1::ReportsController < Api::V1::BaseController
     end
   end
 
+  def approve
+    @report = Report.find(params[:id])
+    if @current_user.role[:name] == "Admin"
+      @report.update(approved: true)
+      render :json => { :message => "Reporte aprobado" }
+    else
+      render :json => { :errors => "No se encontró el reporte" }, status: :not_found
+    end
+  end
+
   def destroy
     @report = Report.find(params[:id])
-    if @report.user = @current_user
+    if @current_user.role[:name] == "Admin"
       @report.destroy
       render :json => { :message => "Reporte eliminado" }
     else

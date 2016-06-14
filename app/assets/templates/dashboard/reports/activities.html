@@ -14,6 +14,7 @@
             <th md-column>Provincia</th>
             <th md-column>Compañía</th>
             <th md-column>Actividad</th>
+            <th md-column ng-hide="role == 'Customer'">Estado</th>
             <th md-column ng-hide="role == 'Customer'"></th>
             <th md-column ng-if="role == 'Admin'"></th>
           </tr>
@@ -25,7 +26,11 @@
             <td md-cell>{{report.province.name}}</td>
             <td md-cell>{{report.company.name}}</td>
             <td md-cell>{{report.activity.name}}</td>
-            <th md-column ng-hide="role == 'Customer'">
+            <td md-cell ng-hide="role == 'Customer'">
+              <span ng-if="report.approved == false">Pendiente de aprobación</span>
+              <span ng-if="report.approved == true">Aprobado</span>
+            </td>
+            <td md-cell ng-hide="role == 'Customer'">
               <md-button ui-sref="reports.activities.edit({id: report.id})">
                 <md-icon class="fa fa-pencil-square-o"></md-icon>
               </md-button>
