@@ -14,7 +14,7 @@
       </div>
       <ul class="nav" id="side-menu" nav-collapse>
         <li
-          data-ng-class="{open: $state.includes('create')}" ng-if="role == 'Supervisor'">
+          data-ng-class="{open: $state.includes('create')}" ng-hide="role == 'Customer'">
           <a href="" toggle-submenu>
             <span class="inner">
               <ng-md-icon class="fa fa-pencil icono"></ng-md-icon>

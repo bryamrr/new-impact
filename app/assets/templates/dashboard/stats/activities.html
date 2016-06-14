@@ -71,7 +71,7 @@
             <md-input-container>
               <label>Provincia</label>
               <md-select aria-label="Provincia" ng-model="filter.province_id" ng-change="reloadStat()">
-                <md-option ng-repeat="province in data.provinces | filter: { department_id: filter.department_id }" value="{{province.id}}">{{province.name}}</md-option>
+                <md-option ng-repeat="province in data.provinces | filter: { department_id: filter.department_id } : true" value="{{province.id}}">{{province.name}}</md-option>
               </md-select>
             </md-input-container>
           </div>

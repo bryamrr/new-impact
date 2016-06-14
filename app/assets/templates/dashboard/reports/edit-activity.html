@@ -44,7 +44,7 @@
               <md-input-container>
                 <label>Provincia</label>
                 <md-select aria-label="Provincia" ng-model="report.province.id">
-                  <md-option ng-repeat="province in data.provinces | filter: { department_id: report.department.id }" ng-value="{{province.id}}">{{province.name}}</md-option>
+                  <md-option ng-repeat="province in data.provinces | filter: { department_id: report.department.id } : true" ng-value="{{province.id}}">{{province.name}}</md-option>
                 </md-select>
               </md-input-container>
             </div>
