@@ -1,8 +1,8 @@
 angular.module("myapp").controller("CreateReportController", CreateReportController);
 
-CreateReportController.$inject = ['$scope', '$timeout', '$state', 'HttpRequest', 'urls', 'CookieService'];
+CreateReportController.$inject = ['$scope', '$timeout', '$compile', '$state', 'HttpRequest', 'urls', 'CookieService', 'MessagesService'];
 
-function CreateReportController($scope, $timeout, $state, HttpRequest, urls, CookieService) {
+function CreateReportController($scope, $timeout, $compile, $state, HttpRequest, urls, CookieService, MessagesService) {
   $scope.report = {
     report_type_id: 2,
     presentation: {
@@ -21,6 +21,8 @@ function CreateReportController($scope, $timeout, $state, HttpRequest, urls, Coo
   $scope.photosUrl = [];
 
   var photoSent = 0;
+  var photoId = [];
+  var numPhoto = 0;
 
   var url = urls.BASE_API + '/data_reports/point';
   var promise = HttpRequest.send("GET", url);
@@ -62,6 +64,16 @@ function CreateReportController($scope, $timeout, $state, HttpRequest, urls, Coo
     access_key: 'AKIAJI7ULYPNQI4K4UKA',
     secret_key: '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'
   }
+
+  $scope.removePhoto = function (id) {
+    $("#photo-" + id).remove();
+    for (var i = 0; i < photoId.length; i++) {
+      if (photoId[i] == id) {
+        $scope.photos.splice(i, 1);
+        photoId.splice(i, 1);
+      }
+    }
+  };
 
   // First, send photos to AmazonS3
   $scope.sendReport = function () {
@@ -116,12 +128,16 @@ function CreateReportController($scope, $timeout, $state, HttpRequest, urls, Coo
     var reader = new FileReader();
 
     reader.onload = function (e) {
-      $(input).after("<article><div class='div-photo'><img src='" + e.target.result + "'/><span class='fa-stack'>\
+      var html = "<article class='photo' id='photo-" + numPhoto + "'><div class='div-photo'><img src='" + e.target.result + "'/><span class='fa-stack' ng-click='removePhoto(" + numPhoto + ")'>\
   <i class='fa fa-circle fa-stack-2x'></i>\
   <i class='fa fa-times fa-stack-1x fa-inverse'></i>\
-  </span></div></article>");
+  </span></div></article>";
+
+      angular.element(document.getElementById('photos')).append($compile(html)($scope))
 
       $scope.photos.push(input.files[0]);
+      photoId[photoId.length] = numPhoto;
+      numPhoto++;
     }
 
     reader.readAsDataURL(input.files[0]);
@@ -182,6 +198,10 @@ function CreateReportController($scope, $timeout, $state, HttpRequest, urls, Coo
   $(document).ready(function() {
     $("#photoInput").change(function() {
       readURL(this);
+    });
+    $("#photo-0").on("click", function () {
+      console.log("TEST");
+      $scope.removePhoto($(this).parent().parent().data("id"));
     });
   });
 }

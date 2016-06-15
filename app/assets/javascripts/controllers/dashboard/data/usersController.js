@@ -1,8 +1,8 @@
 angular.module("myapp").controller("UsersController", UsersController);
 
-UsersController.$inject = ['$scope', 'HttpRequest', 'urls'];
+UsersController.$inject = ['$scope', 'HttpRequest', 'urls', 'MessagesService'];
 
-function UsersController($scope, HttpRequest, urls) {
+function UsersController($scope, HttpRequest, urls, MessagesService) {
 
   var url = urls.BASE_API + '/users';
   var promise = HttpRequest.send("GET", url);

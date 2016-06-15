@@ -1,8 +1,8 @@
 angular.module("myapp").controller("ActivitiesDataController", ActivitiesDataController);
 
-ActivitiesDataController.$inject = ['$scope', '$q', 'HttpRequest', 'urls'];
+ActivitiesDataController.$inject = ['$scope', '$q', 'HttpRequest', 'urls', 'MessagesService'];
 
-function ActivitiesDataController($scope, $q, HttpRequest, urls) {
+function ActivitiesDataController($scope, $q, HttpRequest, urls, MessagesService) {
   $scope.newActivity = {
     name: "",
     activity_type_id: 1

@@ -1,8 +1,8 @@
 angular.module("myapp").controller("CreateUserController", CreateUserController);
 
-CreateUserController.$inject = ['$scope', 'HttpRequest', 'urls'];
+CreateUserController.$inject = ['$scope', 'HttpRequest', 'urls', 'MessagesService'];
 
-function CreateUserController($scope, HttpRequest, urls) {
+function CreateUserController($scope, HttpRequest, urls, MessagesService) {
 
   $scope.newUser = {
     nick_name: "",

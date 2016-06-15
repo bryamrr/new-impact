@@ -1,8 +1,8 @@
 angular.module("myapp").controller("ActivityStatsController", ActivityStatsController);
 
-ActivityStatsController.$inject = ['$scope', 'HttpRequest', 'urls'];
+ActivityStatsController.$inject = ['$scope', 'HttpRequest', 'urls', 'MessagesService'];
 
-function ActivityStatsController($scope, HttpRequest, urls) {
+function ActivityStatsController($scope, HttpRequest, urls, MessagesService) {
 
   $scope.queryDone = false;
   $scope.showAllProvinces = true;

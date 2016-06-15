@@ -1,8 +1,8 @@
 angular.module("myapp").controller("CompaniesController", CompaniesController);
 
-CompaniesController.$inject = ['$scope', 'HttpRequest', 'urls'];
+CompaniesController.$inject = ['$scope', 'HttpRequest', 'urls', 'MessagesService'];
 
-function CompaniesController($scope, HttpRequest, urls) {
+function CompaniesController($scope, HttpRequest, urls, MessagesService) {
 
   $scope.newCompany = {
     name: "",

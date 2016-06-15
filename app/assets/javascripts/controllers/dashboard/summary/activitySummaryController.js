@@ -1,8 +1,8 @@
 angular.module("myapp").controller("ActivitySummaryController", ActivitySummaryController);
 
-ActivitySummaryController.$inject = ['$scope', 'HttpRequest', 'urls'];
+ActivitySummaryController.$inject = ['$scope', 'HttpRequest', 'urls', 'MessagesService'];
 
-function ActivitySummaryController($scope, HttpRequest, urls) {
+function ActivitySummaryController($scope, HttpRequest, urls, MessagesService) {
 
   $scope.queryDone = false;
   $scope.filter = {};

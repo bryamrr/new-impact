@@ -1,8 +1,8 @@
 angular.module("myapp").controller("EditActivityController", EditActivityController);
 
-EditActivityController.$inject = ['$scope', '$q', '$stateParams', '$state', 'HttpRequest', 'urls'];
+EditActivityController.$inject = ['$scope', '$q', '$stateParams', '$state', 'HttpRequest', 'urls', 'MessagesService'];
 
-function EditActivityController($scope, $q, $stateParams, $state, HttpRequest, urls) {
+function EditActivityController($scope, $q, $stateParams, $state, HttpRequest, urls, MessagesService) {
   var urlReport = urls.BASE_API + '/reports/' + $stateParams.id;
   var reportPromise = HttpRequest.send("GET", urlReport);
 

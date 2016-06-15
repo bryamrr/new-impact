@@ -1,9 +1,9 @@
 
 angular.module("myapp").controller("UserDataController", UserDataController);
 
-UserDataController.$inject = ['$scope', 'HttpRequest', 'urls', 'CookieService'];
+UserDataController.$inject = ['$scope', 'HttpRequest', 'urls', 'CookieService', 'MessagesService'];
 
-function UserDataController($scope, HttpRequest, urls, CookieService) {
+function UserDataController($scope, HttpRequest, urls, CookieService, MessagesService) {
 
   var url= urls.BASE_API + '/users/' + CookieService.read("nickname");
   var promise = HttpRequest.send("GET", url);

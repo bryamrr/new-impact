@@ -2,7 +2,6 @@ ng-md-icon {
   margin-top: 4px;
 }
 
-
 .canvas-container,
 .stat-options {
   display: inline-block;
@@ -22,8 +21,51 @@ header {
   padding-bottom: 25px;
 }
 
-md-icon.fa-times {
+md-icon {
   padding-top: 5px;
+}
+
+md-icon.fa-times {
   color: white;
   opacity: .75;
+}
+
+.md-mini.md-button {
+  padding: 0 6px;
+}
+
+.photo img { width: 100%; }
+
+.div-photo { position: relative; }
+.photos img {
+  height: 200px;
+  width: 95%;
+  object-fit: cover;
+  border-radius: 5px;
+  box-shadow: 2px 2px 3px #DDD;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.fa-stack {
+  float: left;
+  position: absolute;
+  top: 10px;
+  right: 0;
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.photos {
+  overflow: hidden;
+}
+
+.photos article {
+  float: left;
+  width: 30%;
+  margin-right: 5%;
+  &:nth-child(3n+1) {
+    margin-right: 0;
+  }
 }

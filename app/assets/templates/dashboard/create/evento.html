@@ -174,7 +174,7 @@
             <div class="border-bottom"></div>
           </md-input-container>
         </div>
-        <md-button ng-click="removeItem('merchandising', $index)" aria-label="Remover merchandising item">
+        <md-button class="md-fab md-mini" ng-click="removeItem('merchandising', $index)" aria-label="Remover merchandising item">
           <md-icon class="fa fa-minus"></md-icon>
         </md-button>
       </div>
@@ -200,7 +200,7 @@
             <div class="border-bottom"></div>
           </md-input-container>
         </div>
-        <md-button ng-click="addItem('merchandising', newMercha)" aria-label="Agregar merchandising item">
+        <md-button class="md-fab md-mini md-primary" ng-click="addItem('merchandising', newMercha)" aria-label="Agregar merchandising item">
           <md-icon class="fa fa-plus"></md-icon>
         </md-button>
       </div>
@@ -226,7 +226,7 @@
             <div class="border-bottom"></div>
           </md-input-container>
         </div>
-        <md-button ng-click="removeItem('personal', $index)" aria-label="Remover personal item">
+        <md-button class="md-fab md-mini" ng-click="removeItem('personal', $index)" aria-label="Remover personal item">
           <md-icon class="fa fa-minus"></md-icon>
         </md-button>
       </div>
@@ -252,7 +252,7 @@
             <div class="border-bottom"></div>
           </md-input-container>
         </div>
-        <md-button ng-click="addItem('personal', newPersonal)" aria-label="Agregar personal item">
+        <md-button class="md-fab md-mini md-primary" ng-click="addItem('personal', newPersonal)" aria-label="Agregar personal item">
           <md-icon class="fa fa-plus"></md-icon>
         </md-button>
       </div>
@@ -278,7 +278,7 @@
             <div class="border-bottom"></div>
           </md-input-container>
         </div>
-        <md-button ng-click="removeItem('prize', $index)" aria-label="Remover premio item">
+        <md-button class="md-fab md-mini" ng-click="removeItem('prize', $index)" aria-label="Remover premio item">
           <md-icon class="fa fa-minus"></md-icon>
         </md-button>
       </div>
@@ -304,37 +304,50 @@
             <div class="border-bottom"></div>
           </md-input-container>
         </div>
-        <md-button ng-click="addItem('prize', newPrize)" aria-label="Agregar premio item">
+        <md-button class="md-fab md-mini md-primary" ng-click="addItem('prize', newPrize)" aria-label="Agregar premio item">
           <md-icon class="fa fa-plus"></md-icon>
         </md-button>
       </div>
       <h3>Comentarios</h3>
-      <md-input-container class="md-block">
-        <label>De la anfitirona</label>
-        <textarea ng-model="report.comment[0]" md-maxlength="150" rows="2" md-select-on-focus></textarea>
-      </md-input-container>
-      <md-input-container class="md-block">
-        <label>Del cliente/representantes/punto</label>
-        <textarea ng-model="report.comment[1]" md-maxlength="150" rows="2" md-select-on-focus></textarea>
-      </md-input-container>
-      <md-input-container class="md-block">
-        <label>Del público</label>
-        <textarea ng-model="report.comment[2]" md-maxlength="150" rows="2" md-select-on-focus></textarea>
-      </md-input-container>
-      <md-input-container class="md-block">
-        <label>De la activación</label>
-        <textarea ng-model="report.comment[3]" md-maxlength="150" rows="2" md-select-on-focus></textarea>
-      </md-input-container>
-      <md-input-container class="md-block">
-        <label>Generales</label>
-        <textarea ng-model="report.comment[4]" md-maxlength="150" rows="2" md-select-on-focus></textarea>
-      </md-input-container>
+      <div layout="row" layout-xs="column" class="layout-padding">
+        <md-input-container class="md-block">
+          <label>De la anfitirona</label>
+          <textarea ng-model="report.comment[0]" md-maxlength="150" rows="2" md-select-on-focus></textarea>
+        </md-input-container>
+      </div>
+      <div layout="row" layout-xs="column" class="layout-padding">
+        <md-input-container class="md-block">
+          <label>Del cliente/representantes/punto</label>
+          <textarea ng-model="report.comment[1]" md-maxlength="150" rows="2" md-select-on-focus></textarea>
+        </md-input-container>
+      </div>
+      <div layout="row" layout-xs="column" class="layout-padding">
+        <md-input-container class="md-block">
+          <label>Del público</label>
+          <textarea ng-model="report.comment[2]" md-maxlength="150" rows="2" md-select-on-focus></textarea>
+        </md-input-container>
+      </div>
+      <div layout="row" layout-xs="column" class="layout-padding">
+        <md-input-container class="md-block">
+          <label>De la activación</label>
+          <textarea ng-model="report.comment[3]" md-maxlength="150" rows="2" md-select-on-focus></textarea>
+        </md-input-container>
+      </div>
+      <div layout="row" layout-xs="column" class="layout-padding">
+        <md-input-container class="md-block">
+          <label>Generales</label>
+          <textarea ng-model="report.comment[4]" md-maxlength="150" rows="2" md-select-on-focus></textarea>
+        </md-input-container>
+      </div>
       <h3>Fotos</h3>
-      <div id="photos"></div>
-      <input id="photoInput" name="photo-input" type="file" class="ng-hide">
-      <md-button ng-click="addPhoto()" aria-label="Agregar foto">
-        <md-icon class="fa fa-plus"></md-icon>
-      </md-button>
+      <div class="layout-padding">
+        <md-button class="md-fab md-mini md-primary" ng-click="addPhoto()" aria-label="Agregar foto">
+          <md-icon class="fa fa-plus"></md-icon>
+        </md-button>
+        <input id="photoInput" name="photo-input" type="file" class="ng-hide">
+      </div>
+      <div class="layout-padding photos" id="photos">
+      </div>
       <md-button type="submit" ng-disabled="isLoading" class="md-raised md-primary">
         Enviar reporte
         <md-progress-circular ng-show="isLoading" md-mode="indeterminate" md-diameter="40"></md-progress-circular>

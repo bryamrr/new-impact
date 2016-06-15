@@ -1,8 +1,8 @@
 angular.module("myapp").controller("ActivityReportsController", ActivityReportsController);
 
-ActivityReportsController.$inject = ['$scope', 'HttpRequest', 'urls'];
+ActivityReportsController.$inject = ['$scope', 'HttpRequest', 'urls', 'MessagesService'];
 
-function ActivityReportsController($scope, HttpRequest, urls) {
+function ActivityReportsController($scope, HttpRequest, urls, MessagesService) {
 
   var url = urls.BASE_API + '/reports';
   var promise = HttpRequest.send("GET", url);
