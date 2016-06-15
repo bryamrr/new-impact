@@ -5,17 +5,11 @@
 </div>
 <div class="wrapper-content padding-15">
   <md-content class="padding-15">
-    <md-content class="agregar-registro">
-      <form novalidate ng-submit="add(form)" name="form">
+    <md-content class="agregar-registro company">
+      <form novalidate ng-submit="add(form)" name="form" class="text-align-center">
         <div class="vertical-middle layout-padding">
           <md-input-container>
             <input ng-model="newCompany.name" name="name" placeholder="Nombre">
-            <div class="border-bottom"></div>
-          </md-input-container>
-        </div>
-        <div class="vertical-middle layout-padding">
-          <md-input-container>
-            <input ng-model="newCompany.email" name="email" placeholder="Email">
             <div class="border-bottom"></div>
           </md-input-container>
         </div>
@@ -29,19 +23,19 @@
         <md-button ng-click="addLogo()">
           Subir logo
         </md-button>
-        <md-button ng-click="add()">
+        <div id="company-logo"></div>
+        <md-button class="md-fab md-mini md-primary" ng-click="add()" aria-label="Agregar foto">
           <md-icon class="fa fa-plus"></md-icon>
           <md-progress-circular ng-show="isLoading" md-mode="indeterminate" md-diameter="40"></md-progress-circular>
         </md-button>
       </form>
     </md-content>
 
-    <md-table-container>
+    <md-table-container ng-if="companies.length != 0">
       <table md-table class="big">
         <thead md-head>
           <tr md-row>
             <th md-column>Nombre</th>
-            <th md-column>Email</th>
             <th md-column>RUC</th>
             <th md-column></th>
           </tr>
@@ -49,10 +43,9 @@
         <tbody md-body>
           <tr md-row ng-repeat="company in companies" ng-class="{eliminando : company.isLoading}">
             <td md-cell>{{company.name}}</td>
-            <td md-cell>{{company.email}}</td>
             <td md-cell>{{company.ruc}}</td>
             <td md-cell>
-              <md-button ng-click="removeItem(company, $index)">
+              <md-button class="md-fab md-mini" ng-click="removeItem(company, $index)" aria-label="Remover compañía">
                 <md-icon class="fa fa-minus"></md-icon>
                 <md-progress-circular ng-show="company.isLoading" md-mode="indeterminate" md-diameter="40"></md-progress-circular>
               </md-button>
@@ -61,5 +54,12 @@
         </tbody>
       </table>
     </md-table-container>
+
+    <div class="notification info" ng-if="companies.length == 0">
+      <p>
+      <ng-md-icon class="fa fa-info-circle icono"></ng-md-icon>
+      No hay compañías creadas.
+      </p>
+    </div>
   </md-content>
 </div>

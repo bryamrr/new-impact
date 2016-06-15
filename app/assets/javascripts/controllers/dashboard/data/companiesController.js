@@ -6,7 +6,6 @@ function CompaniesController($scope, HttpRequest, urls, MessagesService) {
 
   $scope.newCompany = {
     name: "",
-    email: "",
     ruc: "",
     logo_url: ""
   };
@@ -86,9 +85,8 @@ function CompaniesController($scope, HttpRequest, urls, MessagesService) {
 
       $scope.newCompany = {
         name: "",
-        email: "",
         ruc: "",
-        logo: ""
+        logo_url: ""
       };
 
       $scope.isLoading = false;
@@ -102,6 +100,10 @@ function CompaniesController($scope, HttpRequest, urls, MessagesService) {
     var reader = new FileReader();
 
     reader.onload = function (e) {
+      var html = "<article class='photo' id='photo-inner'><div class='div-photo'><img src='" + e.target.result + "'/></div></article>";
+
+      angular.element(document.getElementById('photo-inner')).remove();
+      angular.element(document.getElementById('company-logo')).append(html);
       $scope.logo = input.files[0];
     }
 
