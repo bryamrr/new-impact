@@ -5,7 +5,7 @@
 </div>
 <div class="wrapper-content padding-15">
   <md-content class="padding-15">
-    <md-content class="agregar-registro text-align-center">
+    <md-content class="agregar-registro text-align-center agregar-actividad">
       <form novalidate ng-submit="add(form)" name="form">
         <div class="vertical-middle layout-padding">
           <md-input-container>
@@ -31,13 +31,14 @@
             </md-select>
           </md-input-container>
         </div>
-        <md-button ng-click="add()">
+        <md-button class="md-fab md-mini md-primary addactivity" ng-click="add()" aria-label="Agregar foto">
           <md-icon class="fa fa-plus"></md-icon>
+          <md-progress-circular ng-show="isLoading" md-mode="indeterminate" md-diameter="40"></md-progress-circular>
         </md-button>
       </form>
     </md-content>
 
-    <md-table-container>
+    <md-table-container ng-if="activities.length != 0">
       <table md-table class="big">
         <thead md-head>
           <tr md-row>
@@ -53,13 +54,21 @@
             <td md-cell>{{activity.activity_type.name}}</td>
             <td md-cell>{{activity.company.name}}</td>
             <td md-cell>
-              <md-button ng-click="removeItem(activity, $index)">
+              <md-button class="md-fab md-mini" ng-click="removeItem(activity, $index)" aria-label="Remover actividad">
                 <md-icon class="fa fa-minus"></md-icon>
+                <md-progress-circular ng-show="company.isLoading" md-mode="indeterminate" md-diameter="40"></md-progress-circular>
               </md-button>
             </td>
           </tr>
         </tbody>
       </table>
     </md-table-container>
+
+    <div class="notification info" ng-if="activities.length == 0">
+      <p>
+      <ng-md-icon class="fa fa-info-circle icono"></ng-md-icon>
+      No hay actividades creadas.
+      </p>
+    </div>
   </md-content>
 </div>

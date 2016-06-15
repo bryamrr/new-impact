@@ -108,11 +108,11 @@ function EditActivityController($scope, $q, $stateParams, $state, HttpRequest, u
 
       $scope.report.comment = [];
 
-      $scope.report.comment[0] = $scope.report.point_details[0].comments[0].comment;
-      $scope.report.comment[1] = $scope.report.point_details[0].comments[1].comment;
-      $scope.report.comment[2] = $scope.report.point_details[0].comments[2].comment;
-      $scope.report.comment[3] = $scope.report.point_details[0].comments[3].comment;
-      $scope.report.comment[4] = $scope.report.point_details[0].comments[4].comment;
+      for (var z = 0; z < 5; z++) {
+        if ($scope.report.comment[z]) {
+          $scope.report.comment[z] = $scope.report.point_details[0].comments[z].comment;
+        }
+      }
 
     }
   }

@@ -133,7 +133,7 @@ function CreateReportController($scope, $timeout, $compile, $state, HttpRequest,
   <i class='fa fa-times fa-stack-1x fa-inverse'></i>\
   </span></div></article>";
 
-      angular.element(document.getElementById('photos')).append($compile(html)($scope))
+      angular.element(document.getElementById('photos')).append($compile(html)($scope));
 
       $scope.photos.push(input.files[0]);
       photoId[photoId.length] = numPhoto;
@@ -175,7 +175,7 @@ function CreateReportController($scope, $timeout, $compile, $state, HttpRequest,
     var lonComments = 5;
 
     for (var i = 0; i < lonComments; i++) {
-      if ($scope.report.comment[i].trim != "") {
+      if ($scope.report.comment[i] && $scope.report.comment[i].trim != "") {
         $scope.report.comments.push({
           comment_type_id: i + 1,
           comment: angular.copy($scope.report.comment[i])
