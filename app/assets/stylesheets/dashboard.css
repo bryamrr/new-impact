@@ -434,9 +434,9 @@ ul {
   list-style: none;
 }
 
-table.md-table:not(.md-row-select) td.md-cell:first-child, table.md-table:not(.md-row-select) th.md-column:first-child {
+/*table.md-table:not(.md-row-select) td.md-cell:first-child, table.md-table:not(.md-row-select) th.md-column:first-child {
   padding: 0 56px 0 24px;
-}
+}*/
 
 b, strong {
   font-weight: bold;

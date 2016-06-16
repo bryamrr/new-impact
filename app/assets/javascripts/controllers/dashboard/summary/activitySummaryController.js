@@ -34,7 +34,7 @@ function ActivitySummaryController($scope, HttpRequest, urls, MessagesService) {
     var promise = HttpRequest.send("POST", url, $scope.filter);
 
     promise.then(function (response){
-      // $scope.queryDone = true;
+      $scope.queryDone = true;
       $scope.isLoading = false;
       dataPerPlace = [];
 

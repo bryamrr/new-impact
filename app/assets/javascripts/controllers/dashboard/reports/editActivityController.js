@@ -35,14 +35,38 @@ function EditActivityController($scope, $q, $stateParams, $state, HttpRequest, u
     var url = urls.BASE_API + '/reports/' + $stateParams.id;
     var promise = HttpRequest.send("PATCH", url, $scope.report);
 
-    promise.then(function (response) {
-      MessagesService.display("Reporte actualizado exitosamente", "success");
-      $scope.isLoading = false;
-      $state.go("reports.activities");
-    }, function(error){
-      $scope.isLoading = false;
-      MessagesService.display(error.errors, "error");
-    });
+    console.log($scope.report);
+
+    // promise.then(function (response) {
+    //   MessagesService.display("Reporte actualizado exitosamente", "success");
+    //   $scope.isLoading = false;
+    //   $state.go("reports.activities");
+    // }, function(error){
+    //   $scope.isLoading = false;
+    //   MessagesService.display(error.errors, "error");
+    // });
+  }
+
+  $scope.addItem = function (itemList, newItem) {
+    if (itemList == 'merchandising') {
+      newItem.quantity_type_id = 2;
+    } else if (itemList == 'personal') {
+      newItem.quantity_type_id = 3;
+    } else if (itemList == 'prize') {
+      newItem.quantity_type_id = 4;
+    }
+
+    if (!$scope.report[itemList]) {
+      $scope.report[itemList] = [];
+    }
+    $scope.report[itemList].push(angular.copy(newItem));
+    newItem.name = "";
+    newItem.used = undefined;
+    newItem.remaining = undefined;
+  }
+
+  $scope.removeItem = function (itemList, index) {
+    $scope.report[itemList].splice(index, 1);
   }
 
   $scope.approveReport = function () {
@@ -163,7 +187,7 @@ function EditActivityController($scope, $q, $stateParams, $state, HttpRequest, u
     var lonComments = 5;
 
     for (var i = 0; i < lonComments; i++) {
-      if ($scope.report.comment[i].trim != "") {
+      if ($scope.report.comment[i] && $scope.report.comment[i].trim != "") {
         $scope.report.comments.push({
           comment_type_id: i + 1,
           comment: angular.copy($scope.report.comment[i])

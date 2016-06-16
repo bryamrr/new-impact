@@ -21,7 +21,7 @@
             <td md-cell>{{user.role.name}}</td>
             <td md-cell>{{user.company.name || 'Ninguna'}}</td>
             <td md-cell>
-              <md-button ng-click="removeItem(user, $index)">
+              <md-button class="md-fab md-mini" ng-click="removeItem(user, $index)" aria-label="Remover">
                 <md-icon class="fa fa-minus"></md-icon>
               </md-button>
             </td>
