@@ -35,16 +35,14 @@ function EditActivityController($scope, $q, $stateParams, $state, HttpRequest, u
     var url = urls.BASE_API + '/reports/' + $stateParams.id;
     var promise = HttpRequest.send("PATCH", url, $scope.report);
 
-    console.log($scope.report);
-
-    // promise.then(function (response) {
-    //   MessagesService.display("Reporte actualizado exitosamente", "success");
-    //   $scope.isLoading = false;
-    //   $state.go("reports.activities");
-    // }, function(error){
-    //   $scope.isLoading = false;
-    //   MessagesService.display(error.errors, "error");
-    // });
+    promise.then(function (response) {
+      MessagesService.display("Reporte actualizado exitosamente", "success");
+      $scope.isLoading = false;
+      $state.go("reports.activities");
+    }, function(error){
+      $scope.isLoading = false;
+      MessagesService.display(error.errors, "error");
+    });
   }
 
   $scope.addItem = function (itemList, newItem) {
@@ -76,6 +74,7 @@ function EditActivityController($scope, $q, $stateParams, $state, HttpRequest, u
     promise.then(function (response) {
       MessagesService.display("Reporte aprobado", "success");
       $scope.isLoading = false;
+      $state.go("reports.activities");
     }, function(error){
       $scope.isLoading = false;
       MessagesService.display(error.errors, "error");
