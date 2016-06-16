@@ -29,7 +29,6 @@ function CreateReportController($scope, $timeout, $compile, $state, HttpRequest,
 
   promise.then(function (response){
     $scope.data = response;
-    console.log(response);
     var $contenido = $('#contenido');
     $contenido.addClass("loaded");
   }, function(error){

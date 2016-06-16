@@ -111,6 +111,21 @@ md-icon.fa-times {
     margin-bottom: 2em;
     width: 350px;
   }
+
+  .comments {
+    margin-bottom: 2em;
+    ul {
+      padding: 0 10em;
+    }
+    li {
+      list-style-type: disc;
+      text-align: left;
+    }
+  }
+
+  .photos {
+    margin-bottom: 2em;
+  }
 }
 
 

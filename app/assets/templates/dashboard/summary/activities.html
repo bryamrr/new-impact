@@ -82,14 +82,14 @@
           </table>
         </md-table-container>
 
-        <div ng-if="place.comments != undefined">
+        <div ng-if="place.comments.length != 0" class="comments">
           <h4>Comentarios</h4>
           <ul>
-            <li ng-repeat="comment in place.comments">{{comment}}</li>
+            <li ng-repeat="comment in place.comments track by $index">{{comment}}</li>
           </ul>
         </div>
 
-        <div ng-if="place.photos != undefined">
+        <div ng-if="place.photos.length != 0" class="photos">
           <h4>Fotos</h4>
           <article ng-repeat="photo in place.photos">
             <img ng-src="{{photo}}" alt="" />

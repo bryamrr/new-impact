@@ -41,7 +41,6 @@ function ActivitySummaryController($scope, HttpRequest, urls, MessagesService) {
       $scope.dataFiltered = response;
 
       $scope.prepareData();
-      console.log($scope.summary);
     }, function(error){
       $scope.isLoading = false;
       MessagesService.display(error.errors, "error");
@@ -90,6 +89,22 @@ function ActivitySummaryController($scope, HttpRequest, urls, MessagesService) {
   function addNewPlace(currentData) {
     $scope.summary.places.push(currentData.province.name);
 
+    var commentsData = angular.copy(currentData.point_details[0].comments);
+    var currentComments = [];
+
+    for (var i = 0; i < commentsData.length; i++) {
+      currentComments.push(commentsData[i].comment);
+    }
+
+    var photosData = angular.copy(currentData.point_details[0].photos);
+    var currentPhotos = [];
+
+    console.log(photosData);
+
+    for (var j = 0; j < photosData.length; j++) {
+      currentPhotos.push(photosData[j].url);
+    }
+
     dataPerPlace.push({
       name: currentData.province.name,
       scope: currentData.point_details[0].scope,
@@ -97,6 +112,8 @@ function ActivitySummaryController($scope, HttpRequest, urls, MessagesService) {
       sales: parseFloat(currentData.point_details[0].sales),
       company_name: currentData.company.name,
       company_logo: currentData.company.logo_url,
+      comments: currentComments,
+      photos: currentPhotos,
       reports: [
         {
           date: currentData.start_date,
@@ -111,9 +128,25 @@ function ActivitySummaryController($scope, HttpRequest, urls, MessagesService) {
   }
 
   function addToPlace(currentData, index) {
+    var commentsData = angular.copy(currentData.point_details[0].comments);
+    var currentComments = [];
+
+    for (var i = 0; i < commentsData.length; i++) {
+      currentComments.push(commentsData[i].comment);
+    }
+
+    var photosData = angular.copy(currentData.point_details[0].photos);
+    var currentPhotos = [];
+
+    for (var j = 0; j < photosData.length; j++) {
+      currentPhotos.push(photosData[j].url);
+    }
+
     dataPerPlace[index].scope += currentData.point_details[0].scope;
     dataPerPlace[index].people += currentData.point_details[0].people;
     dataPerPlace[index].sales += parseFloat(currentData.point_details[0].sales);
+    dataPerPlace[index].comments.push.apply(dataPerPlace[index].comments, currentComments);
+    dataPerPlace[index].photos.push.apply(dataPerPlace[index].photos, currentPhotos);
 
     dataPerPlace[index].reports.push({
       date: currentData.start_date,

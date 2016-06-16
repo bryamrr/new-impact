@@ -88,7 +88,7 @@ class Api::V1::ReportsController < Api::V1::BaseController
 
           if report_params[:photos]
             report_params[:photos].each do |photo|
-              Photo.create(url: photo, point_detail: point_detail)
+              Photo.create(url: photo[:url], point_detail: point_detail)
             end
           end
 
@@ -194,7 +194,7 @@ class Api::V1::ReportsController < Api::V1::BaseController
       :sales,
       :people,
       :product,
-      :photos => [],
+      photos: [:url],
       quantities: [:quantity_type_id, :used, :remaining, :name],
       comments: [:comment, :comment_type_id],
       expenses: [:item_id, :voucher_id, :comment, :subtotal])

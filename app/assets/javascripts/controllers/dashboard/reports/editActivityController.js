@@ -15,8 +15,6 @@ function EditActivityController($scope, $q, $stateParams, $state, HttpRequest, u
     $scope.report = data[0];
     $scope.data = data[1];
 
-    console.log(data);
-
     prepareData();
 
     var $contenido = $('#contenido');
