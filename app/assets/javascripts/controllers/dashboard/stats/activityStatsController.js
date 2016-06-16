@@ -5,8 +5,9 @@ ActivityStatsController.$inject = ['$scope', 'HttpRequest', 'urls', 'MessagesSer
 function ActivityStatsController($scope, HttpRequest, urls, MessagesService) {
 
   $scope.queryDone = false;
-  $scope.showAllProvinces = true;
-  $scope.filter = {};
+  $scope.filter = {
+    department_id: 0
+  };
   $scope.serieSelected = [
     { text: 'Ventas', bool: true },
     { text: "Alcance directo", bool: false },
@@ -92,7 +93,7 @@ function ActivityStatsController($scope, HttpRequest, urls, MessagesService) {
 
     if (sumChecks == 0) {
       console.log("Tiene que escoger un elemento de los checks");
-    } else if (!$scope.showAllProvinces && sumChecks == 1) {
+    } else if ($scope.filter.department_id != 0 && sumChecks == 1) {
       if ($scope.filter.province_id) {
         $scope.chartType = 'line';
         generateLine();
@@ -100,7 +101,7 @@ function ActivityStatsController($scope, HttpRequest, urls, MessagesService) {
     } else {
       $scope.chartType = 'bar';
       for (var i = 0; i < dataPerPlace.length; i++) {
-        if (!$scope.showAllProvinces) {
+        if ($scope.filter.department_id != 0) {
           if (provinceId == dataPerPlace[i].province_id) {
             addPlaceToBar(dataPerPlace[i]);
           } else if (i == dataPerPlace.length - 1) {

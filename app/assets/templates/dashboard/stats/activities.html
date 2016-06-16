@@ -6,8 +6,8 @@
 <div class="wrapper-content padding-30">
   <md-content  layout-padding>
     <form novalidate ng-submit="filterReports(form)" name="form">
-      <div layout="row" layout-xs="column" ng-if="role == 'Admin'">
-        <div flex layout-padding>
+      <div layout="row" layout-xs="column">
+        <div flex layout-padding ng-if="role == 'Admin'">
           <md-input-container>
             <label>Cliente</label>
             <md-select aria-label="Cliente" ng-model="filter.company_id">
@@ -15,8 +15,6 @@
             </md-select>
           </md-input-container>
         </div>
-      </div>
-      <div layout="row" layout-xs="column">
         <div flex layout-padding >
           <md-input-container>
             <label>Actividad</label>
@@ -25,12 +23,31 @@
             </md-select>
           </md-input-container>
         </div>
+      </div>
+      <div layout="row" layout-xs="column">
         <div flex layout-padding>
           <md-datepicker ng-model="filter.start_date" md-placeholder="Desde"></md-datepicker>
         </div>
         <div flex layout-padding >
           <md-datepicker ng-model="filter.end_date" md-placeholder="Hasta"
           md-min-date="filter.start_date"></md-datepicker>
+        </div>
+        <div flex layout-padding>
+          <md-input-container>
+            <label>Departamento</label>
+            <md-select aria-label="Departamento" ng-model="filter.department_id">
+              <md-option value="0" >Todos los departamentos</md-option>
+              <md-option ng-repeat="department in data.departments" value="{{department.id}}">{{department.name}}</md-option>
+            </md-select>
+          </md-input-container>
+        </div>
+        <div flex layout-padding>
+          <md-input-container ng-if="filter.department_id != 0">
+            <label>Provincia</label>
+            <md-select aria-label="Provincia" ng-model="filter.province_id">
+              <md-option ng-repeat="province in data.provinces | filter: { department_id: filter.department_id }" value="{{province.id}}">{{province.name}}</md-option>
+            </md-select>
+          </md-input-container>
         </div>
       </div>
       <md-button type="submit" ng-disabled="isLoading" class="md-raised md-primary">
@@ -39,7 +56,7 @@
       </md-button>
     </form>
 
-    <section>
+    <section ng-if="queryDone == true">
       <div class="canvas-container">
         <canvas id="bar" class="chart chart-bar"
           chart-data="chart.data" chart-labels="chart.labels" chart-series="chart.series" chart-options="chart.options" ng-if="chartType == 'bar'">
@@ -53,29 +70,6 @@
         </canvas>
       </div><!--
       --><aside class="stat-options">
-        <div layout="row" layout-xs="column">
-          <md-checkbox ng-model="showAllProvinces" aria-label="Mostrar todas las provincias" ng-change="reloadStat()">
-            Mostrar todas las plazas
-          </md-checkbox>
-        </div>
-        <div layout="row" layout-xs="column" ng-if="!showAllProvinces">
-          <div flex layout-padding>
-            <md-input-container>
-              <label>Departamento</label>
-              <md-select aria-label="Departamento" ng-model="filter.department_id">
-                <md-option ng-repeat="department in data.departments" value="{{department.id}}">{{department.name}}</md-option>
-              </md-select>
-            </md-input-container>
-          </div>
-          <div flex layout-padding >
-            <md-input-container>
-              <label>Provincia</label>
-              <md-select aria-label="Provincia" ng-model="filter.province_id" ng-change="reloadStat()">
-                <md-option ng-repeat="province in data.provinces | filter: { department_id: filter.department_id } : true" value="{{province.id}}">{{province.name}}</md-option>
-              </md-select>
-            </md-input-container>
-          </div>
-        </div>
         <div layout="row" layout-xs="column">
           <md-checkbox ng-model="serieSelected[0].bool" aria-label="Ventas" ng-change="reloadStat(serieSelected[0].bool)">
             Ventas
