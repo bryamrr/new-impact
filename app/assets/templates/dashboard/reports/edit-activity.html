@@ -19,7 +19,7 @@
           <md-input-container>
             <label>Activación</label>
             <md-select aria-label="Activación" ng-model="report.activity.id">
-              <md-option ng-value="{{activity.id}}" ng-repeat="activity in data.activities | filter: { activity_type_id: 1, company_id: report.company.id }">{{activity.name}}</md-option>
+              <md-option ng-value="{{activity.id}}" ng-repeat="activity in data.activities | filter: { company_id: report.company.id }">{{activity.name}}</md-option>
             </md-select>
           </md-input-container>
         </div>
