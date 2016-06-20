@@ -12,8 +12,7 @@ function LoginController($scope, $state, HttpRequest, urls, CookieService, Messa
     onkeyup: false,
     rules: {
       user: {
-        required: true,
-        minlength: 2
+        required: true
       },
       password: {
         required: true,
@@ -22,8 +21,7 @@ function LoginController($scope, $state, HttpRequest, urls, CookieService, Messa
     },
     messages: {
       user: {
-        required: 'Ingresa tu usuario',
-        minlength: 'Mínimo 2 caracteres'
+        required: 'Ingresa tu usuario'
       },
       password: {
         required: 'Ingresa tu contraseña',
@@ -48,6 +46,10 @@ function LoginController($scope, $state, HttpRequest, urls, CookieService, Messa
   }
 
   $scope.login = function(form, user, password, $event) {
+    if(!form.validate()) return false;
+
+    $scope.isLoading = true;
+
     var url = urls.BASE_API + "/users/login";
     var data = {
       nick_name: user,
@@ -65,8 +67,10 @@ function LoginController($scope, $state, HttpRequest, urls, CookieService, Messa
 
         $state.reload();
       }
+      $scope.isLoading = false;
     }, function (error) {
       MessagesService.display(error.errors, "error");
+      $scope.isLoading = false;
     });
   }
 
