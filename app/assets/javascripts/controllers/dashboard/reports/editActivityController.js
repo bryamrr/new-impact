@@ -1,8 +1,8 @@
 angular.module("myapp").controller("EditActivityController", EditActivityController);
 
-EditActivityController.$inject = ['$scope', '$q', '$stateParams', '$state', 'HttpRequest', 'urls', 'MessagesService'];
+EditActivityController.$inject = ['$scope', '$q', '$stateParams', '$state', 'HttpRequest', 'urls', 'MessagesService', 'validators'];
 
-function EditActivityController($scope, $q, $stateParams, $state, HttpRequest, urls, MessagesService) {
+function EditActivityController($scope, $q, $stateParams, $state, HttpRequest, urls, MessagesService, validators) {
   var urlReport = urls.BASE_API + '/reports/' + $stateParams.id;
   var reportPromise = HttpRequest.send("GET", urlReport);
 
@@ -15,8 +15,6 @@ function EditActivityController($scope, $q, $stateParams, $state, HttpRequest, u
     $scope.report = data[0];
     $scope.data = data[1];
 
-    console.log(data);
-
     prepareData();
 
     var $contenido = $('#contenido');
@@ -28,7 +26,12 @@ function EditActivityController($scope, $q, $stateParams, $state, HttpRequest, u
     console.log(error);
   });
 
-  $scope.sendReport = function () {
+  $scope.sendReport = function (form) {
+    if(!form.validate()) {
+      MessagesService.display("Falta completar el formulario", "error");
+      return false;
+    }
+
     setQuantities();
     setComments();
 
@@ -193,4 +196,85 @@ function EditActivityController($scope, $q, $stateParams, $state, HttpRequest, u
       }
     }
   }
+
+  /* ----------------------------------- */
+    /* FORM VALIDATE */
+    /* ----------------------------------- */
+    $scope.validationOptions = {
+      debug: false,
+      onkeyup: false,
+      rules: {
+        point: {
+          required: true
+        },
+        direct: {
+          required: true,
+          regex: validators.integer
+        },
+        indirect: {
+          required: true,
+          regex: validators.integer
+        },
+        sales: {
+          required: true,
+          regex: validators.decimal
+        },
+        startTime: {
+          required: true
+        },
+        endTime: {
+          required: true
+        },
+        productUsed: {
+          regex: validators.integer
+        },
+        productRemaining: {
+          regex: validators.integer
+        }
+      },
+      messages: {
+        point: {
+          required: 'Ingresa el punto'
+        },
+        direct: {
+          required: 'Ingresa el alcance directo',
+          regex: 'Debes ingresar un valor entero'
+        },
+        indirect: {
+          required: 'Ingresa el alcance indirecto',
+          regex: 'Debes ingresar un valor entero'
+        },
+        sales: {
+          required: 'Ingresa las ventas',
+          regex: 'Debes ingresar un valor válido'
+        },
+        startTime: {
+          required: 'Ingresa la hora de inicio'
+        },
+        endTime: {
+          required: 'Ingresa la hora de cierre'
+        },
+        productUsed: {
+          regex: 'Debes ingresar un valor entero'
+        },
+        productRemaining: {
+          regex: 'Debes ingresar un valor entero'
+        }
+      },
+      highlight: function (element) {
+        $(element).parents('md-input-container').addClass('error');
+        $(element).parents('form').addClass('error');
+        $(element).parent('div').addClass('error');
+        $(element).addClass('error');
+      },
+      unhighlight: function (element) {
+        $(element).parents('md-input-container').removeClass('error');
+        $(element).parents('form').removeClass('error');
+        $(element).parent('div').removeClass('error');
+        $(element).removeClass('error');
+      },
+      errorElement: "div",
+      errorClass:'error error-input',
+      validClass:'valid valid-input'
+    }
 }

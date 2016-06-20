@@ -6,7 +6,7 @@
     .module('myapp')
     .constant('urls', {
       BASE: 'http://localhost:3000 http://impactbtl-staging.herokuapp.com http://impactbtl.herokuapp.com/',
-      BASE_API: 'http://localhost:3000/api/v1'
+      BASE_API: 'http://impactbtl.herokuapp.com/api/v1'
     })
     .constant('toast',{
       DELAY: 5500
@@ -15,6 +15,8 @@
       // 'password': /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[$@#;&=-_:!*])(?!.*\s).{6,14}$/,
       'password': /^(?=.{6,14})(?=.*[a-z])(?=.*[0-9])(?=.*[A-Z])(?=.*[@#$%^&+=!*]).*$/,
       // 'password_antiguo': '^([A-Za-z0-9$@#;&=-_]){4,}$',
+      'integer': /^\d+$/,
+      'decimal': /^\d+(\.\d{1,2})?$/,
       'document_number': /^[a-z0-9]{8,15}$/,
       'business_name': /^[A-Za-záéíóúñ]{2,}([\s][A-Za-záéíóúñ]{2,})+$/,
       'email': /^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z]{2,3})?(\.[a-z]{2,11})?$/,

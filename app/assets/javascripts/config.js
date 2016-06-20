@@ -1,7 +1,15 @@
 angular.module('myapp').config(config);
 
-config.$inject = ['$httpProvider'];
-function config($httpProvider) {
+config.$inject = ['$httpProvider', '$validatorProvider'];
+function config($httpProvider, $validatorProvider) {
+  // -----------------------------------
+  // ADD RULE FOR REGEX VALIDATE
+  // -----------------------------------
+  $validatorProvider.addMethod("regex", function (value, element, regexp) {
+      var re = new RegExp(regexp);
+      return this.optional(element) || re.test(value);
+  }, "");
+
   $httpProvider.interceptors.push(['$q', '$location', 'CookieService', function ($q, $location, CookieService) {
     return {
      'request': function (config) {
