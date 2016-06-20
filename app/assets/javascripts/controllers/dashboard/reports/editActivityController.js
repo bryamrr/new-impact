@@ -15,6 +15,8 @@ function EditActivityController($scope, $q, $stateParams, $state, HttpRequest, u
     $scope.report = data[0];
     $scope.data = data[1];
 
+    console.log(data);
+
     prepareData();
 
     var $contenido = $('#contenido');
@@ -102,7 +104,6 @@ function EditActivityController($scope, $q, $stateParams, $state, HttpRequest, u
       $scope.report.end_time = new Date(Date.parse($scope.report.point_details[0].end_time));
 
       if ($scope.report.point_details[0].quantities.length != 0) {
-        console.log($scope.report.point_details[0].quantities);
         $scope.report.presentation.name = $scope.report.point_details[0].quantities[0].name;
         $scope.report.presentation.used = $scope.report.point_details[0].quantities[0].used;
         $scope.report.presentation.remaining = $scope.report.point_details[0].quantities[0].remaining;
@@ -130,8 +131,8 @@ function EditActivityController($scope, $q, $stateParams, $state, HttpRequest, u
       $scope.report.comment = [];
 
       for (var z = 0; z < 5; z++) {
-        if ($scope.report.comment[z]) {
-          $scope.report.comment[z] = $scope.report.point_details[0].comments[z].comment;
+        if ($scope.report.point_details[0].comments[z]) {
+          $scope.report.comment[$scope.report.point_details[0].comments[z].comment_type_id - 1] = $scope.report.point_details[0].comments[z].comment;
         }
       }
 
