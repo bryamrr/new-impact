@@ -1,0 +1,123 @@
+<header-bread-crumb>
+</header-bread-crumb>
+<div class="loading-content loading-content-js">
+  <img src="/loading-content.svg" alt="" />
+</div>
+<div class="wrapper-content padding-15">
+  <div id="registro" class="display-inline-block">
+    <div class="login-box">
+      <div class="login-box-inner">
+        <form novalidate name="form" ng-submit="add(form)">
+          <div class="login-body">
+            <div layout="row" layout-xs="column">
+              <div flex layout-padding >
+                <md-input-container >
+                  <label>Usuario</label>
+                  <input    type="text"
+                              name="nickname"
+                              ng-model="newUser.nick_name"
+                  />
+                  <div class="border-bottom"></div>
+                </md-input-container>
+              </div>
+              <div flex layout-padding >
+                <md-input-container >
+                  <label>E-mail</label>
+                  <input  type="text"
+                          name="email"
+                          ng-model="newUser.email"
+                  >
+                  <div class="border-bottom"></div>
+                </md-input-container>
+              </div>
+            </div>
+            <div layout="row" layout-xs="column">
+              <div flex layout-padding >
+                <md-input-container >
+                  <label>Contraseña</label>
+                  <input    type="text"
+                            name="password"
+                            id="password"
+                            ng-model="newUser.password"
+                  >
+                  <div class="border-bottom"></div>
+                </md-input-container>
+              </div>
+              <div flex layout-padding >
+                <md-button class="md-raised md-primary" ng-click="generateRandom()">
+                  Generar contraseña aleatoria
+                </md-button>
+              </div>
+            </div>
+            <div layout="row" layout-xs="column">
+              <div flex layout-padding>
+                <md-input-container>
+                  <label>Role</label>
+                  <md-select aria-label="Role" name="role" ng-model="newUser.role_id">
+                    <md-option ng-value="{{role.id}}" ng-repeat="role in data.roles">{{role.name}}</md-option>
+                  </md-select>
+                </md-input-container>
+              </div>
+              <div flex layout-padding >
+                <md-input-container ng-if="newUser.role_id == 3">
+                  <label>Compañía asociada</label>
+                  <md-select aria-label="Role" name="role" ng-model="newUser.company_id">
+                    <md-option ng-value="{{company.id}}" ng-repeat="company in data.companies">{{company.name}}</md-option>
+                  </md-select>
+                </md-input-container>
+              </div>
+            </div>
+            <div layout="row" layout-xs="column">
+              <div flex layout-padding >
+                <md-input-container >
+                  <label>Teléfono</label>
+                  <input  type="text"
+                          name="phone"
+                          ng-model="newUser.phone"
+                  >
+                  <div class="border-bottom"></div>
+                </md-input-container>
+              </div>
+              <div flex layout-padding >
+                <md-input-container >
+                  <label>Dirección</label>
+                  <input  type="text"
+                          name="address"
+                          ng-model="newUser.address"
+                  >
+                  <div class="border-bottom"></div>
+                </md-input-container>
+              </div>
+            </div>
+            <div layout="row" layout-xs="column">
+              <div flex layout-padding >
+                <md-input-container>
+                  <label>Departamento</label>
+                  <md-select aria-label="Departamento" ng-model="newUser.department_id">
+                    <md-option ng-repeat="department in data.departments" ng-value="{{department.id}}">{{department.name}}</md-option>
+                  </md-select>
+                </md-input-container>
+              </div>
+              <div flex layout-padding >
+                <md-input-container>
+                  <label>Provincia</label>
+                  <md-select aria-label="Provincia" ng-model="newUser.province_id">
+                    <md-option ng-repeat="province in data.provinces | filter: { department_id: newUser.department_id } : true" ng-value="{{province.id}}">{{province.name}}</md-option>
+                  </md-select>
+                </md-input-container>
+              </div>
+            </div>
+          </div>
+          <div class="login-footer registro-footer">
+            <div class="form-group">
+              <md-button type="submit" disabled ng-disabled="form.$invalid || form.$pending || isLoading" class="md-button medium form-button">
+                  Crear usuario
+                <md-progress-circular ng-show="isLoading" md-mode="indeterminate" md-diameter="40"></md-progress-circular>
+              </md-button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

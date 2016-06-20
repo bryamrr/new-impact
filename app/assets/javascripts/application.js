@@ -13,4 +13,15 @@
 //= require jquery
 //= require jquery_ujs
 //= require turbolinks
+//= require vendor/Chart.min
+//= require vendor/angular
+//= require vendor/angular-ui-router
+//= require vendor/angular-animate
+//= require vendor/angular-aria
+//= require vendor/angular-messages
+//= require vendor/angular-material
+//= require angular-rails-templates
+//= require module
+//= require config
+//= require_tree ../templates
 //= require_tree .

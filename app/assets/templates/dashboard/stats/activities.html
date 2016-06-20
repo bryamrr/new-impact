@@ -1,0 +1,92 @@
+<header-bread-crumb>
+</header-bread-crumb>
+<div class="loading-content loading-content-js">
+  <img src="/loading-content.svg" alt="" />
+</div>
+<div class="wrapper-content padding-30">
+  <md-content  layout-padding>
+    <form novalidate ng-submit="filterReports(form)" name="form">
+      <div layout="row" layout-xs="column">
+        <div flex layout-padding ng-if="role == 'Admin'">
+          <md-input-container>
+            <label>Cliente</label>
+            <md-select aria-label="Cliente" ng-model="filter.company_id">
+              <md-option value="{{company.id}}" ng-repeat="company in data.companies">{{company.name}}</md-option>
+            </md-select>
+          </md-input-container>
+        </div>
+        <div flex layout-padding >
+          <md-input-container>
+            <label>Actividad</label>
+            <md-select aria-label="Activación" ng-model="filter.activity_id">
+              <md-option value="{{activity.id}}" ng-repeat="activity in data.activities | filter: { company_id: filter.company_id }">{{activity.name}}</md-option>
+            </md-select>
+          </md-input-container>
+        </div>
+      </div>
+      <div layout="row" layout-xs="column">
+        <div flex layout-padding>
+          <md-datepicker ng-model="filter.start_date" md-placeholder="Desde"></md-datepicker>
+        </div>
+        <div flex layout-padding >
+          <md-datepicker ng-model="filter.end_date" md-placeholder="Hasta"
+          md-min-date="filter.start_date"></md-datepicker>
+        </div>
+        <div flex layout-padding>
+          <md-input-container>
+            <label>Departamento</label>
+            <md-select aria-label="Departamento" ng-model="filter.department_id">
+              <md-option value="0" >Todos los departamentos</md-option>
+              <md-option ng-repeat="department in data.departments" value="{{department.id}}">{{department.name}}</md-option>
+            </md-select>
+          </md-input-container>
+        </div>
+        <div flex layout-padding>
+          <md-input-container ng-if="filter.department_id != 0">
+            <label>Provincia</label>
+            <md-select aria-label="Provincia" ng-model="filter.province_id">
+              <md-option ng-repeat="province in data.provinces | filter: { department_id: filter.department_id }" value="{{province.id}}">{{province.name}}</md-option>
+            </md-select>
+          </md-input-container>
+        </div>
+      </div>
+      <md-button type="submit" ng-disabled="isLoading" class="md-raised md-primary">
+        Filtrar métricas
+        <md-progress-circular ng-show="isLoading" md-mode="indeterminate" md-diameter="40"></md-progress-circular>
+      </md-button>
+    </form>
+
+    <section ng-if="queryDone == true">
+      <div class="canvas-container">
+        <canvas id="bar" class="chart chart-bar"
+          chart-data="chart.data" chart-labels="chart.labels" chart-series="chart.series" chart-options="chart.options" ng-if="chartType == 'bar'">
+        </canvas>
+        <canvas id="line" class="chart chart-line" chart-data="chart.data"
+          chart-labels="chart.labels" chart-series="chart.series"
+          chart-options="chartOptions" ng-if="chartType == 'line'">
+        </canvas>
+        <canvas id="pie" class="chart chart-pie"
+          chart-data="chart.data" chart-labels="chart.labels" ng-if="chartType == 'pie'">
+        </canvas>
+      </div><!--
+      --><aside class="stat-options">
+        <div layout="row" layout-xs="column">
+          <md-checkbox ng-model="serieSelected[0].bool" aria-label="Ventas" ng-change="reloadStat(serieSelected[0].bool)">
+            Ventas
+          </md-checkbox>
+        </div>
+        <div layout="row" layout-xs="column">
+          <md-checkbox ng-model="serieSelected[1].bool" aria-label="Alcance directo" ng-change="reloadStat(serieSelected[1].bool)">
+            Alcance directo
+          </md-checkbox>
+        </div>
+        <div layout="row" layout-xs="column">
+          <md-checkbox ng-model="serieSelected[2].bool" aria-label="Alcance indirecto" ng-change="reloadStat(serieSelected[2].bool)">
+            Alcance indirecto
+          </md-checkbox>
+        </div>
+      </aside>
+    </section>
+
+  </md-content>
+</div>

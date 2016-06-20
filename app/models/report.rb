@@ -16,5 +16,4 @@ class Report < ActiveRecord::Base
   validates :province, presence: true
   validates :report_type, presence: true
 
-
 end

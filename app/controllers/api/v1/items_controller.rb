@@ -21,7 +21,7 @@ class Api::V1::ItemsController < Api::V1::BaseController
 
   def update
     @item = Item.find(params[:id])
-    if @current_user.role[:name] = "admin"
+    if @current_user.role[:name] = "Admin"
       @item.update(name: params[:data][:name])
       render :json => @item
     else
@@ -31,7 +31,7 @@ class Api::V1::ItemsController < Api::V1::BaseController
 
   def destroy
     @item = Item.find(params[:id])
-    if @current_user.role[:name] = "admin"
+    if @current_user.role[:name] = "Admin"
       @item.destroy
       render :json => { :message => "Item eliminado" }
     else

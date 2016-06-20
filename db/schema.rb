@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160526221401) do
+ActiveRecord::Schema.define(version: 20160614174347) do
 
   create_table "activities", force: :cascade do |t|
     t.string   "name"
@@ -148,6 +148,7 @@ ActiveRecord::Schema.define(version: 20160526221401) do
     t.integer  "point_detail_id"
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
+    t.string   "name"
   end
 
   add_index "quantities", ["point_detail_id"], name: "index_quantities_on_point_detail_id"
@@ -175,9 +176,10 @@ ActiveRecord::Schema.define(version: 20160526221401) do
     t.integer  "activity_id"
     t.integer  "district_id"
     t.integer  "report_type_id"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
     t.integer  "province_id"
+    t.boolean  "approved",       default: false
   end
 
   add_index "reports", ["activity_id"], name: "index_reports_on_activity_id"

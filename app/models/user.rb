@@ -6,7 +6,7 @@ class User < ActiveRecord::Base
   belongs_to :district
   belongs_to :province
   has_many :reports
-  has_many :tokens
+  has_many :tokens, :dependent => :destroy
 
   validates :nick_name, presence: true, uniqueness: true
   validates :role, presence: true

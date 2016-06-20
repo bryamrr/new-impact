@@ -1,14 +1,20 @@
 Rails.application.routes.draw do
+  root 'application#index'
+  get 'dashboard/*path' => 'application#index'
+
   namespace :api, defaults: { format: "json" } do
     namespace :v1 do
-      resources :users, only: [:create, :update]
+      resources :users, except: [:new, :edit]
       post 'users/login', to: 'users#login'
       post 'users/logout', to: 'users#logout'
 
       resources :reports, except: [:new, :edit]
+      post 'approve/:id', to: 'reports#approve'
+
       resources :items, except: [:new, :edit]
       resources :vouchers, except: [:new, :edit]
       resources :companies, except: [:new, :edit]
+      resources :activities, except: [:new, :edit]
 
       get 'data_reports/point', to: 'data_reports#point'
       get 'data_reports/expense', to: 'data_reports#expense'

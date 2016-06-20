@@ -1,41 +1,53 @@
 class Api::V1::CompaniesController < Api::V1::BaseController
   def index
-    @companies = Company.all
-    render :json => @companies
+    if @current_user.role[:name] == "Admin"
+      @companies = Company.all
+      render :json => @companies
+    else
+      render :json => { :message => "No tienes acceso"}, status: :unauthorized
+    end
   end
 
   def show
-    @company = Company.find(params[:id])
-    render :json => @company
+    if @current_user.role[:name] == "Admin"
+      @company = Company.find(params[:id])
+      render :json => @company
+    else
+      render :json => { :message => "No se encontró la actividad"}, status: :not_found
+    end
   end
 
   def create
-    @company = Company.new(name: params[:data][:name])
+    if @current_user.role[:name] == "Admin"
+      @company = Company.new(name: params[:data][:name], logo_url: params[:data][:logo_url], ruc: params[:data][:ruc], email: params[:data][:email])
 
-    if @company.save
-      render :json => @company
+      if @company.save
+        render :json => @company
+      else
+        render :json => { :errors => @company.errors.full_messages }, status: :unprocessable_entity
+      end
     else
-      render :json => { :errors => @company.errors.full_messages }, status: :unprocessable_entity
+      render :json => { :message => "No tienes acceso"}, status: :unauthorized
     end
   end
 
   def update
-    @company = Company.find(params[:id])
-    if @current_user.role[:name] = "admin"
+    if @current_user.role[:name] == "Admin"
+      @company = Company.find(params[:id])
       @company.update(name: params[:data][:name])
       render :json => @company
     else
-      render :json => { :error => "No se encontró el empresa" }, status: :not_found
+      render :json => { :error => "No se encontró la compañía" }, status: :not_found
     end
   end
 
   def destroy
-    @company = Company.find(params[:id])
-    if @current_user.role[:name] = "admin"
+    if @current_user.role[:name] == "Admin"
+      @company = Company.find(params[:id])
       @company.destroy
       render :json => { :message => "Empresa eliminada" }
     else
-      render :json => { :errors => "No se encontró el empresa" }, status: :not_found
+      render :json => { :errors => "No se encontró la compañía" }, status: :not_found
     end
   end
 end

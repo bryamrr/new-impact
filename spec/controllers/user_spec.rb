@@ -4,8 +4,8 @@ RSpec.describe Api::V1::UsersController, type: :controller do
   describe "POST /api/v1/users" do
     it "should create user if nickname not exists" do
       token = FactoryGirl.create(:token)
-      request.env["Authorization"] = "Bearer " + token.token
-      data = { nick_name: "bryamrrr", password: "123456", role: "admin"}
+      request.headers["Authorization"] = "Bearer " + token.token
+      data = { nick_name: "bryamrrr", password: "123456", role: "Admin"}
 
       expect{
         post :create, { data: data }
@@ -14,8 +14,8 @@ RSpec.describe Api::V1::UsersController, type: :controller do
 
     it "should not create user if nickname exists" do
       token = FactoryGirl.create(:token)
-      request.env["Authorization"] = "Bearer " + token.token
-      data = { nick_name: "bryamrr", password: "123456", role: "admin"}
+      request.headers["Authorization"] = "Bearer " + token.token
+      data = { nick_name: "bryamrr", password: "123456", role: "Admin"}
 
       expect{
         post :create, { data: data }
@@ -27,8 +27,8 @@ RSpec.describe Api::V1::UsersController, type: :controller do
       user = FactoryGirl.create(:user, role: role)
       token = FactoryGirl.create(:token, user: user)
 
-      request.env["Authorization"] = "Bearer " + token.token
-      data = { nick_name: "bryamrrr", password: "123456", role: "admin", token: token.token}
+      request.headers["Authorization"] = "Bearer " + token.token
+      data = { nick_name: "bryamrrr", password: "123456", role: "Admin", token: token.token}
 
       expect{
         post :create, { data: data }
@@ -37,8 +37,8 @@ RSpec.describe Api::V1::UsersController, type: :controller do
 
     it "responds with a message when user was created" do
       token = FactoryGirl.create(:token)
-      request.env["Authorization"] = "Bearer " + token.token
-      data = { nick_name: "bryamrrr", password: "123456", role: "admin"}
+      request.headers["Authorization"] = "Bearer " + token.token
+      data = { nick_name: "bryamrrr", password: "123456", role: "Admin"}
 
       post :create, { data: data }
       expect(response).to have_http_status(:created)
@@ -94,7 +94,7 @@ RSpec.describe Api::V1::UsersController, type: :controller do
       post :login, { data: data }
       json = JSON.parse(response.body)
 
-      expect(json["role"]).to eq("admin")
+      expect(json["role"]).to eq("Admin")
     end
   end
 
@@ -107,10 +107,28 @@ RSpec.describe Api::V1::UsersController, type: :controller do
       json = JSON.parse(response.body)
       token_str = json["token"]
 
-      data = { token: token_str }
+      request.headers["Authorization"] = "Bearer " + token_str
+
       post :logout, { data: data }
 
       expect(Token.exists?(token: token_str)).to eq(false)
+    end
+  end
+
+  describe "GET /api/v1/users/:nickname" do
+    it "should send user data if has the credentials" do
+      user = FactoryGirl.create(:user)
+      data = { nick_name: "bryamrr", password: "123456" }
+
+      post :login, { data: data }
+      json = JSON.parse(response.body)
+      token_str = json["token"]
+
+      request.headers["Authorization"] = "Bearer " + token_str
+
+      get :show, id: "bryamrr"
+      json = JSON.parse(response.body)
+      expect(json["nick_name"]).to eq("bryamrr");
     end
   end
 end

@@ -6,6 +6,7 @@ class Api::V1::DataReportsController < Api::V1::BaseController
     @activities = Activity.all
     @departments = Department.all
     @provinces = Province.all
+    @roles = Role.all
 
     render :json => {
       :companies => @companies,
@@ -13,7 +14,8 @@ class Api::V1::DataReportsController < Api::V1::BaseController
       :modes => @modes,
       :activities => @activities,
       :departments => @departments,
-      :provinces => @provinces
+      :provinces => @provinces,
+      :roles => @roles
     }
   end
 

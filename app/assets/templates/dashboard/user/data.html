@@ -1,0 +1,78 @@
+<header-bread-crumb>
+</header-bread-crumb>
+<div class="loading-content loading-content-js">
+  <img src="/loading-content.svg" alt="" />
+</div>
+<div class="wrapper-content padding-30">
+  <div class="material-background">
+    <div class="display-inline wrapper-gravatar medium">
+      <span gravatar name="{{ username }}" email="{{ email }}" width="100" height="100" ></span>
+    </div><!--
+    --><div class="display-inline ml-10 ">
+      <h3 class="mb-0 color-white"><strong ng-bind="usuario"></strong></h3>
+      <p>Mis datos</p>
+    </div>
+  </div>
+  <md-content layout-padding>
+    <form novalidate name="form" ng-submit="update(form, user)" ng-validate="validationOptions">
+      <div layout="row" layout-xs="column">
+        <div flex layout-padding >
+          <md-input-container >
+            <label>Usuario:</label>
+            <input type="text"
+              name="user"
+              ng-model="user.nick_name"
+              disabled="true"
+            >
+            <div class="border-bottom"></div>
+          </md-input-container>
+        </div>
+        <div flex layout-padding>
+          <md-input-container >
+            <label>Email:</label>
+            <input type="text"
+              name="email"
+              ng-model="user.email"
+              disabled="true"
+            >
+            <div class="border-bottom"></div>
+          </md-input-container>
+        </div>
+      </div>
+      <div layout="row" layout-xs="column">
+        <div flex layout-padding >
+          <md-input-container >
+            <label>DNI:</label>
+            <input type="text"
+              name="document_number"
+              ng-model="user.dni"
+              disabled="true"
+            >
+            <div class="border-bottom"></div>
+          </md-input-container>
+        </div>
+        <div flex layout-padding>
+          <md-input-container >
+            <label>Teléfono:</label>
+            <input type="text"
+              name="phone"
+              ng-model="user.phone"
+              disabled="true"
+            >
+            <div class="border-bottom"></div>
+          </md-input-container>
+        </div>
+      </div>
+      <br>
+      <!-- <div layout="row" layout-xs="column">
+        <div flex layout-padding>
+          <br>
+          <md-button type="submit" disabled ng-disabled="form.$invalid || form.$pending || isLoading" class="md-button form-button">
+            Actualizar
+            <md-progress-circular ng-show="isLoading" md-mode="indeterminate" md-diameter="40"></md-progress-circular>
+          </md-button>
+        </div>
+      </div> -->
+    </form>
+  </md-content>
+</div>
