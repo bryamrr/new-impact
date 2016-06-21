@@ -40,7 +40,7 @@
     </form>
   </md-content>
 
-  <section class="summary text-align-center" ng-if="queryDone == true">
+  <section class="summary text-align-center" ng-if="queryDone == true" id="final-summary">
     <div ng-if="dataPerPlace.length != 0">
       <h2>{{ summary.activity }}</h2>
 
@@ -97,5 +97,9 @@
         </div>
       </div>
     </div>
+    <!-- <md-button type="submit" ng-disabled="isLoading" class="btn form-button" ng-click="downloadSummary()">
+      Descargar
+      <md-progress-circular ng-show="isLoadingImage" md-mode="indeterminate" md-diameter="40"></md-progress-circular>
+    </md-button> -->
   </section>
 </div>

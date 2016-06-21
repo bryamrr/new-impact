@@ -48,6 +48,16 @@ function ActivitySummaryController($scope, HttpRequest, urls, MessagesService) {
     });
   }
 
+  $scope.downloadSummary = function () {
+    // $scope.isLoadingImage = true;
+    var target = $('#final-summary');
+    html2canvas(target, {
+      onrendered: function(canvas) {
+        return Canvas2Image.saveAsPNG(canvas);
+      }
+    });
+  }
+
   $scope.prepareData = function () {
     var lonDataFiltered = $scope.dataFiltered.length;
     var currentData = {};
