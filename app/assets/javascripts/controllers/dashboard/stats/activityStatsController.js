@@ -63,6 +63,7 @@ function ActivityStatsController($scope, HttpRequest, urls, MessagesService) {
           for (var j = 0; j < dataPerPlace.length; j++) {
             if (currentData.province.name == dataPerPlace[j].province) {
               addToPlace(currentData, j);
+              break;
             } else if (j == dataPerPlace.length - 1) {
               addNewPlace(currentData);
               j++;

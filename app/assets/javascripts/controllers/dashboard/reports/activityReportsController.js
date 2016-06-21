@@ -26,7 +26,7 @@ function ActivityReportsController($scope, HttpRequest, urls, MessagesService) {
     var promise = HttpRequest.send("DELETE", url);
 
     promise.then(function (response){
-      MessagesService.display("Actividad eliminada exitosamente", "success", 1000);
+      MessagesService.display("Reporte eliminado exitosamente", "success", 1000);
       $scope.reports.splice(index, 1);
       item.isLoading = false;
     }, function(error){
