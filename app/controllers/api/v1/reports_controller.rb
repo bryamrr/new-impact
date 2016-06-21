@@ -135,6 +135,7 @@ class Api::V1::ReportsController < Api::V1::BaseController
 
       Quantity.where(point_detail: point_detail).destroy_all
       Comment.where(point_detail: point_detail).destroy_all
+      Photo.where(point_detail: point_detail).destroy_all
 
       if report_params[:comments]
         report_params[:comments].each do |comment|
@@ -147,6 +148,12 @@ class Api::V1::ReportsController < Api::V1::BaseController
         report_params[:quantities].each do |quantity|
           quantity_type = QuantityType.find(quantity["quantity_type_id"])
           Quantity.create(quantity_type: quantity_type, used: quantity[:used], remaining: quantity[:remaining], name: quantity[:name], point_detail: point_detail)
+        end
+      end
+
+      if report_params[:photos]
+        report_params[:photos].each do |photo|
+          Photo.create(url: photo[:url], point_detail: point_detail)
         end
       end
 

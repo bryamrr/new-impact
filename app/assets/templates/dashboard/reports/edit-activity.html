@@ -346,12 +346,24 @@
           <textarea ng-model="report.comment[4]" md-maxlength="150" rows="2" md-select-on-focus></textarea>
         </md-input-container>
       </div>
-      <!-- <h3>Fotos</h3>
-      <div id="photos"></div>
-      <input id="photoInput" name="photo-input" type="file" class="ng-hide">
-      <md-button ng-click="addPhoto()" aria-label="Agregar foto">
-        <md-icon class="fa fa-plus"></md-icon>
-      </md-button> -->
+      <h3>Fotos</h3>
+      <div class="layout-padding">
+        <md-button class="md-fab md-mini md-primary" ng-click="addPhoto()" aria-label="Agregar foto">
+          <md-icon class="fa fa-plus"></md-icon>
+        </md-button>
+        <input id="photoInput" name="photo-input" type="file" class="ng-hide">
+      </div>
+      <div class="layout-padding photos" id="photos">
+        <article class='photo' ng-repeat="photo in report.point_details[0].photos">
+          <div class='div-photo'>
+            <img ng-src='{{photo.url}}'/>
+            <span class='fa-stack' ng-click='removeSavedPhoto($index)'>
+              <i class='fa fa-circle fa-stack-2x'></i>
+              <i class='fa fa-times fa-stack-1x fa-inverse'></i>
+            </span>
+          </div>
+        </article>
+      </div>
       <md-button type="submit" ng-disabled="isLoading" class="btn form-button">
         Actualizar
         <md-progress-circular ng-show="isLoading" md-mode="indeterminate" md-diameter="40"></md-progress-circular>

@@ -203,9 +203,6 @@ function CreateReportController($scope, $timeout, $compile, $state, HttpRequest,
     $("#photoInput").change(function() {
       readURL(this);
     });
-    $("#photo-0").on("click", function () {
-      $scope.removePhoto($(this).parent().parent().data("id"));
-    });
   });
 
   /* ----------------------------------- */
