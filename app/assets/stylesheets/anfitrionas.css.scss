@@ -1,0 +1,137 @@
+$primary-blue: #527CB4;
+$background-blue: #9FADC5;
+$gray: #999;
+$light-gray: #F2F2F2;
+
+body { overflow: hidden; }
+
+.login-legacy {
+  background: white;
+  border-radius: 5px;
+  margin-top: 50px;
+  padding: 25px;
+  text-align: center;
+  width: 35%;
+  i {
+    color: $primary-blue;
+    font-size: 5em;
+  }
+  h2 {
+    border-bottom: 1px solid $light-gray;
+    font-size: 24px;
+    margin-top: 10px;
+    padding-bottom: 20px;
+  }
+  input[type="text"], input[type="password"], input[type="email"], select {
+    border-radius: 5px;
+    border: 1px solid $light-gray;
+    box-shadow: 2px 2px 3px $light-gray;
+    margin-bottom: 20px;
+    outline: none;
+    padding: 5px;
+    width: 100%;
+  }
+  select {
+    position: static;
+  }
+  label, em {
+    color: $gray;
+    font-size: 16px;
+  }
+  form {
+    padding: 30px;
+    text-align: left;
+  }
+  input[type="submit"] {
+    background-color: $primary-blue;
+    border-radius: 5px;
+    border: none;
+    box-shadow: 2px 2px 4px $light-gray;
+    color: white;
+    float: right;
+    margin-top: 10px;
+    padding: 5px 10px;
+    width: 50%;
+  }
+}
+.anfitrionas {
+  position: fixed;
+  left: 0;
+  right: 0;
+  margin-top: 40px !important;
+  z-index: 9999;
+  margin-left: auto;
+  margin-right: 60px;
+  padding-bottom: 40px;
+  input[type=submit] {
+    width: 100%;
+  }
+}
+.full-container {
+  background-image: url(asset-path('anfitrionas.jpg'));
+  background-size: 100%;
+  -webkit-filter: blur(3px);
+  background-position-y: -200px;
+  overflow: hidden;
+  width: 100%;
+  position: fixed;
+  left: 0;
+  right: 0;
+  z-index: 1;
+
+  display: block;
+  height: 800px;
+}
+.overlay-legacy {
+  background-color: black;
+  opacity: .3;
+  width: 100%;
+  position: fixed;
+  left: 0;
+  right: 0;
+  z-index: 2;
+
+  display: block;
+  height: 800px;
+}
+.anfitrionas-title {
+  top: 110px;
+  margin-left: 100px;
+  position: fixed;
+  z-index: 3;
+  max-width: 600px;
+  h1, .tagline, ul {
+    color: white;
+  }
+  h1 {
+    font-size: 60px;
+    margin-bottom: 20px;
+    text-align: left;
+  }
+  .tagline {
+    font-size: 28px;
+    margin-bottom: 50px;
+  }
+  li {
+    font-size: 20px;
+    list-style-type: none;
+    margin-bottom: 20px;
+  }
+  i {
+    margin-right: 10px;
+  }
+}
+.thank-you {
+  background-color: white;
+  text-align: center;
+  margin: 50px auto;
+  padding: 50px;
+  max-width: 700px;
+  h1 {
+    margin: 0 auto 30px;
+    text-align: center;
+  }
+  p {
+    font-size: 22px;
+  }
+}

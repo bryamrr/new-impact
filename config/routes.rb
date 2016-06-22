@@ -1,6 +1,9 @@
 Rails.application.routes.draw do
-  root 'application#index'
   get 'dashboard/*path' => 'application#index'
+
+  get '/anfitrionas' => 'web#anfitrionas'
+  get '/gracias' => 'web#gracias'
+  post '/suscribir' => 'subscribe#create'
 
   namespace :api, defaults: { format: "json" } do
     namespace :v1 do
