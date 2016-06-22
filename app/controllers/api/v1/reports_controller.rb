@@ -1,12 +1,32 @@
 class Api::V1::ReportsController < Api::V1::BaseController
 
   def index
+    report_type = ReportType.find(2)
     if @current_user.role[:name] == "Admin"
-      @reports = Report.all
+      @reports = Report.where(report_type: report_type)
     elsif @current_user.role[:name] == "Customer"
-      @reports = Report.where(company: @current_user.company, approved: true)
+      @reports = Report.where(report_type: report_type, company: @current_user.company, approved: true)
     else
-      @reports = Report.where(user: @current_user)
+      @reports = Report.where(report_type: report_type, user: @current_user)
+    end
+
+    render :json => @reports.to_json(:include => {
+      :user => { :except => [:encrypted_password, :salt] },
+      :company => { :only => [:name, :logo_url] },
+      :activity => { :only => [:name] },
+      :province => { :only => [:name] },
+      :report_type => { :only => [:name] }
+      })
+  end
+
+  def expenses
+    report_type = ReportType.find(1)
+    if @current_user.role[:name] == "Admin"
+      @reports = Report.where(report_type: report_type)
+    elsif @current_user.role[:name] == "Customer"
+      render :json => { message: "No puede ver gastos" }, status: :unauthorized
+    else
+      @reports = Report.where(report_type: report_type, user: @current_user)
     end
 
     render :json => @reports.to_json(:include => {
