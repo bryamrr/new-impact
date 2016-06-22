@@ -45,6 +45,12 @@ class Api::V1::ReportsController < Api::V1::BaseController
       render :json => @report.to_json(:include => {
         :user => { :except => [:encrypted_password, :salt] },
         :company => { :except => [:created_at, :updated_at] },
+        :expenses => {
+          :include => {
+            :item => { :except => [:created_at, :updated_at] },
+            :voucher => { :except => [:created_at, :updated_at] }
+          }
+        },
         :activity => { :except => [:created_at, :updated_at] },
         :province => { :except => [:created_at, :updated_at] },
         :report_type => { :except => [:created_at, :updated_at] },

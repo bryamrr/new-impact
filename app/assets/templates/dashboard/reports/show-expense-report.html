@@ -1,0 +1,33 @@
+<header-bread-crumb>
+</header-bread-crumb>
+<div class="loading-content loading-content-js">
+  <img src="/loading-content.svg" alt="" />
+</div>
+<div class="wrapper-content padding-15">
+  <md-content class="padding-15">
+    <div class="layout-padding">
+      <p>Compañía: <strong>{{report.company.name}}</strong></p>
+      <p>Actividad: <strong>{{report.activity.name}}</strong></p>
+      <p>Plaza: <strong>{{report.province.name}}</strong></p>
+    </div>
+    <md-table-container>
+      <table md-table class="big">
+        <thead md-head>
+          <tr md-row>
+            <th md-column>Item</th>
+            <th md-column>Voucher</th>
+            <th md-column>Total</th>
+            <th md-column>Observación</th>
+          </tr>
+        </thead>
+        <tbody md-body>
+          <tr md-row ng-repeat="expense in report.expenses">
+            <td md-cell>{{expense.item.name}}</td>
+            <td md-cell>{{expense.voucher.name}}</td>
+            <td md-cell>{{expense.total}}</td>
+            <td md-cell>{{expense.comment}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </md-table-container>
+</div>
