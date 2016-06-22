@@ -16,4 +16,12 @@ function ShowExpenseReportController($scope, $stateParams, HttpRequest, urls) {
     MessagesService.display(error.errors, "error");
     console.log(error);
   });
+
+  $scope.downloadTable = function () {
+    $("#expenses-list").table2excel({
+        exclude: "",
+        name: "Worksheet Name",
+        filename: "Reporte de gastos - " + $scope.report.province.name // Don't include extension
+    });
+  };
 }
