@@ -1,0 +1,61 @@
+<div class="full-container">
+
+</div>
+<div class="overlay-legacy">
+
+</div>
+<div class="anfitrionas-title">
+  <h1>Únete a nosotros</h1>
+  <p class="tagline">... y se parte de este gran equipo</p>
+  <ul>
+    <li><i class="fa fa-check-circle"></i>Registra tus datos actuales e integra nuestra base de datos a nivel nacional</li>
+    <li><i class="fa fa-check-circle"></i>Registra tus datos reales y actuales</li>
+    <li><i class="fa fa-check-circle"></i>Registra el correo electrónico que revises con mayor frecuencia</li>
+    <li><i class="fa fa-check-circle"></i>Recibirás avisos por correo de los requerimientos que tengamos</li>
+  </ul>
+</div>
+<div class="anfitrionas login-legacy">
+  <h2>Déjanos tus datos</h2>
+  <%= form_tag '/suscribir', target: "_top" do %>
+  <div class="row">
+    <div class="col-xs-6">
+      <%= text_field_tag :first_name, nil, type: "text", placeholder: "Tus nombres" %>
+    </div>
+    <div class="col-xs-6">
+      <%= text_field_tag :last_name, nil, type: "text", placeholder: "Tus apellidos" %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-6">
+      <%= text_field_tag :city, nil, type: "text", placeholder: "Ciudad" %>
+    </div>
+    <div class="col-xs-6">
+      <%= text_field_tag :phone, nil, type: "text", placeholder: "Celular" %>
+    </div>
+  </div>
+  <%= text_field_tag :email, nil, type: "email", placeholder: "Tu email", pattern: "[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$", required: true %>
+  <%= text_field_tag :bmeasure, nil, type: "text", placeholder: "Medidas corporales" %>
+  <%= text_field_tag :size, nil, type: "text", placeholder: "Estatura sin tacos" %>
+  <div class="row">
+    <div class="col-xs-6">
+      <select name="hcolor" id="hcolor">
+        <option value="Rubio">Rubio</option>
+        <option value="Castaño claro">Castaño claro</option>
+        <option value="Castaño oscuro">Castaño oscuro</option>
+        <option value="Pelirrojo">Pelirrojo</option>
+        <option value="Negro">Negro</option>
+        <option value="Otro">Otro</option>
+      </select>
+    </div>
+    <div class="col-xs-6">
+      <select name="scolor" id="scolor">
+        <option value="Balnca">Blanca</option>
+        <option value="Canela">Canela</option>
+        <option value="Trigueña">Trigueña</option>
+        <option value="Morena">Morena</option>
+      </select>
+    </div>
+  </div>
+  <%= submit_tag "Regístrate" %>
+  <% end %>
+</div>

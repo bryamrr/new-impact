@@ -171,6 +171,18 @@ function routes($stateProvider, $urlRouterProvider, $locationProvider) {
         }
       }
     })
+    .state('reports.activities.show',{
+      url: '/gasto/:id',
+      data: {
+        title: 'Ver'
+      },
+      views: {
+        'content@reports': {
+          templateUrl: 'dashboard/reports/show-expense-report.html',
+          controller: 'ShowExpenseReportController'
+        }
+      }
+    })
 
 
     // Summary

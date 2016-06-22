@@ -5,12 +5,12 @@
 </div>
 <div class="wrapper-content padding-30">
   <md-content  layout-padding>
-    <form novalidate ng-submit="sendReport(form)" name="form">
+    <form novalidate ng-submit="sendReport(form)" name="form" ng-validate="validationOptions" class="create-report">
       <div layout="row" layout-xs="column">
         <div flex layout-padding>
           <md-input-container>
             <label>Cliente</label>
-            <md-select aria-label="Cliente" ng-model="report.company_id">
+            <md-select aria-label="Cliente" ng-model="report.company_id" name="customer">
               <md-option ng-value="{{company.id}}" ng-repeat="company in data.companies">{{company.name}}</md-option>
             </md-select>
           </md-input-container>
@@ -75,7 +75,7 @@
           <md-input-container >
             <label>Alcance Directo</label>
             <input type="text"
-              name="scope"
+              name="direct"
               ng-model="report.scope"
             >
             <div class="border-bottom"></div>
@@ -85,7 +85,7 @@
           <md-input-container >
             <label>Alcance Indirecto</label>
             <input type="text"
-              name="people"
+              name="indirect"
               ng-model="report.people"
             >
             <div class="border-bottom"></div>
@@ -107,7 +107,7 @@
           <md-input-container >
             <label>Hora de inicio</label>
             <input type="time"
-              name="start_time"
+              name="startTime"
               ng-model="report.start_time"
             >
             <div class="border-bottom"></div>
@@ -117,7 +117,7 @@
           <md-input-container >
             <label>Hora de cierre</label>
             <input type="time"
-              name="end_time"
+              name="endTime"
               ng-model="report.end_time"
             >
             <div class="border-bottom"></div>
@@ -142,7 +142,7 @@
           <md-input-container >
             <label>Cantidad usada</label>
             <input type="text"
-              name="presentation_used"
+              name="productUsed"
               ng-model="report.presentation.used"
             >
             <div class="border-bottom"></div>
@@ -152,7 +152,7 @@
           <md-input-container >
             <label>Cantidad restante</label>
             <input type="text"
-              name="presentation_remaining"
+              name="productRemaining"
               ng-model="report.presentation.remaining"
             >
             <div class="border-bottom"></div>
@@ -355,8 +355,8 @@
       </div>
       <div class="layout-padding photos" id="photos">
       </div>
-      <md-button type="submit" ng-disabled="isLoading" class="md-raised md-primary">
-        Enviar reporte
+      <md-button type="submit" ng-disabled="isLoading" class="btn form-button">
+        Enviar
         <md-progress-circular ng-show="isLoading" md-mode="indeterminate" md-diameter="40"></md-progress-circular>
       </md-button>
     </form>

@@ -2,6 +2,10 @@ Rails.application.routes.draw do
   root 'application#index'
   get 'dashboard/*path' => 'application#index'
 
+  get '/anfitrionas' => 'web#anfitrionas'
+  get '/gracias' => 'web#gracias'
+  post '/suscribir' => 'subscribe#create'
+
   namespace :api, defaults: { format: "json" } do
     namespace :v1 do
       resources :users, except: [:new, :edit]
@@ -9,6 +13,7 @@ Rails.application.routes.draw do
       post 'users/logout', to: 'users#logout'
 
       resources :reports, except: [:new, :edit]
+      get 'expenses', to: 'reports#expenses'
       post 'approve/:id', to: 'reports#approve'
 
       resources :items, except: [:new, :edit]

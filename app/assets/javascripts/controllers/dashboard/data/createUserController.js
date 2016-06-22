@@ -36,7 +36,12 @@ function CreateUserController($scope, HttpRequest, urls, MessagesService) {
     $scope.newUser.password = pass;
   };
 
-  $scope.add = function () {
+  $scope.add = function (form) {
+    if(!form.validate() || ($scope.newUser.role_id == 3 && !$scope.newUser.company_id)) {
+      MessagesService.display("Falta completar el formulario", "error");
+      return false;
+    }
+
     $scope.isLoading = true;
 
     var url = urls.BASE_API + '/users';
@@ -59,5 +64,46 @@ function CreateUserController($scope, HttpRequest, urls, MessagesService) {
       $scope.isLoading = false;
       console.log(error);
     });
+  }
+
+  /* ----------------------------------- */
+  /* FORM VALIDATE */
+  /* ----------------------------------- */
+  $scope.validationOptions = {
+    debug: false,
+    onkeyup: false,
+    rules: {
+      nickname: {
+        required: true
+      },
+      password: {
+        required: true,
+        minlength: 6
+      }
+    },
+    messages: {
+      nickname: {
+        required: 'Ingrese un nickname'
+      },
+      password: {
+        required: 'Ingresa una contraseña',
+        minlength: 'La contraseña debe contener mínimo 6 caracteres'
+      }
+    },
+    highlight: function (element) {
+      $(element).parents('md-input-container').addClass('error');
+      $(element).parents('form').addClass('error');
+      $(element).parent('div').addClass('error');
+      $(element).addClass('error');
+    },
+    unhighlight: function (element) {
+      $(element).parents('md-input-container').removeClass('error');
+      $(element).parents('form').removeClass('error');
+      $(element).parent('div').removeClass('error');
+      $(element).removeClass('error');
+    },
+    errorElement: "div",
+    errorClass:'error error-input',
+    validClass:'valid valid-input'
   }
 }

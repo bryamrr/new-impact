@@ -1,8 +1,8 @@
 angular.module("myapp").controller("CreateReportController", CreateReportController);
 
-CreateReportController.$inject = ['$scope', '$timeout', '$compile', '$state', 'HttpRequest', 'urls', 'CookieService', 'MessagesService'];
+CreateReportController.$inject = ['$scope', '$compile', '$state', 'HttpRequest', 'urls', 'CookieService', 'MessagesService', 'validators'];
 
-function CreateReportController($scope, $timeout, $compile, $state, HttpRequest, urls, CookieService, MessagesService) {
+function CreateReportController($scope, $compile, $state, HttpRequest, urls, CookieService, MessagesService, validators) {
   $scope.report = {
     report_type_id: 2,
     presentation: {
@@ -75,7 +75,12 @@ function CreateReportController($scope, $timeout, $compile, $state, HttpRequest,
   };
 
   // First, send photos to AmazonS3
-  $scope.sendReport = function () {
+  $scope.sendReport = function (form) {
+    if(!form.validate() || !$scope.report.company_id || !$scope.report.activity_id || !$scope.report.department_id || !$scope.report.province_id || !$scope.report.start_date || !$scope.report.end_date) {
+      MessagesService.display("Falta completar el formulario", "error");
+      return false;
+    }
+
     $scope.isLoading = true;
     if ($scope.photos[0] != undefined) {
       $scope.upload($scope.photos[0]);
@@ -198,9 +203,86 @@ function CreateReportController($scope, $timeout, $compile, $state, HttpRequest,
     $("#photoInput").change(function() {
       readURL(this);
     });
-    $("#photo-0").on("click", function () {
-      console.log("TEST");
-      $scope.removePhoto($(this).parent().parent().data("id"));
-    });
   });
+
+  /* ----------------------------------- */
+  /* FORM VALIDATE */
+  /* ----------------------------------- */
+  $scope.validationOptions = {
+    debug: false,
+    onkeyup: false,
+    rules: {
+      point: {
+        required: true
+      },
+      direct: {
+        required: true,
+        regex: validators.integer
+      },
+      indirect: {
+        required: true,
+        regex: validators.integer
+      },
+      sales: {
+        required: true,
+        regex: validators.decimal
+      },
+      startTime: {
+        required: true
+      },
+      endTime: {
+        required: true
+      },
+      productUsed: {
+        regex: validators.integer
+      },
+      productRemaining: {
+        regex: validators.integer
+      }
+    },
+    messages: {
+      point: {
+        required: 'Ingresa el punto'
+      },
+      direct: {
+        required: 'Ingresa el alcance directo',
+        regex: 'Debes ingresar un valor entero'
+      },
+      indirect: {
+        required: 'Ingresa el alcance indirecto',
+        regex: 'Debes ingresar un valor entero'
+      },
+      sales: {
+        required: 'Ingresa las ventas',
+        regex: 'Debes ingresar un valor válido'
+      },
+      startTime: {
+        required: 'Ingresa la hora de inicio'
+      },
+      endTime: {
+        required: 'Ingresa la hora de cierre'
+      },
+      productUsed: {
+        regex: 'Debes ingresar un valor entero'
+      },
+      productRemaining: {
+        regex: 'Debes ingresar un valor entero'
+      }
+    },
+    highlight: function (element) {
+      $(element).parents('md-input-container').addClass('error');
+      $(element).parents('form').addClass('error');
+      $(element).parent('div').addClass('error');
+      $(element).addClass('error');
+    },
+    unhighlight: function (element) {
+      $(element).parents('md-input-container').removeClass('error');
+      $(element).parents('form').removeClass('error');
+      $(element).parent('div').removeClass('error');
+      $(element).removeClass('error');
+    },
+    errorElement: "div",
+    errorClass:'error error-input',
+    validClass:'valid valid-input'
+  }
 }

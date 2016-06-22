@@ -1,12 +1,32 @@
 class Api::V1::ReportsController < Api::V1::BaseController
 
   def index
+    report_type = ReportType.find(2)
     if @current_user.role[:name] == "Admin"
-      @reports = Report.all
+      @reports = Report.where(report_type: report_type)
     elsif @current_user.role[:name] == "Customer"
-      @reports = Report.where(company: @current_user.company, approved: true)
+      @reports = Report.where(report_type: report_type, company: @current_user.company, approved: true)
     else
-      @reports = Report.where(user: @current_user)
+      @reports = Report.where(report_type: report_type, user: @current_user)
+    end
+
+    render :json => @reports.to_json(:include => {
+      :user => { :except => [:encrypted_password, :salt] },
+      :company => { :only => [:name, :logo_url] },
+      :activity => { :only => [:name] },
+      :province => { :only => [:name] },
+      :report_type => { :only => [:name] }
+      })
+  end
+
+  def expenses
+    report_type = ReportType.find(1)
+    if @current_user.role[:name] == "Admin"
+      @reports = Report.where(report_type: report_type)
+    elsif @current_user.role[:name] == "Customer"
+      render :json => { message: "No puede ver gastos" }, status: :unauthorized
+    else
+      @reports = Report.where(report_type: report_type, user: @current_user)
     end
 
     render :json => @reports.to_json(:include => {
@@ -25,6 +45,12 @@ class Api::V1::ReportsController < Api::V1::BaseController
       render :json => @report.to_json(:include => {
         :user => { :except => [:encrypted_password, :salt] },
         :company => { :except => [:created_at, :updated_at] },
+        :expenses => {
+          :include => {
+            :item => { :except => [:created_at, :updated_at] },
+            :voucher => { :except => [:created_at, :updated_at] }
+          }
+        },
         :activity => { :except => [:created_at, :updated_at] },
         :province => { :except => [:created_at, :updated_at] },
         :report_type => { :except => [:created_at, :updated_at] },
@@ -63,8 +89,9 @@ class Api::V1::ReportsController < Api::V1::BaseController
         report_params[:expenses].each do |expense|
           item = Item.find(expense[:item_id])
           voucher = Voucher.find(expense[:voucher_id])
-          expensed = Expense.create(voucher: voucher, item: item, comment: expense[:comment], subtotal: expense[:subtotal], total: 0, report: @report)
+          Expense.create(voucher: voucher, item: item, comment: expense[:comment], subtotal: 0, total: expense[:total], report: @report)
         end
+        render :json => { :meesage => "Reporte creado" }, status: :created
       elsif report_params["report_type_id"] == 2
         point_detail = PointDetail.new(point: report_params["point"], scope: report_params["scope"], sales: report_params["sales"], people: report_params["people"], product: report_params["product"], report: @report, start_time: report_params["start_time"], end_time: report_params["end_time"], report: @report)
 
@@ -135,6 +162,7 @@ class Api::V1::ReportsController < Api::V1::BaseController
 
       Quantity.where(point_detail: point_detail).destroy_all
       Comment.where(point_detail: point_detail).destroy_all
+      Photo.where(point_detail: point_detail).destroy_all
 
       if report_params[:comments]
         report_params[:comments].each do |comment|
@@ -147,6 +175,12 @@ class Api::V1::ReportsController < Api::V1::BaseController
         report_params[:quantities].each do |quantity|
           quantity_type = QuantityType.find(quantity["quantity_type_id"])
           Quantity.create(quantity_type: quantity_type, used: quantity[:used], remaining: quantity[:remaining], name: quantity[:name], point_detail: point_detail)
+        end
+      end
+
+      if report_params[:photos]
+        report_params[:photos].each do |photo|
+          Photo.create(url: photo[:url], point_detail: point_detail)
         end
       end
 
@@ -197,7 +231,7 @@ class Api::V1::ReportsController < Api::V1::BaseController
       photos: [:url],
       quantities: [:quantity_type_id, :used, :remaining, :name],
       comments: [:comment, :comment_type_id],
-      expenses: [:item_id, :voucher_id, :comment, :subtotal])
+      expenses: [:item_id, :voucher_id, :comment, :subtotal, :total])
   end
 
 end

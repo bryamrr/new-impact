@@ -30,6 +30,8 @@ gem 'angular-rails-templates'
 
 gem "font-awesome-rails"
 
+gem 'mailchimp-api', require: 'mailchimp'
+gem 'figaro'
 # Use Unicorn as the app server
 # gem 'unicorn'
 

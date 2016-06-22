@@ -4,6 +4,7 @@ ng-md-icon {
 
 .canvas-container,
 .stat-options {
+  padding: 0 16px;
   display: inline-block;
   vertical-align: top;
 }
@@ -128,10 +129,17 @@ md-icon.fa-times {
   }
 }
 
+.create-report, .summary, .expense-report {
+  .btn.form-button {
+    margin-left: 16px;
+    margin-bottom: 16px;
+    max-width: 200px;
+  }
+}
 
-
-
-
+.add-expense {
+  margin-top: 16px;
+}
 
 
 

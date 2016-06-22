@@ -63,6 +63,7 @@ function ActivityStatsController($scope, HttpRequest, urls, MessagesService) {
           for (var j = 0; j < dataPerPlace.length; j++) {
             if (currentData.province.name == dataPerPlace[j].province) {
               addToPlace(currentData, j);
+              break;
             } else if (j == dataPerPlace.length - 1) {
               addNewPlace(currentData);
               j++;
@@ -98,6 +99,9 @@ function ActivityStatsController($scope, HttpRequest, urls, MessagesService) {
         $scope.chartType = 'line';
         generateLine();
       }
+    } else if ($scope.filter.department_id == 0 && $scope.serieSelected[0].bool && !$scope.serieSelected[1].bool && !$scope.serieSelected[2].bool) {
+      $scope.chartType = 'pie';
+      generatePie();
     } else {
       $scope.chartType = 'bar';
       for (var i = 0; i < dataPerPlace.length; i++) {
@@ -208,7 +212,6 @@ function ActivityStatsController($scope, HttpRequest, urls, MessagesService) {
     var chartValue = "";
 
     for (var i = 0; i < dataPerPlace.length; i++) {
-      console.log(dataPerPlace[i].province_id);
       if (dataPerPlace[i].province_id == $scope.filter.province_id) {
         indexProvince = i;
       }
@@ -236,4 +239,12 @@ function ActivityStatsController($scope, HttpRequest, urls, MessagesService) {
     console.log($scope.chart);
   }
 
+  function generatePie() {
+    var lonPlaces = dataPerPlace.length;
+
+    for (var i = 0; i < lonPlaces; i++) {
+      $scope.chart.labels.push(dataPerPlace[i].province);
+      $scope.chart.data.push(dataPerPlace[i].sales);
+    }
+  }
 }

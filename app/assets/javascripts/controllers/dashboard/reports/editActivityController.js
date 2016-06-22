@@ -1,8 +1,15 @@
 angular.module("myapp").controller("EditActivityController", EditActivityController);
 
-EditActivityController.$inject = ['$scope', '$q', '$stateParams', '$state', 'HttpRequest', 'urls', 'MessagesService'];
+EditActivityController.$inject = ['$scope', '$compile', '$q', '$stateParams', '$state', 'HttpRequest', 'urls', 'MessagesService', 'validators'];
 
-function EditActivityController($scope, $q, $stateParams, $state, HttpRequest, urls, MessagesService) {
+function EditActivityController($scope, $compile, $q, $stateParams, $state, HttpRequest, urls, MessagesService, validators) {
+  $scope.photos = [];
+  $scope.photosUrl = [];
+
+  var photoSent = 0;
+  var numPhoto = 0;
+  var photoId = [];
+
   var urlReport = urls.BASE_API + '/reports/' + $stateParams.id;
   var reportPromise = HttpRequest.send("GET", urlReport);
 
@@ -15,10 +22,9 @@ function EditActivityController($scope, $q, $stateParams, $state, HttpRequest, u
     $scope.report = data[0];
     $scope.data = data[1];
 
-    console.log(data);
-
     prepareData();
 
+    console.log($scope.report);
     var $contenido = $('#contenido');
     $contenido.addClass("loaded");
   }, function(error){
@@ -28,9 +34,26 @@ function EditActivityController($scope, $q, $stateParams, $state, HttpRequest, u
     console.log(error);
   });
 
-  $scope.sendReport = function () {
+  // First, send photos to AmazonS3
+  $scope.sendReport = function (form) {
+    if(!form.validate()) {
+      MessagesService.display("Falta completar el formulario", "error");
+      return false;
+    }
+
+    $scope.isLoading = true;
+    if ($scope.photos[0] != undefined) {
+      $scope.upload($scope.photos[0]);
+    } else {
+      $scope.postReport();
+    }
+  }
+
+  // Then, post report using Rails API
+  $scope.postReport = function () {
     setQuantities();
     setComments();
+    setPhotos();
 
     var url = urls.BASE_API + '/reports/' + $stateParams.id;
     var promise = HttpRequest.send("PATCH", url, $scope.report);
@@ -44,6 +67,32 @@ function EditActivityController($scope, $q, $stateParams, $state, HttpRequest, u
       MessagesService.display(error.errors, "error");
     });
   }
+
+  $scope.creds = {
+    bucket: 'impactbtl',
+    access_key: 'AKIAJI7ULYPNQI4K4UKA',
+    secret_key: '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'
+  }
+
+  $scope.upload = function(file) {
+    // Configure The S3 Object
+    AWS.config.update({ accessKeyId: $scope.creds.access_key, secretAccessKey: $scope.creds.secret_key });
+    AWS.config.region = 'us-west-2';
+    var bucket = new AWS.S3({ params: { Bucket: $scope.creds.bucket } });
+
+    var params = {Key: file.name, ContentType: file.type, Body: file, forceIframeTransport : true};
+    bucket.upload(params, function (err, data) {
+      console.log("paso", data, err);
+      $scope.photosUrl.push(data.Location);
+      console.log("Ya se añadió en photosUrl")
+      photoSent++;
+      if ($scope.photos[photoSent] != undefined) {
+        $scope.upload($scope.photos[photoSent]);
+      } else {
+        $scope.postReport();
+      }
+    });
+  };
 
   $scope.addItem = function (itemList, newItem) {
     if (itemList == 'merchandising') {
@@ -79,6 +128,14 @@ function EditActivityController($scope, $q, $stateParams, $state, HttpRequest, u
       $scope.isLoading = false;
       MessagesService.display(error.errors, "error");
     });
+  };
+
+  $scope.addPhoto = function () {
+    $('#photoInput').trigger('click');
+  }
+
+  $scope.removeSavedPhoto = function (index) {
+    $scope.report.point_details[0].photos.splice(index, 1);
   };
 
   function prepareData() {
@@ -193,4 +250,133 @@ function EditActivityController($scope, $q, $stateParams, $state, HttpRequest, u
       }
     }
   }
+
+  function setPhotos() {
+    $scope.report.photos = [];
+
+    var lonCurrentPhotos = $scope.report.point_details[0].photos.length;
+    if (lonCurrentPhotos != 0) {
+      for (var j = 0; j < lonCurrentPhotos; j++) {
+        $scope.report.photos.push({
+          url: angular.copy($scope.report.point_details[0].photos[j].url)
+        })
+      }
+
+    }
+    if ($scope.photosUrl) {
+      var lonPhotos = $scope.photosUrl.length;
+      for (var i = 0; i < lonPhotos; i++) {
+        $scope.report.photos.push({
+          url: angular.copy($scope.photosUrl[i])
+        })
+      }
+    }
+  }
+
+  function readURL(input) {
+    var reader = new FileReader();
+
+    reader.onload = function (e) {
+      var html = "<article class='photo' id='photo-" + numPhoto + "'><div class='div-photo'><img src='" + e.target.result + "'/><span class='fa-stack' ng-click='removePhoto(" + numPhoto + ")'>\
+  <i class='fa fa-circle fa-stack-2x'></i>\
+  <i class='fa fa-times fa-stack-1x fa-inverse'></i>\
+  </span></div></article>";
+
+      angular.element(document.getElementById('photos')).append($compile(html)($scope));
+
+      $scope.photos.push(input.files[0]);
+      photoId[photoId.length] = numPhoto;
+      numPhoto++;
+      console.log("photos", $scope.photos);
+    }
+
+    reader.readAsDataURL(input.files[0]);
+  }
+
+  $(document).ready(function() {
+    $("#photoInput").change(function() {
+      readURL(this);
+    });
+  });
+
+  /* ----------------------------------- */
+    /* FORM VALIDATE */
+    /* ----------------------------------- */
+    $scope.validationOptions = {
+      debug: false,
+      onkeyup: false,
+      rules: {
+        point: {
+          required: true
+        },
+        direct: {
+          required: true,
+          regex: validators.integer
+        },
+        indirect: {
+          required: true,
+          regex: validators.integer
+        },
+        sales: {
+          required: true,
+          regex: validators.decimal
+        },
+        startTime: {
+          required: true
+        },
+        endTime: {
+          required: true
+        },
+        productUsed: {
+          regex: validators.integer
+        },
+        productRemaining: {
+          regex: validators.integer
+        }
+      },
+      messages: {
+        point: {
+          required: 'Ingresa el punto'
+        },
+        direct: {
+          required: 'Ingresa el alcance directo',
+          regex: 'Debes ingresar un valor entero'
+        },
+        indirect: {
+          required: 'Ingresa el alcance indirecto',
+          regex: 'Debes ingresar un valor entero'
+        },
+        sales: {
+          required: 'Ingresa las ventas',
+          regex: 'Debes ingresar un valor válido'
+        },
+        startTime: {
+          required: 'Ingresa la hora de inicio'
+        },
+        endTime: {
+          required: 'Ingresa la hora de cierre'
+        },
+        productUsed: {
+          regex: 'Debes ingresar un valor entero'
+        },
+        productRemaining: {
+          regex: 'Debes ingresar un valor entero'
+        }
+      },
+      highlight: function (element) {
+        $(element).parents('md-input-container').addClass('error');
+        $(element).parents('form').addClass('error');
+        $(element).parent('div').addClass('error');
+        $(element).addClass('error');
+      },
+      unhighlight: function (element) {
+        $(element).parents('md-input-container').removeClass('error');
+        $(element).parents('form').removeClass('error');
+        $(element).parent('div').removeClass('error');
+        $(element).removeClass('error');
+      },
+      errorElement: "div",
+      errorClass:'error error-input',
+      validClass:'valid valid-input'
+    }
 }
