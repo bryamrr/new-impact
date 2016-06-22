@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  root 'application#index'
   get 'dashboard/*path' => 'application#index'
 
   get '/anfitrionas' => 'web#anfitrionas'

@@ -1,8 +1,8 @@
 angular.module("myapp").controller("CreateReportController", CreateReportController);
 
-CreateReportController.$inject = ['$scope', '$timeout', '$compile', '$state', 'HttpRequest', 'urls', 'CookieService', 'MessagesService', 'validators'];
+CreateReportController.$inject = ['$scope', '$compile', '$state', 'HttpRequest', 'urls', 'CookieService', 'MessagesService', 'validators'];
 
-function CreateReportController($scope, $timeout, $compile, $state, HttpRequest, urls, CookieService, MessagesService, validators) {
+function CreateReportController($scope, $compile, $state, HttpRequest, urls, CookieService, MessagesService, validators) {
   $scope.report = {
     report_type_id: 2,
     presentation: {
