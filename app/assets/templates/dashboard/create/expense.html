@@ -1,0 +1,119 @@
+<header-bread-crumb>
+</header-bread-crumb>
+<div class="loading-content loading-content-js">
+  <img src="/loading-content.svg" alt="" />
+</div>
+<div class="wrapper-content padding-15 expense-report">
+  <md-content class="padding-15">
+    <md-content class="agregar-registro company">
+      <div layout="row" layout-xs="column">
+        <div flex layout-padding>
+          <md-input-container>
+            <label>Cliente</label>
+            <md-select aria-label="Cliente" ng-model="report.company_id" name="customer">
+              <md-option ng-value="{{company.id}}" ng-repeat="company in data.companies">{{company.name}}</md-option>
+            </md-select>
+          </md-input-container>
+        </div>
+        <div flex layout-padding >
+          <md-input-container>
+            <label>Activación</label>
+            <md-select aria-label="Activación" ng-model="report.activity_id">
+              <md-option ng-value="{{activity.id}}" ng-repeat="activity in data.activities | filter: { activity_type_id: 1, company_id: report.company_id }">{{activity.name}}</md-option>
+            </md-select>
+          </md-input-container>
+        </div>
+      </div>
+      <div layout="row" layout-xs="column">
+        <div flex layout-padding>
+          <md-input-container>
+            <label>Departamento</label>
+            <md-select aria-label="Departamento" ng-model="report.department_id">
+              <md-option ng-repeat="department in data.departments" ng-value="{{department.id}}">{{department.name}}</md-option>
+            </md-select>
+          </md-input-container>
+        </div>
+        <div flex layout-padding >
+          <md-input-container>
+            <label>Provincia</label>
+            <md-select aria-label="Provincia" ng-model="report.province_id">
+              <md-option ng-repeat="province in data.provinces | filter: { department_id: report.department_id } : true" ng-value="{{province.id}}">{{province.name}}</md-option>
+            </md-select>
+          </md-input-container>
+        </div>
+      </div>
+
+      <form novalidate ng-submit="add(form)" name="form" class="add-expense text-align-center" ng-validate="validationOptions">
+        <div class="vertical-middle layout-padding">
+          <md-input-container>
+            <label>Item</label>
+            <md-select aria-label="Item" ng-model="newExpense.item_id" name="item">
+              <md-option ng-value="{{item.id}}" ng-repeat="item in data.items">{{item.name}}</md-option>
+            </md-select>
+          </md-input-container>
+        </div>
+        <div class="vertical-middle layout-padding">
+          <md-input-container>
+            <label>Voucher</label>
+            <md-select aria-label="Voucher" ng-model="newExpense.voucher_id" name="voucher">
+              <md-option ng-value="{{voucher.id}}" ng-repeat="voucher in data.vouchers">{{voucher.name}}</md-option>
+            </md-select>
+          </md-input-container>
+        </div>
+        <div class="vertical-middle layout-padding">
+          <md-input-container>
+            <input ng-model="newExpense.total" name="total" placeholder="Total">
+            <div class="border-bottom"></div>
+          </md-input-container>
+        </div>
+        <div class="vertical-middle layout-padding">
+          <md-input-container>
+            <input ng-model="newExpense.comment" name="comment" placeholder="Observación">
+            <div class="border-bottom"></div>
+          </md-input-container>
+        </div>
+        <md-button class="md-fab md-mini md-primary" type="submit" aria-label="Agregar gasto">
+          <md-icon class="fa fa-plus"></md-icon>
+          <md-progress-circular ng-show="isLoading" md-mode="indeterminate" md-diameter="40"></md-progress-circular>
+        </md-button>
+      </form>
+    </md-content>
+
+    <md-table-container ng-if="expenses.length != 0">
+      <table md-table class="big">
+        <thead md-head>
+          <tr md-row>
+            <th md-column>Item</th>
+            <th md-column>Voucher</th>
+            <th md-column>Total</th>
+            <th md-column></th>
+          </tr>
+        </thead>
+        <tbody md-body>
+          <tr md-row ng-repeat="expense in expenses">
+            <td md-cell>{{expense.item_name}}</td>
+            <td md-cell>{{expense.voucher_name}}</td>
+            <td md-cell>{{expense.total}}</td>
+            <td md-cell>
+              <md-button class="md-fab md-mini" ng-click="removeExpense($index)" aria-label="Remover gasto">
+                <md-icon class="fa fa-minus"></md-icon>
+              </md-button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </md-table-container>
+
+    <md-button ng-disabled="isLoading" class="btn form-button" ng-click="sendReport()" ng-if="expenses.length != 0">
+      Enviar
+      <md-progress-circular ng-show="isLoading" md-mode="indeterminate" md-diameter="40"></md-progress-circular>
+    </md-button>
+
+    <div class="notification info" ng-if="expenses.length == 0">
+      <p>
+      <ng-md-icon class="fa fa-info-circle icono"></ng-md-icon>
+      No se han agregado gastos para reportar.
+      </p>
+    </div>
+  </md-content>
+</div>

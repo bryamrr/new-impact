@@ -63,8 +63,9 @@ class Api::V1::ReportsController < Api::V1::BaseController
         report_params[:expenses].each do |expense|
           item = Item.find(expense[:item_id])
           voucher = Voucher.find(expense[:voucher_id])
-          expensed = Expense.create(voucher: voucher, item: item, comment: expense[:comment], subtotal: expense[:subtotal], total: 0, report: @report)
+          Expense.create(voucher: voucher, item: item, comment: expense[:comment], subtotal: 0, total: expense[:total], report: @report)
         end
+        render :json => { :meesage => "Reporte creado" }, status: :created
       elsif report_params["report_type_id"] == 2
         point_detail = PointDetail.new(point: report_params["point"], scope: report_params["scope"], sales: report_params["sales"], people: report_params["people"], product: report_params["product"], report: @report, start_time: report_params["start_time"], end_time: report_params["end_time"], report: @report)
 
@@ -204,7 +205,7 @@ class Api::V1::ReportsController < Api::V1::BaseController
       photos: [:url],
       quantities: [:quantity_type_id, :used, :remaining, :name],
       comments: [:comment, :comment_type_id],
-      expenses: [:item_id, :voucher_id, :comment, :subtotal])
+      expenses: [:item_id, :voucher_id, :comment, :subtotal, :total])
   end
 
 end
