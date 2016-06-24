@@ -50,12 +50,14 @@ function ActivitySummaryController($scope, HttpRequest, urls, MessagesService) {
 
   $scope.downloadSummary = function () {
     // $scope.isLoadingImage = true;
+    $("#wrapper.header-fixed #contenido").css("overflow-x", "visible");
     var target = $('#final-summary');
     html2canvas(target, {
       onrendered: function(canvas) {
-        return Canvas2Image.saveAsPNG(canvas);
+        return Canvas2Image.saveAsJPEG(canvas);
       }
     });
+    $("#wrapper.header-fixed #contenido").css("overflow-x", "hidden");
   }
 
   $scope.prepareData = function () {
