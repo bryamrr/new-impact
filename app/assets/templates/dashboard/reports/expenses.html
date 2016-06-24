@@ -20,7 +20,7 @@
         </thead>
         <tbody md-body>
           <tr md-row ng-repeat="report in reports" ng-class="{eliminando : report.isLoading}">
-            <td md-cell>{{report.created_at | date:'d MMM, yyyy'}}</td>
+            <td md-cell>{{report.created_at | date:'MMM d, y h:mm a'}}</td>
             <td md-cell>{{report.user.nick_name}}</td>
             <td md-cell>{{report.province.name}}</td>
             <td md-cell>{{report.company.name}}</td>
