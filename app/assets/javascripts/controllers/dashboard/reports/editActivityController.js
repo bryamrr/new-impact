@@ -117,15 +117,16 @@ function EditActivityController($scope, $compile, $q, $stateParams, $state, Http
   }
 
   $scope.approveReport = function () {
+    $scope.isLoadingApprove = true;
     var url = urls.BASE_API + '/approve/' + $stateParams.id;
     var promise = HttpRequest.send("POST", url, $scope.report);
 
     promise.then(function (response) {
       MessagesService.display("Reporte aprobado", "success");
-      $scope.isLoading = false;
+      $scope.isLoadingApprove = false;
       $state.go("reports.activities");
     }, function(error){
-      $scope.isLoading = false;
+      $scope.isLoadingApprove = false;
       MessagesService.display(error.errors, "error");
     });
   };
@@ -141,8 +142,8 @@ function EditActivityController($scope, $compile, $q, $stateParams, $state, Http
   function prepareData() {
     $scope.report.presentation = { quantity_type_id: 1 };
 
-    $scope.report.start_date = new Date(Date.parse($scope.report.start_date));
-    $scope.report.end_date = new Date(Date.parse($scope.report.end_date));
+    $scope.report.start_date = new Date(Date.parse($scope.report.start_date)).addHours(5);
+    $scope.report.end_date = new Date(Date.parse($scope.report.end_date)).addHours(5);
 
 
     if ($scope.report.point_details.length != 0) {
@@ -378,5 +379,10 @@ function EditActivityController($scope, $compile, $q, $stateParams, $state, Http
       errorElement: "div",
       errorClass:'error error-input',
       validClass:'valid valid-input'
+    }
+
+    Date.prototype.addHours= function(h){
+      this.setHours(this.getHours()+h);
+      return this;
     }
 }
