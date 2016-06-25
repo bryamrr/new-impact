@@ -132,62 +132,67 @@ class Api::V1::ReportsController < Api::V1::BaseController
 
   def update
     @report = Report.find(params[:id])
-    if (@report.user == @current_user) || (@current_user.role[:name] == "Admin")
+    puts "report"
+    puts @report.to_json
+    puts "report.user:"
+    puts @report.user
+    puts "current_user"
+    puts @current_user.to_json
+    puts "role"
+    puts @current_user.role.to_json
 
-      company = Company.find(report_params["company_id"]) unless report_params["company_id"] == nil
-      activity = Activity.find(report_params["activity_id"]) unless report_params["activity_id"] == nil
-      province = Province.find(report_params["province_id"]) unless report_params["province_id"] == nil
 
-      @report.update(
-        company: company,
-        activity: activity,
-        province: province,
-        start_date: report_params["start_dat"],
-        end_date: report_params["end_date"]
-      )
+    company = Company.find(report_params["company_id"]) unless report_params["company_id"] == nil
+    activity = Activity.find(report_params["activity_id"]) unless report_params["activity_id"] == nil
+    province = Province.find(report_params["province_id"]) unless report_params["province_id"] == nil
 
-      point_detail = PointDetail.find(report_params["point_detail_id"]) unless report_params["point_detail_id"] == nil
-      activity_mode = ActivityMode.find(report_params["activity_mode_id"]) unless report_params["activity_mode_id"] == nil
+    @report.update(
+      company: company,
+      activity: activity,
+      province: province,
+      start_date: report_params["start_dat"],
+      end_date: report_params["end_date"]
+    )
 
-      point_detail.update(
-        point: report_params["point"],
-        start_time: report_params["start_time"],
-        end_time: report_params["end_time"],
-        scope: report_params["scope"],
-        sales: report_params["sales"],
-        people: report_params["people"],
-        product: report_params["product"],
-        activity_mode: activity_mode
-      )
+    point_detail = PointDetail.find(report_params["point_detail_id"]) unless report_params["point_detail_id"] == nil
+    activity_mode = ActivityMode.find(report_params["activity_mode_id"]) unless report_params["activity_mode_id"] == nil
 
-      Quantity.where(point_detail: point_detail).destroy_all
-      Comment.where(point_detail: point_detail).destroy_all
-      Photo.where(point_detail: point_detail).destroy_all
+    point_detail.update(
+      point: report_params["point"],
+      start_time: report_params["start_time"],
+      end_time: report_params["end_time"],
+      scope: report_params["scope"],
+      sales: report_params["sales"],
+      people: report_params["people"],
+      product: report_params["product"],
+      activity_mode: activity_mode
+    )
 
-      if report_params[:comments]
-        report_params[:comments].each do |comment|
-          comment_type = CommentType.find(comment["comment_type_id"])
-          Comment.create(comment_type: comment_type, for: comment["for"], comment: comment[:comment], point_detail: point_detail)
-        end
+    Quantity.where(point_detail: point_detail).destroy_all
+    Comment.where(point_detail: point_detail).destroy_all
+    Photo.where(point_detail: point_detail).destroy_all
+
+    if report_params[:comments]
+      report_params[:comments].each do |comment|
+        comment_type = CommentType.find(comment["comment_type_id"])
+        Comment.create(comment_type: comment_type, for: comment["for"], comment: comment[:comment], point_detail: point_detail)
       end
-
-      if report_params[:quantities]
-        report_params[:quantities].each do |quantity|
-          quantity_type = QuantityType.find(quantity["quantity_type_id"])
-          Quantity.create(quantity_type: quantity_type, used: quantity[:used], remaining: quantity[:remaining], name: quantity[:name], point_detail: point_detail)
-        end
-      end
-
-      if report_params[:photos]
-        report_params[:photos].each do |photo|
-          Photo.create(url: photo[:url], point_detail: point_detail)
-        end
-      end
-
-      render :json => @report
-    else
-      render :json => { :error => "No se encontró el reporte" }, status: :not_found
     end
+
+    if report_params[:quantities]
+      report_params[:quantities].each do |quantity|
+        quantity_type = QuantityType.find(quantity["quantity_type_id"])
+        Quantity.create(quantity_type: quantity_type, used: quantity[:used], remaining: quantity[:remaining], name: quantity[:name], point_detail: point_detail)
+      end
+    end
+
+    if report_params[:photos]
+      report_params[:photos].each do |photo|
+        Photo.create(url: photo[:url], point_detail: point_detail)
+      end
+    end
+
+    render :json => @report
   end
 
   def approve
