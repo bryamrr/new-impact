@@ -92,14 +92,14 @@
         <div ng-if="place.photos.length != 0" class="photos">
           <h4>Fotos</h4>
           <article ng-repeat="photo in place.photos">
-            <img ng-src="{{photo}}" alt="" />
+            <img ng-src="{{photo.url}}" id="{{photo.id}}" alt="" />
           </article>
         </div>
       </div>
     </div>
-    <!-- <md-button type="submit" ng-disabled="isLoading" class="btn form-button" ng-click="downloadSummary()">
-      Descargar
-      <md-progress-circular ng-show="isLoadingImage" md-mode="indeterminate" md-diameter="40"></md-progress-circular>
-    </md-button> -->
   </section>
+  <md-button type="submit" ng-disabled="isLoading" class="btn form-button" ng-click="downloadSummary()">
+    Descargar
+    <md-progress-circular ng-show="isLoadingImage" md-mode="indeterminate" md-diameter="40"></md-progress-circular>
+  </md-button>
 </div>

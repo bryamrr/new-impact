@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160614174347) do
+ActiveRecord::Schema.define(version: 20160627153615) do
 
   create_table "activities", force: :cascade do |t|
     t.string   "name"
@@ -111,6 +111,7 @@ ActiveRecord::Schema.define(version: 20160614174347) do
     t.integer  "point_detail_id"
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
+    t.string   "key"
   end
 
   add_index "photos", ["point_detail_id"], name: "index_photos_on_point_detail_id"
