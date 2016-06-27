@@ -35,8 +35,6 @@ md-icon.fa-times {
   padding: 0 6px;
 }
 
-.photo img { width: 100%; }
-
 .div-photo { position: relative; }
 .photos img {
   max-height: 200px;
@@ -50,7 +48,7 @@ md-icon.fa-times {
   float: left;
   position: absolute;
   top: 10px;
-  right: 0;
+  right: -10px;
   &:hover {
     cursor: pointer;
   }
