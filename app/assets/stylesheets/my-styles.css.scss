@@ -39,7 +39,7 @@ md-icon.fa-times {
 
 .div-photo { position: relative; }
 .photos img {
-  height: 400px;
+  max-height: 300px;
   border-radius: 5px;
   box-shadow: 2px 2px 3px #DDD;
   margin-top: 20px;
@@ -58,15 +58,12 @@ md-icon.fa-times {
 
 .photos {
   overflow: hidden;
+  text-align: center;
 }
 
 .photos article {
-  float: left;
-  width: 30%;
-  margin-right: 5%;
-  &:nth-child(3n+1) {
-    margin-right: 0;
-  }
+  display: inline-block;
+  margin: 0 2%;
 }
 
 .logo-login { width: 180px; }
