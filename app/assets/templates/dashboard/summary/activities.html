@@ -92,7 +92,7 @@
         <div ng-if="place.photos.length != 0" class="photos">
           <h4>Fotos</h4>
           <article ng-repeat="photo in place.photos">
-            <img ng-src="{{photo.url}}" id="{{photo.id}}" alt="" />
+            <img crossorigin="anonymous" ng-src="{{photo.url}}" id="{{photo.id}}" alt="" />
           </article>
         </div>
       </div>

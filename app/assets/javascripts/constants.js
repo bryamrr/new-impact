@@ -5,7 +5,7 @@
   angular
     .module('myapp')
     .constant('urls', {
-      BASE: 'http://localhost:3000 http://impactbtl-staging.herokuapp.com http://impactbtl.herokuapp.com/',
+      BASE: 'http://localhost:3000 http://impactbtl-staging.herokuapp.com http://impactbtl.herokuapp.com',
       BASE_API: 'http://impactbtl.herokuapp.com/api/v1'
     })
     .constant('toast',{
