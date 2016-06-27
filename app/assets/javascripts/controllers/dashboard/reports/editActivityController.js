@@ -61,7 +61,6 @@ function EditActivityController($scope, $compile, $q, $stateParams, $state, Http
     promise.then(function (response) {
       MessagesService.display("Reporte actualizado exitosamente", "success");
       $scope.isLoading = false;
-      $state.go("reports.activities");
     }, function(error){
       $scope.isLoading = false;
       MessagesService.display(error.errors, "error");
