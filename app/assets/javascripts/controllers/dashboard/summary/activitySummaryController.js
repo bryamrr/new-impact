@@ -14,6 +14,13 @@ function ActivitySummaryController($scope, HttpRequest, urls, MessagesService) {
   };
   $scope.dataPerPlace = [];
   var dataPerPlace = [];
+  var allPhotos = [];
+
+  $scope.creds = {
+    bucket: 'impactbtl',
+    access_key: 'AKIAJI7ULYPNQI4K4UKA',
+    secret_key: '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'
+  }
 
   var url = urls.BASE_API + '/data_filters/data_summary';
   var promise = HttpRequest.send("GET", url);
@@ -41,6 +48,7 @@ function ActivitySummaryController($scope, HttpRequest, urls, MessagesService) {
       $scope.dataFiltered = response;
 
       $scope.prepareData();
+      if (allPhotos[0]) $scope.downloadPhotos(0);
     }, function(error){
       $scope.isLoading = false;
       MessagesService.display(error.errors, "error");
@@ -50,12 +58,14 @@ function ActivitySummaryController($scope, HttpRequest, urls, MessagesService) {
 
   $scope.downloadSummary = function () {
     // $scope.isLoadingImage = true;
+    $("#wrapper.header-fixed #contenido").css("overflow-x", "visible");
     var target = $('#final-summary');
     html2canvas(target, {
       onrendered: function(canvas) {
-        return Canvas2Image.saveAsPNG(canvas);
+        return Canvas2Image.saveAsJPEG(canvas);
       }
     });
+    $("#wrapper.header-fixed #contenido").css("overflow-x", "hidden");
   }
 
   $scope.prepareData = function () {
@@ -109,10 +119,9 @@ function ActivitySummaryController($scope, HttpRequest, urls, MessagesService) {
     var photosData = angular.copy(currentData.point_details[0].photos);
     var currentPhotos = [];
 
-    console.log(photosData);
-
     for (var j = 0; j < photosData.length; j++) {
-      currentPhotos.push(photosData[j].url);
+      currentPhotos.push(photosData[j]);
+      allPhotos.push(photosData[j]);
     }
 
     dataPerPlace.push({
@@ -149,7 +158,8 @@ function ActivitySummaryController($scope, HttpRequest, urls, MessagesService) {
     var currentPhotos = [];
 
     for (var j = 0; j < photosData.length; j++) {
-      currentPhotos.push(photosData[j].url);
+      currentPhotos.push(photosData[j]);
+      allPhotos.push(photosData[j]);
     }
 
     dataPerPlace[index].scope += currentData.point_details[0].scope;
@@ -166,6 +176,39 @@ function ActivitySummaryController($scope, HttpRequest, urls, MessagesService) {
       product: currentData.point_details[0].product,
       point: currentData.point_details[0].point
     });
+  }
+
+  $scope.downloadPhotos = function(index) {
+    if (!allPhotos[index]) return;
+
+    AWS.config.update({ accessKeyId: $scope.creds.access_key, secretAccessKey: $scope.creds.secret_key });
+    AWS.config.region = 'us-west-2';
+    var bucket = new AWS.S3({ params: { Bucket: $scope.creds.bucket } });
+
+    if (allPhotos[index].key) {
+      var photo = angular.copy(allPhotos[index]);
+      bucket.getObject(
+        { Key: allPhotos[index].key },
+        function (error, data) {
+          if (error != null) {
+            console.log("Failed to retrieve an object: " + error);
+          } else {
+            console.log("Loaded " + data.ContentLength + " bytes");
+            // do something with data.body
+            console.log(data);
+            $("#" + photo.id).attr('src', "data:image/jpg;base64," + encode(data.Body));
+            $scope.downloadPhotos(index+1);
+          }
+        }
+      );
+    } else {
+      $scope.downloadPhotos(index+1);
+    }
+  }
+
+  function encode(data) {
+    var str = data.reduce(function(a,b){ return a+String.fromCharCode(b) },'');
+    return btoa(str).replace(/.{76}(?=.)/g,'$&\n');
   }
 
 }

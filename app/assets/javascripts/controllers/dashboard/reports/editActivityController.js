@@ -82,7 +82,10 @@ function EditActivityController($scope, $compile, $q, $stateParams, $state, Http
     var params = {Key: file.name, ContentType: file.type, Body: file, forceIframeTransport : true};
     bucket.upload(params, function (err, data) {
       console.log("paso", data, err);
-      $scope.photosUrl.push(data.Location);
+      $scope.photosUrl.push({
+        url: data.Location,
+        key: data.Key
+      });
       console.log("Ya se añadió en photosUrl")
       photoSent++;
       if ($scope.photos[photoSent] != undefined) {
@@ -258,7 +261,8 @@ function EditActivityController($scope, $compile, $q, $stateParams, $state, Http
     if (lonCurrentPhotos != 0) {
       for (var j = 0; j < lonCurrentPhotos; j++) {
         $scope.report.photos.push({
-          url: angular.copy($scope.report.point_details[0].photos[j].url)
+          url: angular.copy($scope.report.point_details[0].photos[j].url),
+          key: angular.copy($scope.report.point_details[0].photos[j].key)
         })
       }
 
@@ -267,7 +271,8 @@ function EditActivityController($scope, $compile, $q, $stateParams, $state, Http
       var lonPhotos = $scope.photosUrl.length;
       for (var i = 0; i < lonPhotos; i++) {
         $scope.report.photos.push({
-          url: angular.copy($scope.photosUrl[i])
+          url: angular.copy($scope.photosUrl[i].url),
+          key: angular.copy($scope.photosUrl[i].key)
         })
       }
     }
