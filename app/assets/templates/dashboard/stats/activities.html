@@ -3,7 +3,7 @@
 <div class="loading-content loading-content-js">
   <img src="/loading-content.svg" alt="" />
 </div>
-<div class="wrapper-content padding-30">
+<div class="wrapper-content padding-30 filter-form">
   <md-content  layout-padding>
     <form novalidate ng-submit="filterReports(form)" name="form">
       <div layout="row" layout-xs="column">
@@ -50,8 +50,8 @@
           </md-input-container>
         </div>
       </div>
-      <md-button type="submit" ng-disabled="isLoading" class="md-raised md-primary">
-        Filtrar métricas
+      <md-button type="submit" ng-disabled="isLoading" class="btn form-button">
+        Filtrar
         <md-progress-circular ng-show="isLoading" md-mode="indeterminate" md-diameter="40"></md-progress-circular>
       </md-button>
     </form>

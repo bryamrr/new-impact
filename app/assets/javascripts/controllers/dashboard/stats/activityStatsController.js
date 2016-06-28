@@ -37,11 +37,17 @@ function ActivityStatsController($scope, HttpRequest, urls, MessagesService) {
     var promise = HttpRequest.send("POST", url, $scope.filter);
 
     promise.then(function (response){
-      $scope.queryDone = true;
       $scope.isLoading = false;
       dataPerPlace = [];
 
       $scope.dataFiltered = response;
+
+      if ($scope.dataFiltered.length == 0) {
+        MessagesService.display("No se encontraron reportes de acuerdo a los filtros", "error");
+        $scope.queryDone = false;
+      } else {
+        $scope.queryDone = true;
+      }
 
       $scope.resetChartData();
       $scope.prepareData();

@@ -41,11 +41,20 @@ function ActivitySummaryController($scope, HttpRequest, urls, MessagesService) {
     var promise = HttpRequest.send("POST", url, $scope.filter);
 
     promise.then(function (response){
-      $scope.queryDone = true;
       $scope.isLoading = false;
       dataPerPlace = [];
+      $scope.summary.places = [];
 
       $scope.dataFiltered = response;
+
+      console.log($scope.dataFiltered);
+
+      if ($scope.dataFiltered.length == 0) {
+        MessagesService.display("No se encontraron reportes de acuerdo a los filtros", "error");
+        $scope.queryDone = false;
+      } else {
+        $scope.queryDone = true;
+      }
 
       $scope.prepareData();
       if (allPhotos[0]) $scope.downloadPhotos(0);
