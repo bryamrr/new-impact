@@ -3,11 +3,11 @@ class Api::V1::ReportsController < Api::V1::BaseController
   def index
     report_type = ReportType.find(2)
     if @current_user.role[:name] == "Admin"
-      @reports = Report.where(report_type: report_type)
+      @reports = Report.where(report_type: report_type).order(created_at: :desc)
     elsif @current_user.role[:name] == "Customer"
-      @reports = Report.where(report_type: report_type, company: @current_user.company, approved: true)
+      @reports = Report.where(report_type: report_type, company: @current_user.company, approved: true).order(created_at: :desc)
     else
-      @reports = Report.where(report_type: report_type, user: @current_user)
+      @reports = Report.where(report_type: report_type, user: @current_user).order(created_at: :desc)
     end
 
     render :json => @reports.to_json(:include => {
@@ -22,11 +22,11 @@ class Api::V1::ReportsController < Api::V1::BaseController
   def expenses
     report_type = ReportType.find(1)
     if @current_user.role[:name] == "Admin"
-      @reports = Report.where(report_type: report_type)
+      @reports = Report.where(report_type: report_type).order(created_at: :desc)
     elsif @current_user.role[:name] == "Customer"
       render :json => { message: "No puede ver gastos" }, status: :unauthorized
     else
-      @reports = Report.where(report_type: report_type, user: @current_user)
+      @reports = Report.where(report_type: report_type, user: @current_user).order(created_at: :desc)
     end
 
     render :json => @reports.to_json(:include => {

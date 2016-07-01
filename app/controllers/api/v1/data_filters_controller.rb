@@ -41,7 +41,7 @@ class Api::V1::DataFiltersController < Api::V1::BaseController
       @activity = Activity.find(params[:data][:activity_id]) unless params[:data][:activity_id] == nil
       @reports = Report.where(company: @company, activity: @activity, :start_date => params[:data][:start_date]..params[:data][:end_date])
 
-      @reports = Report.where(company: @company, activity: @activity, :start_date => params[:data][:start_date]..params[:data][:end_date], approved: true)
+      @reports = Report.where(company: @company, activity: @activity, :start_date => params[:data][:start_date]..params[:data][:end_date], approved: true).order(start_date: :asc)
 
       render :json => @reports.to_json(:include => {
         :expenses => {
@@ -76,7 +76,7 @@ class Api::V1::DataFiltersController < Api::V1::BaseController
       })
     elsif (@current_user.role[:name] == "Customer")
       @activity = Activity.find(params[:data][:activity_id]) unless params[:data][:activity_id] == nil
-      @reports = Report.where(company: @current_user.company, activity: @activity, :start_date => params[:data][:start_date]..params[:data][:end_date], approved: true)
+      @reports = Report.where(company: @current_user.company, activity: @activity, :start_date => params[:data][:start_date]..params[:data][:end_date], approved: true).order(start_date: :asc)
 
       render :json => @reports.to_json(:include => {
         :expenses => {
