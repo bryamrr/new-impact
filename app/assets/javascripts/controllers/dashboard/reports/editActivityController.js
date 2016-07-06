@@ -78,8 +78,9 @@ function EditActivityController($scope, $compile, $q, $stateParams, $state, Http
     AWS.config.update({ accessKeyId: $scope.creds.access_key, secretAccessKey: $scope.creds.secret_key });
     AWS.config.region = 'us-west-2';
     var bucket = new AWS.S3({ params: { Bucket: $scope.creds.bucket } });
+    var filename = file.name + Date.now();
 
-    var params = {Key: file.name, ContentType: file.type, Body: file, forceIframeTransport : true};
+    var params = {Key: filename, ContentType: file.type, Body: file, forceIframeTransport : true};
     bucket.upload(params, function (err, data) {
       console.log("paso", data, err);
       $scope.photosUrl.push({
