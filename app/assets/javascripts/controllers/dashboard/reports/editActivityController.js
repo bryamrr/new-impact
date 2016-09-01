@@ -22,6 +22,8 @@ function EditActivityController($scope, $compile, $q, $stateParams, $state, Http
     $scope.report = data[0];
     $scope.data = data[1];
 
+    console.log(data[0]);
+
     prepareData();
 
     console.log($scope.report);
@@ -151,8 +153,6 @@ function EditActivityController($scope, $compile, $q, $stateParams, $state, Http
 
     if ($scope.report.point_details.length != 0) {
 
-      $scope.report.presentation.name = $scope.report.point_details[0].product;
-
       $scope.report.point_detail_id = $scope.report.point_details[0].id;
 
       $scope.report.activity_mode_id = $scope.report.point_details[0].activity_mode_id;
@@ -165,11 +165,14 @@ function EditActivityController($scope, $compile, $q, $stateParams, $state, Http
       $scope.report.end_time = new Date(Date.parse($scope.report.point_details[0].end_time));
 
       if ($scope.report.point_details[0].quantities.length != 0) {
-        $scope.report.presentation.name = $scope.report.point_details[0].quantities[0].name;
-        $scope.report.presentation.used = $scope.report.point_details[0].quantities[0].used;
-        $scope.report.presentation.remaining = $scope.report.point_details[0].quantities[0].remaining;
 
-        for (var i = 1; i < $scope.report.point_details[0].quantities.length; i++) {
+        if ($scope.report.point_details[0].quantities[0].quantity_type_id == 1) {
+          $scope.report.presentation.name = $scope.report.point_details[0].quantities[0].name;
+          $scope.report.presentation.used = $scope.report.point_details[0].quantities[0].used;
+          $scope.report.presentation.remaining = $scope.report.point_details[0].quantities[0].remaining;
+        }
+
+        for (var i = 0; i < $scope.report.point_details[0].quantities.length; i++) {
           if ($scope.report.point_details[0].quantities[i].quantity_type_id == 2) {
             if (!$scope.report.merchandising) {
               $scope.report.merchandising = [];
